@@ -1,9 +1,14 @@
-import { Facebook, Twitter, Instagram, Youtube, Mail } from "lucide-react";
+"use client";
+
+import { Facebook, Twitter, Instagram, Youtube, Mail, ChefHat } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Separator } from "./ui/separator";
+import { useState } from "react";
 
 export function Footer() {
+  const [email, setEmail] = useState("");
+
   return (
     <footer className="bg-muted/30 border-t">
       <div className="container mx-auto px-4 py-12">
@@ -12,13 +17,13 @@ export function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-                <span className="text-primary-foreground font-bold">E</span>
+                <ChefHat className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span className="font-bold text-lg">EliteStore</span>
+              <span className="font-bold text-lg">RecipeShare</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Your one-stop destination for quality products at unbeatable prices. 
-              Shop with confidence and enjoy fast, reliable delivery.
+              Tu destino para descubrir y compartir recetas increíbles de cocineros 
+              de todo el mundo. Únete a nuestra comunidad culinaria hoy.
             </p>
             <div className="flex space-x-2">
               <Button variant="ghost" size="sm">
@@ -38,66 +43,68 @@ export function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h3>Quick Links</h3>
+            <h3>Enlaces Rápidos</h3>
             <nav className="flex flex-col space-y-2">
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                About Us
+                Sobre Nosotros
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Contact
+                Contacto
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                FAQ
+                Preguntas Frecuentes
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Shipping Info
+                Cómo Publicar
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Returns
+                Comunidad
               </a>
             </nav>
           </div>
 
           {/* Categories */}
           <div className="space-y-4">
-            <h3>Categories</h3>
+            <h3>Categorías</h3>
             <nav className="flex flex-col space-y-2">
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Electronics
+                Desayuno
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Clothing
+                Almuerzo
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Books
+                Cena
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Home & Garden
+                Postres
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Sports
+                Bebidas
               </a>
             </nav>
           </div>
 
           {/* Newsletter */}
           <div className="space-y-4">
-            <h3>Stay Updated</h3>
+            <h3>Mantente Actualizado</h3>
             <p className="text-sm text-muted-foreground">
-              Subscribe to our newsletter for the latest deals and updates.
+              Suscríbete para recibir las mejores recetas y consejos de cocina.
             </p>
             <div className="flex flex-col space-y-2">
               <div className="flex">
                 <Input 
-                  placeholder="Enter your email" 
+                  placeholder="Tu correo electrónico" 
                   className="rounded-r-none"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <Button className="rounded-l-none">
                   <Mail className="h-4 w-4" />
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground">
-                By subscribing, you agree to our Privacy Policy and Terms.
+                Al suscribirte, aceptas nuestra Política de Privacidad.
               </p>
             </div>
           </div>
@@ -107,12 +114,12 @@ export function Footer() {
         
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-sm text-muted-foreground">
-            © 2025 EliteStore. All rights reserved.
+            © 2026 RecipeShare. Todos los derechos reservados.
           </p>
           <div className="flex space-x-4 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-foreground transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-foreground transition-colors">Cookie Policy</a>
+            <a href="#" className="hover:text-foreground transition-colors">Privacidad</a>
+            <a href="#" className="hover:text-foreground transition-colors">Términos de Servicio</a>
+            <a href="#" className="hover:text-foreground transition-colors">Cookies</a>
           </div>
         </div>
       </div>
