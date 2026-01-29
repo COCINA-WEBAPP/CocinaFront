@@ -11,7 +11,7 @@ import { Filter } from "lucide-react";
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Mock data de recetas
-const MOCK_RECIPES: Recipe[] = [
+export const MOCK_RECIPES: Recipe[] = [
   {
     id: "1",
     title: "Pancakes Esponjosos con Miel",

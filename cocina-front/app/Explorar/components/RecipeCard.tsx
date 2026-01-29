@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from "sonner";
 import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
+import Link from "next/link";
 
 export interface Recipe {
   id: string;
@@ -42,10 +43,6 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
         ? "Receta eliminada de favoritos"
         : "Receta agregada a favoritos"
     );
-  };
-
-  const handleViewRecipe = () => {
-    toast.success(`Abriendo receta: ${recipe.title}`);
   };
 
   const getDifficultyColor = (difficulty: string) => {
@@ -114,12 +111,11 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
           animate={{ opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.2 }}
         >
-          <Button
-            onClick={handleViewRecipe}
+          <Button asChild
             variant="secondary"
             className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           >
-            Ver Receta
+            <Link href={`/recetas/${recipe.id}`}>Ver Receta</Link>
           </Button>
         </motion.div>
       </div>
@@ -195,8 +191,8 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
         )}
 
         {/* Action Button */}
-        <Button onClick={handleViewRecipe} className="mt-auto w-full">
-          Ver Receta Completa
+        <Button asChild className="mt-auto w-full">
+          <Link href={`/recetas/${recipe.id}`}>Ver Receta Completa</Link>
         </Button>
       </div>
     </motion.div>
