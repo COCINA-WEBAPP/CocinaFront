@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
-import { MOCK_RECIPES } from "@/app/Explorar/components/RecipeCatalogue";
+import { MOCK_RECIPES } from "@/lib/data/recipes";
 
 export default function RecipePage() {
   const params = useParams();

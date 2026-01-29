@@ -8,25 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from "sonner";
 import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
 import Link from "next/link";
-
-export interface Recipe {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  author: string;
-  authorAvatar?: string;
-  cookTime: number; // en minutos
-  difficulty: "Fácil" | "Intermedio" | "Difícil";
-  servings: number;
-  rating: number;
-  reviews: number;
-  category: string;
-  tags: string[];
-  isNew?: boolean;
-  isFeatured?: boolean;
-  ingredients?: number; // número de ingredientes
-}
+import { Recipe } from "@/lib/types/recipes";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -35,6 +17,7 @@ interface RecipeCardProps {
 export function RecipeCard({ recipe }: RecipeCardProps) {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const reviewCount = recipe.reviews.length;
 
   const handleWishlist = () => {
     setIsWishlisted(!isWishlisted);
@@ -175,7 +158,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
           </div>
           <span className="text-sm font-medium">{recipe.rating.toFixed(1)}</span>
           <span className="text-sm text-muted-foreground">
-            ({recipe.reviews})
+            ({reviewCount})
           </span>
         </div>
 
