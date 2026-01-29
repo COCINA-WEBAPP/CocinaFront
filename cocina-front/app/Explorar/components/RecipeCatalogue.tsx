@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { RecipeCard, Recipe } from "./RecipeCard";
 import { RecipeFilterPanel, RecipeFilters } from "./RecipeFilterPanel";
 import { RecipeSortDropdown, SortOption } from "./RecipeSortDropdown";
@@ -200,6 +201,9 @@ const MOCK_RECIPES: Recipe[] = [
 ];
 
 export function RecipeCatalogue() {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+
   const [filters, setFilters] = useState<RecipeFilters>({
     categories: [],
     cookTime: [0, 180],
@@ -214,6 +218,20 @@ export function RecipeCatalogue() {
   // Filter recipes
   const filteredRecipes = useMemo(() => {
     return MOCK_RECIPES.filter((recipe) => {
+      // Search filter
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        const matchesSearch = 
+          recipe.title.toLowerCase().includes(query) ||
+          recipe.description.toLowerCase().includes(query) ||
+          recipe.tags.some(tag => tag.toLowerCase().includes(query)) ||
+          recipe.category.toLowerCase().includes(query);
+        
+        if (!matchesSearch) {
+          return false;
+        }
+      }
+
       // Category filter
       if (
         filters.categories.length > 0 &&
@@ -253,7 +271,7 @@ export function RecipeCatalogue() {
 
       return true;
     });
-  }, [filters]);
+  }, [filters, searchQuery]);
 
   // Sort recipes
   const sortedRecipes = useMemo(() => {

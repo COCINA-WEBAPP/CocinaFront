@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface HeaderProps {
   savedRecipesCount?: number;
@@ -13,6 +14,12 @@ interface HeaderProps {
 
 export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push(`/Explorar?search=${encodeURIComponent(searchQuery)}`);
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
@@ -37,14 +44,13 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
 
         {/* Navigation - Hidden on mobile */}
         <nav className="hidden md:flex items-center gap-6">
-          <a href="#" className="hover:text-primary transition-colors">Inicio</a>
-          <a href="#" className="hover:text-primary transition-colors">Explorar</a>
-          <a href="#" className="hover:text-primary transition-colors">Destacados</a>
-          <a href="#" className="hover:text-primary transition-colors">Mis Recetas</a>
+          <a href="/" className="hover:text-primary transition-colors">Inicio</a>
+          <a href="/Explorar" className="hover:text-primary transition-colors">Explorar</a>
+
         </nav>
 
         {/* Search Bar - Hidden on small screens */}
-        <div className="hidden sm:flex relative max-w-sm flex-1 mx-4">
+        <form onSubmit={handleSearch} className="hidden sm:flex relative max-w-sm flex-1 mx-4">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input 
             placeholder="Buscar recetas..." 
@@ -52,7 +58,7 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-        </div>
+        </form>
 
         {/* Actions */}
         <div className="flex items-center gap-2">
