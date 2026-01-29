@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { RecipeCard, Recipe } from "@/components/RecipeCard";
-import { RecipeFilterPanel, RecipeFilters } from "@/components/RecipeFilterPanel";
-import { RecipeSortDropdown, SortOption } from "@/components/RecipeSortDropdown";
+import { RecipeCard, Recipe } from "./RecipeCard";
+import { RecipeFilterPanel, RecipeFilters } from "./RecipeFilterPanel";
+import { RecipeSortDropdown, SortOption } from "./RecipeSortDropdown";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Filter } from "lucide-react";

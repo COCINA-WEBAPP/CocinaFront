@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "@/components/ui/select";
 import { ArrowUpDown, Clock, Star, TrendingUp, ChefHat } from "lucide-react";
 
 export type SortOption =

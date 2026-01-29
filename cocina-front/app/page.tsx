@@ -1,15 +1,5 @@
-import { Header } from "@/components/Header";
-import { RecipeCatalogue } from "@/components/RecipeCatalogue";
-import { Footer } from "@/components/Footer";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main>
-        <RecipeCatalogue />
-      </main>
-      <Footer />
-    </div>
-  );  
+  redirect("/Main_Page");
 }

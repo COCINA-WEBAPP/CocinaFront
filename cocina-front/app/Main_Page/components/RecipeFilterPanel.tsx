@@ -1,17 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Checkbox } from "./ui/checkbox";
-import { Label } from "./ui/label";
-import { Slider } from "./ui/slider";
-import { Button } from "./ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./ui/accordion";
-import { Badge } from "./ui/badge";
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from 'framer-motion';
 
