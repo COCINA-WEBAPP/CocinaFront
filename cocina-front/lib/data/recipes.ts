@@ -9,8 +9,9 @@ export const MOCK_RECIPES: Recipe[] = [
     slug: "pancakes-esponjosos-con-miel",
     title: "Pancakes Esponjosos con Miel",
     description: "Pancakes perfectos para empezar el día, esponjosos y servidos con miel.",
-    image:
-      "https://images.unsplash.com/photo-1619592982310-7b7d51e4207f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    images: [
+      "https://images.unsplash.com/photo-1619592982310-7b7d51e4207f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080","https://mojo.generalmills.com/api/public/content/X9po4cWU8UaTyRR3YCsdjg_gmi_hi_res_jpeg.jpeg?v=217e4d28&t=16e3ce250f244648bef28c5949fb99ff"
+    ],
     author: "María González",
     category: "Desayuno",
     cookTime: 20,
@@ -57,8 +58,9 @@ export const MOCK_RECIPES: Recipe[] = [
     slug: "pasta-carbonara-autentica",
     title: "Pasta Carbonara Auténtica",
     description: "Receta tradicional italiana con huevo y panceta para una carbonara cremosa.",
-    image:
-      "https://images.unsplash.com/photo-1655662844229-d2c2a81f09ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    images: [
+      "https://images.unsplash.com/photo-1655662844229-d2c2a81f09ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
     author: "Carlos Rossi",
     category: "Almuerzo",
     cookTime: 25,
@@ -88,8 +90,9 @@ export const MOCK_RECIPES: Recipe[] = [
     slug: "torta-de-chocolate-decadente",
     title: "Torta de Chocolate Decadente",
     description: "Irresistible postre de chocolate para ocasiones especiales.",
-    image:
-      "https://images.unsplash.com/photo-1607257882338-70f7dd2ae344?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    images: [
+      "https://images.unsplash.com/photo-1607257882338-70f7dd2ae344?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
     author: "Ana Martínez",
     category: "Postre",
     cookTime: 60,
@@ -122,8 +125,9 @@ export const MOCK_RECIPES: Recipe[] = [
     slug: "ensalada-mediterranea-fresca",
     title: "Ensalada Mediterránea Fresca",
     description: "Saludable y deliciosa ensalada con ingredientes frescos y aderezo cítrico.",
-    image:
-      "https://images.unsplash.com/photo-1677653805080-59c57727c84e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    images: [
+      "https://images.unsplash.com/photo-1677653805080-59c57727c84e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
     author: "Laura Sánchez",
     category: "Ensalada",
     cookTime: 15,
@@ -154,8 +158,9 @@ export const MOCK_RECIPES: Recipe[] = [
     slug: "pollo-a-la-parrilla-con-hierbas",
     title: "Pollo a la Parrilla con Hierbas",
     description: "Pollo jugoso marinado con hierbas aromáticas y cocinado a la parrilla.",
-    image:
-      "https://images.unsplash.com/photo-1496074620649-6b1b02e5c1c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    images: [
+      "https://images.unsplash.com/photo-1496074620649-6b1b02e5c1c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
     author: "Roberto Díaz",
     category: "Cena",
     cookTime: 45,
@@ -185,8 +190,9 @@ export const MOCK_RECIPES: Recipe[] = [
     slug: "bowl-de-smoothie-tropical",
     title: "Bowl de Smoothie Tropical",
     description: "Energizante bowl de frutas tropicales perfecto para el desayuno o merienda.",
-    image:
-      "https://images.unsplash.com/photo-1640126219893-6c869dbe9bd0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    images: [
+      "https://images.unsplash.com/photo-1640126219893-6c869dbe9bd0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
     author: "Sofia Ramírez",
     category: "Desayuno",
     cookTime: 10,
@@ -214,8 +220,9 @@ export const MOCK_RECIPES: Recipe[] = [
     slug: "tacos-de-carne-asada",
     title: "Tacos de Carne Asada",
     description: "Auténticos tacos mexicanos con carne marinada, cebolla y cilantro.",
-    image:
-      "https://images.unsplash.com/photo-1599488400918-5f5f96b3f463?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    images: [
+      "https://images.unsplash.com/photo-1599488400918-5f5f96b3f463?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
     author: "Miguel Hernández",
     category: "Cena",
     cookTime: 35,
@@ -254,8 +261,9 @@ export const MOCK_RECIPES: Recipe[] = [
     slug: "sushi-rolls-caseros",
     title: "Sushi Rolls Caseros",
     description: "Aprende a hacer sushi en casa con esta receta detallada paso a paso.",
-    image:
-      "https://images.unsplash.com/photo-1712183718471-dab51f0748ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    images: [
+      "https://images.unsplash.com/photo-1712183718471-dab51f0748ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
     author: "Yuki Tanaka",
     category: "Almuerzo",
     cookTime: 50,
@@ -287,8 +295,9 @@ export const MOCK_RECIPES: Recipe[] = [
     slug: "pizza-margherita-clasica",
     title: "Pizza Margherita Clásica",
     description: "Pizza italiana simple y deliciosa con albahaca fresca y mozzarella.",
-    image:
-      "https://images.unsplash.com/photo-1573821663912-6df460f9c684?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    images: [
+      "https://images.unsplash.com/photo-1573821663912-6df460f9c684?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
     author: "Giuseppe Bianchi",
     category: "Cena",
     cookTime: 40,
@@ -317,8 +326,9 @@ export const MOCK_RECIPES: Recipe[] = [
     slug: "tiramisu-tradicional",
     title: "Tiramisú Tradicional",
     description: "Clásico postre italiano a base de café y mascarpone.",
-    image:
-      "https://images.unsplash.com/photo-1714385905983-6f8e06fffae1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    images: [
+      "https://images.unsplash.com/photo-1714385905983-6f8e06fffae1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
     author: "Francesca Romano",
     category: "Postre",
     cookTime: 30,
@@ -346,8 +356,9 @@ export const MOCK_RECIPES: Recipe[] = [
     slug: "sopa-de-verduras-casera",
     title: "Sopa de Verduras Casera",
     description: "Reconfortante sopa llena de verduras frescas y sabor casero.",
-    image:
-      "https://images.unsplash.com/photo-1701109876066-7fc0c08da447?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    images: [
+      "https://images.unsplash.com/photo-1701109876066-7fc0c08da447?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
     author: "Elena Torres",
     category: "Sopa",
     cookTime: 35,
@@ -380,8 +391,9 @@ export const MOCK_RECIPES: Recipe[] = [
     slug: "hamburguesa-gourmet-completa",
     title: "Hamburguesa Gourmet Completa",
     description: "Hamburguesa jugosa con todos los acompañamientos clásicos y gourmet.",
-    image:
-      "https://images.unsplash.com/photo-1643234567681-b28137fb1c33?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    images: [
+      "https://images.unsplash.com/photo-1643234567681-b28137fb1c33?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
     author: "James Cooper",
     category: "Almuerzo",
     cookTime: 30,
@@ -408,4 +420,508 @@ export const MOCK_RECIPES: Recipe[] = [
     reviews: [{ user: "Oliver", comment: "Muy sabrosa y bien armada.", rating: 5 }],
     comments: [],
   },
+  {
+    id: "13",
+    isNew: true,
+    isFeatured: false,
+    slug: "crepes-de-espinaca-y-ricotta",
+    title: "Crepes de Espinaca y Ricotta",
+    description: "Delicados crepes rellenos de espinaca salteada y queso ricotta, ideales como entrada.",
+    images: [
+      "https://images.unsplash.com/photo-1506084868230-bb9d95c24759?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Isabel Moreno",
+    category: "Entrada",
+    cookTime: 30,
+    servings: 4,
+    difficulty: "Intermedio",
+    rating: 4.6,
+    tags: ["Vegetariano", "Entradas", "Ligero"],
+    ingredients: [
+      "1 taza de harina",
+      "2 huevos",
+      "1 1/4 taza de leche",
+      "200 g de ricotta",
+      "200 g de espinacas frescas",
+      "1 diente de ajo",
+      "Aceite de oliva",
+      "Sal y pimienta",
+    ],
+    reviews: [
+      { user: "Natalia", comment: "Excelente combinación, muy suaves.", rating: 5 }
+    ],
+    comments: [
+      {
+        user: "Marta",
+        comment: "¿Se pueden congelar los crepes ya rellenos?",
+        likeCount: 3,
+        dislikeCount: 0,
+        date: "2025-11-02",
+        answers: [
+          { user: "Isabel (autor)", comment: "Mejor congelar la masa sin rellenar y rellenar al descongelar.", date: "2025-11-03" }
+        ]
+      }
+    ],
+  },
+
+  {
+    id: "14",
+    isNew: false,
+    isFeatured: true,
+    slug: "gulash-hungaro-tradicional",
+    title: "Goulash Húngaro Tradicional",
+    description: "Estofado robusto de carne con pimentón y verduras, reconfortante y lleno de sabor.",
+    images: [
+      "https://images.unsplash.com/photo-1542365887-6c9b1a8f0d3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Alejandro Kovács",
+    category: "Almuerzo",
+    cookTime: 120,
+    servings: 6,
+    difficulty: "Difícil",
+    rating: 4.7,
+    tags: ["Estofado", "Carnes", "Tradicional"],
+    ingredients: [
+      "1 kg de carne de ternera en trozos",
+      "3 cebollas grandes",
+      "2 pimientos rojos",
+      "3 cucharadas de pimentón dulce",
+      "2 zanahorias",
+      "2 tomates",
+      "Caldo de carne",
+      "Sal y pimienta",
+      "Aceite",
+    ],
+    reviews: [
+      { user: "Pablo", comment: "Me transportó a Europa central.", rating: 5 },
+      { user: "Sonia", comment: "Sabores profundos, requiere tiempo.", rating: 4 }
+    ],
+    comments: [],
+  },
+
+  {
+    id: "15",
+    isNew: true,
+    isFeatured: true,
+    slug: "arepas-rellenas-de-queso-y-aguacate",
+    title: "Arepas Rellenas de Queso y Aguacate",
+    description: "Arepas crujientes por fuera y suaves por dentro, rellenas con queso fundido y aguacate.",
+    images: [
+      "https://images.unsplash.com/photo-1604908177522-8f6d6f7a2f7f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Carolina Mejía",
+    category: "Desayuno",
+    cookTime: 25,
+    servings: 4,
+    difficulty: "Fácil",
+    rating: 4.9,
+    tags: ["Latina", "Sin Gluten", "Clásico"],
+    ingredients: [
+      "2 tazas de harina de maíz precocida",
+      "2 1/2 tazas de agua",
+      "Sal",
+      "Queso blanco rallado",
+      "1 aguacate",
+      "Mantequilla para freír",
+    ],
+    reviews: [
+      { user: "Diego", comment: "Mejor que en la arepera.", rating: 5 }
+    ],
+    comments: [
+      {
+        user: "Valentina",
+        comment: "¿Con qué queso quedaría igual si no tengo blanco?",
+        likeCount: 7,
+        dislikeCount: 0,
+        date: "2026-01-10",
+        answers: [{ user: "Carolina (autor)", comment: "Queso mozzarella o queso fresco funcionan bien.", date: "2026-01-10" }]
+      }
+    ],
+  },
+
+  {
+    id: "16",
+    isNew: false,
+    isFeatured: false,
+    slug: "crema-de-calabaza-con-jengibre",
+    title: "Crema de Calabaza con Jengibre",
+    description: "Sopa cremosa y aromática con un toque de jengibre fresco.",
+    images: [
+      "https://images.unsplash.com/photo-1525351484163-7529414344d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Patricia Gómez",
+    category: "Sopa",
+    cookTime: 40,
+    servings: 4,
+    difficulty: "Fácil",
+    rating: 4.5,
+    tags: ["Vegetariano", "Reconfortante", "Otoño"],
+    ingredients: [
+      "1 calabaza mediana",
+      "1 cebolla",
+      "1 trozo de jengibre (2 cm)",
+      "Caldo de verduras",
+      "Crema de leche (opcional)",
+      "Aceite de oliva",
+      "Sal y pimienta",
+    ],
+    reviews: [{ user: "Ana", comment: "Perfecta para días fríos.", rating: 5 }],
+    comments: [],
+  },
+
+  {
+    id: "17",
+    isNew: true,
+    isFeatured: false,
+    slug: "milhojas-de-berenjena-y-queso-de-cabra",
+    title: "Milhojas de Berenjena y Queso de Cabra",
+    description: "Capas de berenjena asada y queso de cabra con reducción balsámica.",
+    images: [
+      "https://images.unsplash.com/photo-1543332164-6e3155f694ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Lucía Pérez",
+    category: "Cena",
+    cookTime: 50,
+    servings: 4,
+    difficulty: "Intermedio",
+    rating: 4.4,
+    tags: ["Vegetariano", "Gourmet", "Aperitivo"],
+    ingredients: [
+      "2 berenjenas grandes",
+      "200 g de queso de cabra",
+      "Miel",
+      "Vinagre balsámico",
+      "Tomillo",
+      "Aceite de oliva",
+      "Sal y pimienta",
+    ],
+    reviews: [{ user: "Marcos", comment: "Elegante y sabroso.", rating: 4 }],
+    comments: [],
+  },
+
+  {
+    id: "18",
+    isNew: false,
+    isFeatured: false,
+    slug: "chai-latte-especiado",
+    title: "Chai Latte Especiado",
+    description: "Bebida caliente con té negro y mezcla de especias — ideal para las mañanas frías.",
+    images: [
+      "https://images.unsplash.com/photo-1505576391880-9c6b1e5c9f55?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Nadia Khan",
+    category: "Bebida",
+    cookTime: 10,
+    servings: 2,
+    difficulty: "Fácil",
+    rating: 4.3,
+    tags: ["Bebida", "Café alternativo", "Especias"],
+    ingredients: [
+      "2 tazas de leche",
+      "1 taza de agua",
+      "2 bolsitas de té negro",
+      "1 rama de canela",
+      "3 vainas de cardamomo",
+      "2 clavos de olor",
+      "Azúcar o miel al gusto",
+    ],
+    reviews: [{ user: "Sara", comment: "Aroma maravilloso.", rating: 4 }],
+    comments: [],
+  },
+
+  {
+    id: "19",
+    isNew: true,
+    isFeatured: false,
+    slug: "falafel-crujiente-con-salsa-de-yogurt",
+    title: "Falafel Crujiente con Salsa de Yogurt",
+    description: "Bolas de garbanzo especiadas, crujientes por fuera y tiernas por dentro, servidas con yogurt.",
+    images: [
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Omar Haddad",
+    category: "Snack",
+    cookTime: 35,
+    servings: 4,
+    difficulty: "Intermedio",
+    rating: 4.6,
+    tags: ["Vegano", "Medio Oriente", "Frito"],
+    ingredients: [
+      "400 g de garbanzos remojados",
+      "1 cebolla",
+      "2 dientes de ajo",
+      "Cilantro",
+      "Comino",
+      "Cúrcuma",
+      "Harina (para ligar)",
+      "Aceite para freír",
+      "Yogurt natural para la salsa",
+    ],
+    reviews: [{ user: "Karim", comment: "Auténtico y crocante.", rating: 5 }],
+    comments: [],
+  },
+
+  {
+    id: "20",
+    isNew: false,
+    isFeatured: true,
+    slug: "paella-de-mariscos-clasica",
+    title: "Paella de Mariscos Clásica",
+    description: "Paella tradicional con arroz suelto, mariscos frescos y azafrán.",
+    images: [
+      "https://images.unsplash.com/photo-1504674900247-c5985c92d0a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Sergio Martínez",
+    category: "Almuerzo",
+    cookTime: 60,
+    servings: 6,
+    difficulty: "Difícil",
+    rating: 4.9,
+    tags: ["Mariscos", "Española", "Gourmet"],
+    ingredients: [
+      "400 g de arroz bomba",
+      "1 litro de caldo de pescado",
+      "200 g de camarones",
+      "200 g de calamares",
+      "Mejillones",
+      "1 cebolla",
+      "Azafrán",
+      "Pimiento rojo",
+      "Aceite de oliva",
+      "Sal",
+    ],
+    reviews: [
+      { user: "Inés", comment: "Sabor impresionante, muy bien hecha.", rating: 5 }
+    ],
+    comments: [],
+  },
+
+  {
+    id: "21",
+    isNew: true,
+    isFeatured: false,
+    slug: "muffins-de-arandanos-integrales",
+    title: "Muffins de Arándanos Integrales",
+    description: "Muffins suaves con harina integral y arándanos frescos — opción más sana para el desayuno.",
+    images: [
+      "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Paola Ruiz",
+    category: "Panadería",
+    cookTime: 25,
+    servings: 12,
+    difficulty: "Fácil",
+    rating: 4.2,
+    tags: ["Desayuno", "Integrales", "Horno"],
+    ingredients: [
+      "2 tazas de harina integral",
+      "3/4 taza de azúcar",
+      "2 cucharaditas de polvo de hornear",
+      "2 huevos",
+      "1 taza de leche",
+      "1/2 taza de aceite",
+      "1 taza de arándanos",
+      "1 pizca de sal",
+    ],
+    reviews: [{ user: "Lina", comment: "Textura perfecta.", rating: 4 }],
+    comments: [],
+  },
+
+  {
+    id: "22",
+    isNew: false,
+    isFeatured: false,
+    slug: "ceviche-de-camaron-con-limon-y-aji",
+    title: "Ceviche de Camarón con Limón y Ají",
+    description: "Ceviche fresco y ácido, con camarones marinados y toque picante de ají.",
+    images: [
+      "https://images.unsplash.com/photo-1553621042-f6e147245754?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "María del Mar",
+    category: "Entrante",
+    cookTime: 20,
+    servings: 4,
+    difficulty: "Fácil",
+    rating: 4.8,
+    tags: ["Mariscos", "Peruano", "Fresco"],
+    ingredients: [
+      "500 g de camarones cocidos",
+      "Jugo de 8 limones",
+      "1 cebolla morada",
+      "Ají picado al gusto",
+      "Cilantro",
+      "Sal",
+      "Maíz cancha (opc.)",
+    ],
+    reviews: [{ user: "Andrés", comment: "Muy fresco y equilibrado.", rating: 5 }],
+    comments: [],
+  },
+
+  {
+    id: "23",
+    isNew: true,
+    isFeatured: false,
+    slug: "risotto-de-setas-silvestres",
+    title: "Risotto de Setas Silvestres",
+    description: "Risotto cremoso con mezcla de setas, parmesano y vino blanco.",
+    images: [
+      "https://images.unsplash.com/photo-1525755662778-989d0524087e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Federico Rossi",
+    category: "Almuerzo",
+    cookTime: 40,
+    servings: 4,
+    difficulty: "Intermedio",
+    rating: 4.6,
+    tags: ["Italiana", "Arroz", "Setas"],
+    ingredients: [
+      "300 g de arroz arborio",
+      "400 g de setas mixtas",
+      "1/2 taza de vino blanco",
+      "1 litro de caldo de verduras caliente",
+      "1 cebolla",
+      "50 g de mantequilla",
+      "50 g de queso parmesano rallado",
+      "Aceite de oliva",
+      "Sal y pimienta",
+    ],
+    reviews: [{ user: "Giulia", comment: "Cremoso y profundo.", rating: 5 }],
+    comments: [],
+  },
+
+  {
+    id: "24",
+    isNew: false,
+    isFeatured: false,
+    slug: "bao-de-pulled-pork-con-salsa-hoisin",
+    title: "Bao de Pulled Pork con Salsa Hoisin",
+    description: "Panecillos al vapor rellenos de cerdo desmenuzado y salsa hoisin, street food asiático.",
+    images: [
+      "https://images.unsplash.com/photo-1604908177524-2c3f0f68f8b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Kenji Yamamoto",
+    category: "Cena",
+    cookTime: 90,
+    servings: 6,
+    difficulty: "Difícil",
+    rating: 4.7,
+    tags: ["Asiática", "Street Food", "Cerdo"],
+    ingredients: [
+      "800 g de lomo de cerdo",
+      "Pan bao listo",
+      "Salsa hoisin",
+      "Pepino en tiras",
+      "Cebolleta",
+      "Ajo",
+      "Jengibre",
+      "Salsa de soja",
+    ],
+    reviews: [{ user: "Luis", comment: "Impresionante combinación.", rating: 5 }],
+    comments: [],
+  },
+
+  {
+    id: "25",
+    isNew: true,
+    isFeatured: true,
+    slug: "brownie-vegan-sin-gluten",
+    title: "Brownie Vegano Sin Gluten",
+    description: "Brownies intensos en chocolate, 100% veganos y sin gluten, densos y húmedos.",
+    images: [
+      "https://images.unsplash.com/photo-1599785209707-0b09e9b8b2c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Camila Ortiz",
+    category: "Postre",
+    cookTime: 35,
+    servings: 9,
+    difficulty: "Fácil",
+    rating: 4.8,
+    tags: ["Vegano", "Sin Gluten", "Chocolate"],
+    ingredients: [
+      "1 taza de harina de almendra",
+      "1/2 taza de cacao en polvo",
+      "1 taza de azúcar de coco",
+      "1/2 taza de aceite de coco",
+      "1/2 taza de puré de manzana",
+      "1 cucharadita de polvo de hornear",
+      "1 pizca de sal",
+      "Chips de chocolate vegano",
+    ],
+    reviews: [
+      { user: "Sofía", comment: "No extrañas nada de lo tradicional.", rating: 5 }
+    ],
+    comments: [
+      {
+        user: "Bruno",
+        comment: "¿Puedo usar harina de avena en vez de almendra?",
+        likeCount: 4,
+        dislikeCount: 0,
+        date: "2025-08-20",
+        answers: [{ user: "Camila (autor)", comment: "Sí, ajusta la cantidad de líquido si la masa queda muy densa.", date: "2025-08-21" }]
+      }
+    ],
+  },
+
+  {
+    id: "26",
+    isNew: false,
+    isFeatured: false,
+    slug: "ensalada-de-quinoa-con-vegetales-asados",
+    title: "Ensalada de Quinoa con Vegetales Asados",
+    description: "Ensalada nutritiva de quinoa con berenjena, calabacín y pimiento asado.",
+    images: [
+      "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Daniela Castro",
+    category: "Ensalada",
+    cookTime: 30,
+    servings: 4,
+    difficulty: "Fácil",
+    rating: 4.4,
+    tags: ["Saludable", "Vegano", "Sin Gluten"],
+    ingredients: [
+      "1 taza de quinoa",
+      "Berenjena",
+      "Calabacín",
+      "Pimiento rojo",
+      "Aceite de oliva",
+      "Limón",
+      "Perejil",
+      "Sal y pimienta",
+    ],
+    reviews: [{ user: "Olga", comment: "Ideal para llevar al trabajo.", rating: 4 }],
+    comments: [],
+  },
+
+  {
+    id: "27",
+    isNew: true,
+    isFeatured: false,
+    slug: "polenta-cremosa-con-champinones",
+    title: "Polenta Cremosa con Champiñones",
+    description: "Polenta suave y cremosa servida con champiñones salteados y ajo.",
+    images: [
+      "https://images.unsplash.com/photo-1542444459-db5b7b445d9b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+    ],
+    author: "Mateo Blanco",
+    category: "Cena",
+    cookTime: 35,
+    servings: 4,
+    difficulty: "Intermedio",
+    rating: 4.5,
+    tags: ["Confort", "Italiana", "Vegetariano"],
+    ingredients: [
+      "1 taza de polenta",
+      "4 tazas de caldo",
+      "200 g de champiñones",
+      "2 dientes de ajo",
+      "Mantequilla",
+      "Queso parmesano (opcional)",
+      "Perejil",
+    ],
+    reviews: [{ user: "Rosa", comment: "Textura perfecta y buen sabor.", rating: 5 }],
+    comments: [],
+  },
+
+
 ];

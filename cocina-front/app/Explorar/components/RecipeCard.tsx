@@ -83,7 +83,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
       {/* Image */}
       <div className="relative h-48 w-full overflow-hidden bg-muted">
         <ImageWithFallback
-          src={recipe.image}
+          src={recipe.images[0]}
           alt={recipe.title}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
         />
