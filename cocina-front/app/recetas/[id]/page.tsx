@@ -1,5 +1,6 @@
 "use client";
-
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { useParams } from "next/navigation";
 import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
 import { MOCK_RECIPES } from "@/lib/data/recipes";
@@ -21,8 +22,12 @@ export default function RecipePage() {
 
   if (!recipe) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-muted-foreground">Receta no encontrada</p>
+      <div className="min-h-screen bg-background flex flex-col">
+        <Header />
+        <main className="flex flex-1 items-center justify-center">
+          <p className="text-muted-foreground">Receta no encontrada</p>
+        </main>
+        <Footer />
       </div>
     );
   }
@@ -45,9 +50,12 @@ export default function RecipePage() {
   const avgRating = recipe.rating;
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        {/* Header Image */}
+    <div className="min-h-screen bg-background flex flex-col">
+      <Header />
+      <main className="flex-1">
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          {/* Header Image */}
+   
         <div className="relative mb-8 h-[400px] w-full overflow-hidden rounded-xl md:h-[500px]">
           <ImageWithFallback
             src={recipe.image}
@@ -287,7 +295,13 @@ export default function RecipePage() {
             </Card>
           </div>
         </div>
-      </div>
+        </div>
+      </main>
+      <Footer />
     </div>
+    
   );
 }
+
+
+      

@@ -12,3 +12,14 @@ export const metadata = {
   description: "Descubre recetas increíbles",
 };
 
+export default function Home() {
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main>
+
+      </main>
+      <Footer />
+    </div>
+  );  
+}
