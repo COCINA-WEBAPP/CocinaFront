@@ -91,10 +91,7 @@ export default function RecipePage() {
             <Button onClick={handlePrint} variant="outline">
               <Printer className="mr-2 h-4 w-4" />
               Imprimir
-            </Button>
-            <Link href="/explorar" className="ml-auto text-sm text-primary underline">
-              Volver a explorar
-            </Link>
+            </Button> 
           </div>
 
           <div className="grid gap-8 lg:grid-cols-3">
