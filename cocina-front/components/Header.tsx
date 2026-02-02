@@ -1,11 +1,20 @@
 "use client";
 
-import { Search, BookMarked, User, Menu, ChefHat } from "lucide-react";
+import { Search, BookMarked, User, Menu, ChefHat, LogOut, UserCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { getCurrentUser, logout } from "@/lib/services/user";
+import type { User as AppUser } from "@/lib/types/users";
 
 interface HeaderProps {
   savedRecipesCount?: number;
@@ -14,11 +23,25 @@ interface HeaderProps {
 
 export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentUser, setCurrentUser] = useState<AppUser | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    setCurrentUser(getCurrentUser());
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     router.push(`/Explorar?search=${encodeURIComponent(searchQuery)}`);
+  };
+
+  const handleSavedClick = () => {
+    const user = getCurrentUser();
+    if (!user) {
+      router.push("/login?tab=login");
+      return;
+    }
+    router.push("/guardados");
   };
 
   return (
@@ -65,7 +88,7 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
           <Button variant="ghost" size="sm" className="sm:hidden">
             <Search className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" size="sm" className="relative">
+          <Button variant="ghost" size="sm" className="relative" onClick={handleSavedClick}>
             <BookMarked className="h-5 w-5" />
             {savedRecipesCount > 0 && (
               <Badge 
@@ -76,9 +99,49 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
               </Badge>
             )}
           </Button>
-          <Button variant="ghost" size="sm">
-            <User className="h-5 w-5" />
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" aria-label="User menu">
+                {currentUser?.avatar ? (
+                  <img
+                    src={currentUser.avatar}
+                    alt={currentUser.fullName}
+                    className="h-5 w-5 rounded-full object-cover"
+                  />
+                ) : (
+                  <User className="h-5 w-5" />
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-44">
+              {!currentUser && (
+                <>
+                  <DropdownMenuItem onSelect={() => router.push("/login?tab=login")}>Login</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => router.push("/login?tab=register")}>Register</DropdownMenuItem>
+                </>
+              )}
+              {currentUser && (
+                <>
+                  <DropdownMenuItem onSelect={() => router.push("/account")}
+                  >
+                    <UserCircle className="mr-2 h-4 w-4" />
+                    My profile
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onSelect={async () => {
+                      await logout();
+                      setCurrentUser(null);
+                      router.push("/login");
+                    }}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                  </DropdownMenuItem>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>

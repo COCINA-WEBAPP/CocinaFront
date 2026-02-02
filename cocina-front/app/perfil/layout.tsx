@@ -1,12 +1,12 @@
 /**
- * Layout para las páginas de autenticación (Login/Register)
+ * Layout para la sección de perfiles públicos
  * Incluye Header y Footer
  */
 
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
-export default function LoginLayout({
+export default function PerfilLayout({
 	children,
 }: {
 	children: React.ReactNode;
