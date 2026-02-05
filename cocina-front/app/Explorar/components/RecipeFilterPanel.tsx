@@ -93,24 +93,24 @@ export function RecipeFilterPanel({
 
   return (
     <motion.aside
-      className="h-fit w-full rounded-lg border bg-card p-6 shadow-sm lg:sticky lg:top-20"
+      className="h-fit w-full rounded-lg border border-citrus-accent/30 bg-card p-6 shadow-sm lg:sticky lg:top-20"
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3 }}
     >
       {/* Header */}
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-4 -mx-6 -mt-6 flex items-center justify-between rounded-t-lg bg-citrus-accent px-6 py-3 text-white">
         <div className="flex items-center gap-2">
           <h2 className="text-xl font-semibold">Filtros</h2>
           {activeFiltersCount > 0 && (
-            <Badge variant="secondary">{activeFiltersCount}</Badge>
+            <Badge className="bg-white/90 text-citrus-accent">{activeFiltersCount}</Badge>
           )}
         </div>
         <Button
           variant="ghost"
           size="sm"
           onClick={onReset}
-          className="h-8 px-2"
+          className="h-8 px-2 text-white hover:bg-white/20 hover:text-white"
           disabled={activeFiltersCount === 0}
         >
           <X className="mr-1 h-4 w-4" />
@@ -121,12 +121,12 @@ export function RecipeFilterPanel({
       {/* Filters Accordion */}
       <Accordion
         type="multiple"
-        defaultValue={["categories", "cookTime", "difficulty", "rating"]}
+        defaultValue={[]}
         className="w-full"
       >
         {/* Categories */}
         <AccordionItem value="categories">
-          <AccordionTrigger className="text-base font-medium">
+          <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
             Categorías
           </AccordionTrigger>
           <AccordionContent>
@@ -160,7 +160,7 @@ export function RecipeFilterPanel({
 
         {/* Cook Time */}
         <AccordionItem value="cookTime">
-          <AccordionTrigger className="text-base font-medium">
+          <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
             Tiempo de Cocción
           </AccordionTrigger>
           <AccordionContent>
@@ -183,7 +183,7 @@ export function RecipeFilterPanel({
 
         {/* Difficulty */}
         <AccordionItem value="difficulty">
-          <AccordionTrigger className="text-base font-medium">
+          <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
             Dificultad
           </AccordionTrigger>
           <AccordionContent>
@@ -211,7 +211,7 @@ export function RecipeFilterPanel({
 
         {/* Rating */}
         <AccordionItem value="rating">
-          <AccordionTrigger className="text-base font-medium">
+          <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
             Calificación Mínima
           </AccordionTrigger>
           <AccordionContent>
@@ -237,7 +237,7 @@ export function RecipeFilterPanel({
 
         {/* Servings */}
         <AccordionItem value="servings">
-          <AccordionTrigger className="text-base font-medium">
+          <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
             Porciones
           </AccordionTrigger>
           <AccordionContent>

@@ -87,7 +87,7 @@ export function RecipeSortDropdown({
           aria-label="Ordenar recetas"
         >
           <div className="flex items-center gap-2">
-            <Icon className="h-4 w-4" />
+          
             <SelectValue placeholder="Selecciona orden" />
           </div>
         </SelectTrigger>

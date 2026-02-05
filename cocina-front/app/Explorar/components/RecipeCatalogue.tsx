@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { RecipeCard } from "./RecipeCard";
 import { RecipeFilterPanel, RecipeFilters } from "./RecipeFilterPanel";
 import { RecipeSortDropdown, SortOption } from "./RecipeSortDropdown";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Filter } from "lucide-react";
-import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Filter } from "lucide-react";
+import { motion } from "framer-motion";
 import { MOCK_RECIPES } from "@/lib/data/recipes";
 import { Recipe } from "@/lib/types/recipes";
 
@@ -28,6 +28,8 @@ export function RecipeCatalogue() {
 
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 9;
 
   // Filter recipes
   const filteredRecipes = useMemo(() => {
@@ -133,6 +135,41 @@ export function RecipeCatalogue() {
     });
   };
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters, searchQuery, sortBy]);
+
+  const totalPages = Math.max(1, Math.ceil(sortedRecipes.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const startIndex = (safePage - 1) * pageSize;
+  const paginatedRecipes = sortedRecipes.slice(
+    startIndex,
+    startIndex + pageSize
+  );
+
+  const pageButtons = useMemo(() => {
+    const pages: (number | "ellipsis")[] = [];
+    const maxVisible = 3;
+
+    if (totalPages <= maxVisible + 2) {
+      for (let i = 1; i <= totalPages; i += 1) pages.push(i);
+      return pages;
+    }
+
+    pages.push(1);
+
+    if (safePage > 2) pages.push("ellipsis");
+
+    const start = Math.max(2, safePage - 1);
+    const end = Math.min(totalPages - 1, safePage + 1);
+    for (let i = start; i <= end; i += 1) pages.push(i);
+
+    if (safePage < totalPages - 1) pages.push("ellipsis");
+
+    pages.push(totalPages);
+    return pages;
+  }, [safePage, totalPages]);
+
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Hero Section */}
@@ -185,7 +222,7 @@ export function RecipeCatalogue() {
 
             {/* Results Count */}
             <p className="text-sm text-muted-foreground">
-              Mostrando {sortedRecipes.length} de {MOCK_RECIPES.length} recetas
+              Mostrando {paginatedRecipes.length} de {sortedRecipes.length} recetas
             </p>
 
             {/* Sort Dropdown */}
@@ -200,7 +237,7 @@ export function RecipeCatalogue() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              {sortedRecipes.map((recipe, index) => (
+              {paginatedRecipes.map((recipe, index) => (
                 <motion.div
                   key={recipe.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -225,6 +262,52 @@ export function RecipeCatalogue() {
               </p>
               <Button onClick={handleResetFilters}>Limpiar Filtros</Button>
             </motion.div>
+          )}
+
+          {sortedRecipes.length > pageSize && (
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                disabled={safePage === 1}
+                aria-label="Página anterior"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+
+              {pageButtons.map((page, index) =>
+                page === "ellipsis" ? (
+                  <span
+                    key={`ellipsis-${index}`}
+                    className="px-2 text-muted-foreground"
+                  >
+                    ...
+                  </span>
+                ) : (
+                  <Button
+                    key={page}
+                    variant={page === safePage ? "default" : "outline"}
+                    className={page === safePage ? "bg-primary text-primary-foreground" : ""}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    {page}
+                  </Button>
+                )
+              )}
+
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+                }
+                disabled={safePage === totalPages}
+                aria-label="Página siguiente"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
           )}
         </div>
       </div>
