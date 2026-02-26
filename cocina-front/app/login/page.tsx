@@ -7,14 +7,14 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoginForm } from "./components/Login";
 import { RegisterForm } from "./components/Register";
 import { useSearchParams } from "next/navigation";
 
-export default function LoginPage() {
+function LoginPageContent() {
 	const [activeTab, setActiveTab] = useState("login");
 	const searchParams = useSearchParams();
 
@@ -54,5 +54,13 @@ export default function LoginPage() {
 				</CardContent>
 			</Card>
 		</div>
+	);
+}
+
+export default function LoginPage() {
+	return (
+		<Suspense fallback={<div className="container mx-auto px-4 py-12 min-h-[calc(100vh-200px)]" />}>
+			<LoginPageContent />
+		</Suspense>
 	);
 }

@@ -5,7 +5,7 @@
 
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,7 @@ import { SeguidosySeguidores } from "./components/SeguidosySeguidores";
 import { EditarPerfil } from "./components/Editar";
 import { useSearchParams } from "next/navigation";
 
-export default function AccountPage() {
+function AccountPageContent() {
 	const [currentUser, setCurrentUser] = useState<AppUser | null>(null);
 	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 	const [isFollowingDialogOpen, setIsFollowingDialogOpen] = useState(false);
@@ -146,4 +146,12 @@ export default function AccountPage() {
 				</div>
 			);
 		}
+
+export default function AccountPage() {
+	return (
+		<Suspense fallback={<div className="container mx-auto px-4 py-10" />}>
+			<AccountPageContent />
+		</Suspense>
+	);
+}
 
