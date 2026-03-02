@@ -6,7 +6,7 @@ import { RecipeCard } from "./RecipeCard";
 import { RecipeFilterPanel, RecipeFilters } from "./RecipeFilterPanel";
 import { RecipeSortDropdown, SortOption } from "./RecipeSortDropdown";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ChevronLeft, ChevronRight, Filter } from "lucide-react";
 import { motion } from "framer-motion";
 import { MOCK_RECIPES } from "@/lib/data/recipes";
@@ -210,6 +210,9 @@ export function RecipeCatalogue() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-80 overflow-y-auto">
+                <SheetHeader>
+                  <SheetTitle>Filtros</SheetTitle>
+                </SheetHeader>
                 <div className="mt-6">
                   <RecipeFilterPanel
                     filters={filters}

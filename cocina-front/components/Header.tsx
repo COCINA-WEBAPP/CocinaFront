@@ -45,7 +45,13 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+    /**
+     * Header principal de la aplicación.
+     * - En móvil (<768px): se oculta completamente (hidden) porque la navegación
+     *   la maneja el componente MobileBottomNav (barra inferior).
+     * - En desktop (>=768px): se muestra como barra superior sticky (md:block).
+     */
+    <header className="hidden md:block sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-4">
