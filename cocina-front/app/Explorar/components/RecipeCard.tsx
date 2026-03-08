@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Heart, Clock, ChefHat, Users, Star } from "lucide-react";
+import { Heart, Clock, ChefHat, Users, Star, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { motion, AnimatePresence } from 'framer-motion';
@@ -132,6 +132,10 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
           <div className="flex items-center gap-1">
             <Users className="h-4 w-4" />
             <span>{recipe.servings} porciones</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Flame className="h-4 w-4" />
+            <span>{recipe.calories} kcal</span>
           </div>
         </div>
 

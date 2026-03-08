@@ -21,6 +21,7 @@ export function RecipeCatalogue() {
   const [filters, setFilters] = useState<RecipeFilters>({
     categories: [],
     cookTime: [0, 180],
+    calories: [0, 800],
     difficulty: [],
     rating: 0,
     servings: [1, 12],
@@ -77,6 +78,14 @@ export function RecipeCatalogue() {
         return false;
       }
 
+      // Calories filter
+      if (
+        recipe.calories < filters.calories[0] ||
+        recipe.calories > filters.calories[1]
+      ) {
+        return false;
+      }
+
       // Servings filter
       if (
         recipe.servings < filters.servings[0] ||
@@ -129,6 +138,7 @@ export function RecipeCatalogue() {
     setFilters({
       categories: [],
       cookTime: [0, 180],
+      calories: [0, 800],
       difficulty: [],
       rating: 0,
       servings: [1, 12],

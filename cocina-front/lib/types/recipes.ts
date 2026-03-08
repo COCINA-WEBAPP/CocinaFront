@@ -7,6 +7,7 @@ export type Recipe = {
   author: string;
   category: string;
   cookTime: number;
+  calories: number;
   servings: number;
   difficulty: "Fácil" | "Intermedio" | "Difícil";
   rating: number;

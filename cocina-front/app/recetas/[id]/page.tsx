@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Clock, Users, ChefHat, Star, Heart, Share2, Printer } from "lucide-react";
+import { Clock, Users, ChefHat, Star, Heart, Share2, Printer, Flame } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ImageCarousel } from "./components/ImageCarousel";
@@ -103,11 +103,16 @@ export default function RecipePage() {
               {/* Recipe Info Card */}
               <Card>
                 <CardContent className="pt-6">
-                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
                     <div className="flex flex-col items-center rounded-lg border p-4">
                       <Clock className="mb-2 h-6 w-6 text-primary" />
                       <span className="text-sm text-muted-foreground">Tiempo</span>
                       <span className="font-semibold">{recipe.cookTime} min</span>
+                    </div>
+                    <div className="flex flex-col items-center rounded-lg border p-4">
+                      <Flame className="mb-2 h-6 w-6 text-primary" />
+                      <span className="text-sm text-muted-foreground">Calorías</span>
+                      <span className="font-semibold">{recipe.calories} kcal</span>
                     </div>
                     <div className="flex flex-col items-center rounded-lg border p-4">
                       <Users className="mb-2 h-6 w-6 text-primary" />

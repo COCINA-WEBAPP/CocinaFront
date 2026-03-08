@@ -18,6 +18,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export interface RecipeFilters {
   categories: string[];
   cookTime: [number, number]; // [min, max] en minutos
+  calories: [number, number]; // [min, max] en kcal
   difficulty: string[];
   rating: number;
   servings: [number, number];
@@ -71,6 +72,10 @@ export function RecipeFilterPanel({
     onFiltersChange({ ...filters, cookTime: [value[0], value[1]] });
   };
 
+  const handleCaloriesChange = (value: number[]) => {
+    onFiltersChange({ ...filters, calories: [value[0], value[1]] });
+  };
+
   const handleServingsChange = (value: number[]) => {
     onFiltersChange({ ...filters, servings: [value[0], value[1]] });
   };
@@ -85,6 +90,7 @@ export function RecipeFilterPanel({
     if (filters.difficulty.length > 0) count += filters.difficulty.length;
     if (filters.rating > 0) count += 1;
     if (filters.cookTime[0] !== 0 || filters.cookTime[1] !== 180) count += 1;
+    if (filters.calories[0] !== 0 || filters.calories[1] !== 800) count += 1;
     if (filters.servings[0] !== 1 || filters.servings[1] !== 12) count += 1;
     return count;
   };
@@ -176,6 +182,29 @@ export function RecipeFilterPanel({
               <div className="flex items-center justify-between text-sm text-muted-foreground">
                 <span>{filters.cookTime[0]} min</span>
                 <span>{filters.cookTime[1]} min</span>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Calories */}
+        <AccordionItem value="calories">
+          <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
+            Calorías
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-4 pt-2">
+              <Slider
+                min={0}
+                max={800}
+                step={50}
+                value={filters.calories}
+                onValueChange={handleCaloriesChange}
+                className="w-full"
+              />
+              <div className="flex items-center justify-between text-sm text-muted-foreground">
+                <span>{filters.calories[0]} kcal</span>
+                <span>{filters.calories[1]} kcal</span>
               </div>
             </div>
           </AccordionContent>
