@@ -17,6 +17,29 @@ import { User, LoginCredentials, RegisterData, UpdateUserProfile } from "@/lib/t
 // En producción, esto se manejaría con Context API, Redux, Zustand, o similar
 let currentUser: User | null = null;
 
+const SESSION_KEY = "recipeshare_session";
+
+function persistSession(user: User | null): void {
+  if (typeof window === "undefined") return;
+  if (user) {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+  } else {
+    localStorage.removeItem(SESSION_KEY);
+  }
+}
+
+function restoreSession(): User | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const stored = localStorage.getItem(SESSION_KEY);
+    if (!stored) return null;
+    return JSON.parse(stored) as User;
+  } catch {
+    localStorage.removeItem(SESSION_KEY);
+    return null;
+  }
+}
+
 // ========================================
 // SECCIÓN 1: AUTENTICACIÓN
 // ========================================
@@ -47,7 +70,8 @@ export async function login(credentials: LoginCredentials): Promise<User> {
   
   // Guarda el usuario como "actual"
   currentUser = user;
-  
+  persistSession(user);
+
   return user;
 }
 
@@ -93,7 +117,8 @@ export async function register(data: RegisterData): Promise<User> {
   // Agrega el usuario al array mock
   MOCK_USERS.push(newUser);
   currentUser = newUser;
-  
+  persistSession(newUser);
+
   return newUser;
 }
 
@@ -106,6 +131,7 @@ export async function register(data: RegisterData): Promise<User> {
 export async function logout(): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 500));
   currentUser = null;
+  persistSession(null);
 }
 
 /**
@@ -116,6 +142,9 @@ export async function logout(): Promise<void> {
  * PRODUCCIÓN: Debería obtenerlo de Context API o un state manager
  */
 export function getCurrentUser(): User | null {
+  if (!currentUser) {
+    currentUser = restoreSession();
+  }
   return currentUser;
 }
 
@@ -200,8 +229,9 @@ export async function updateUserProfile(userId: string, data: UpdateUserProfile)
   // Si es el usuario actual, actualiza también esa variable
   if (currentUser?.id === userId) {
     currentUser = MOCK_USERS[userIndex];
+    persistSession(currentUser);
   }
-  
+
   return MOCK_USERS[userIndex];
 }
 
@@ -241,6 +271,7 @@ export async function followUser(userIdToFollow: string): Promise<void> {
   }
   
   currentUser = MOCK_USERS[currentUserIndex];
+  persistSession(currentUser);
 }
 
 /**
@@ -275,6 +306,7 @@ export async function unfollowUser(userIdToUnfollow: string): Promise<void> {
   }
   
   currentUser = MOCK_USERS[currentUserIndex];
+  persistSession(currentUser);
 }
 
 /**
@@ -350,6 +382,7 @@ export async function saveRecipe(recipeId: string): Promise<void> {
     MOCK_USERS[userIndex].savedRecipes.push(recipeId);
     MOCK_USERS[userIndex].stats.savedRecipesCount++;
     currentUser = MOCK_USERS[userIndex];
+    persistSession(currentUser);
   }
 }
 
@@ -376,6 +409,7 @@ export async function unsaveRecipe(recipeId: string): Promise<void> {
   );
   MOCK_USERS[userIndex].stats.savedRecipesCount--;
   currentUser = MOCK_USERS[userIndex];
+  persistSession(currentUser);
 }
 
 /**
