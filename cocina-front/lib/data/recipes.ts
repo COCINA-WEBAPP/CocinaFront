@@ -12,7 +12,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1619592982310-7b7d51e4207f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080","https://mojo.generalmills.com/api/public/content/X9po4cWU8UaTyRR3YCsdjg_gmi_hi_res_jpeg.jpeg?v=217e4d28&t=16e3ce250f244648bef28c5949fb99ff"
     ],
-    author: "María González",
+    author: "María García",
     category: "Desayuno",
     cookTime: 20,
     servings: 4,
@@ -61,7 +61,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1655662844229-d2c2a81f09ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Carlos Rossi",
+    author: "María García",
     category: "Almuerzo",
     cookTime: 25,
     servings: 4,
@@ -93,7 +93,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1607257882338-70f7dd2ae344?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Ana Martínez",
+    author: "María García",
     category: "Postre",
     cookTime: 60,
     servings: 8,
@@ -128,7 +128,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1677653805080-59c57727c84e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Laura Sánchez",
+    author: "Carlos Rodríguez",
     category: "Ensalada",
     cookTime: 15,
     servings: 2,
@@ -161,7 +161,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1496074620649-6b1b02e5c1c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Roberto Díaz",
+    author: "Carlos Rodríguez",
     category: "Cena",
     cookTime: 45,
     servings: 4,
@@ -193,7 +193,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1640126219893-6c869dbe9bd0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Sofia Ramírez",
+    author: "Ana López",
     category: "Desayuno",
     cookTime: 10,
     servings: 1,
@@ -223,7 +223,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1599488400918-5f5f96b3f463?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Miguel Hernández",
+    author: "Ana López",
     category: "Cena",
     cookTime: 35,
     servings: 6,
@@ -264,7 +264,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1712183718471-dab51f0748ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Yuki Tanaka",
+    author: "Ana López",
     category: "Almuerzo",
     cookTime: 50,
     servings: 4,
@@ -298,7 +298,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1573821663912-6df460f9c684?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Giuseppe Bianchi",
+    author: "Pedro Martínez",
     category: "Cena",
     cookTime: 40,
     servings: 4,
@@ -329,7 +329,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1714385905983-6f8e06fffae1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Francesca Romano",
+    author: "Pedro Martínez",
     category: "Postre",
     cookTime: 30,
     servings: 6,
@@ -359,7 +359,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1701109876066-7fc0c08da447?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Elena Torres",
+    author: "Lucía Fernández",
     category: "Sopa",
     cookTime: 35,
     servings: 6,
@@ -394,7 +394,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1643234567681-b28137fb1c33?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "James Cooper",
+    author: "Lucía Fernández",
     category: "Almuerzo",
     cookTime: 30,
     servings: 4,
@@ -430,7 +430,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1506084868230-bb9d95c24759?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Isabel Moreno",
+    author: "Lucía Fernández",
     category: "Entrada",
     cookTime: 30,
     servings: 4,
@@ -474,7 +474,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1542365887-6c9b1a8f0d3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Alejandro Kovács",
+    author: "María García",
     category: "Almuerzo",
     cookTime: 120,
     servings: 6,
@@ -509,7 +509,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1604908177522-8f6d6f7a2f7f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Carolina Mejía",
+    author: "María García",
     category: "Desayuno",
     cookTime: 25,
     servings: 4,
@@ -549,7 +549,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1525351484163-7529414344d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Patricia Gómez",
+    author: "María García",
     category: "Sopa",
     cookTime: 40,
     servings: 4,
@@ -579,7 +579,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1543332164-6e3155f694ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Lucía Pérez",
+    author: "Carlos Rodríguez",
     category: "Cena",
     cookTime: 50,
     servings: 4,
@@ -609,7 +609,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1505576391880-9c6b1e5c9f55?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Nadia Khan",
+    author: "Carlos Rodríguez",
     category: "Bebida",
     cookTime: 10,
     servings: 2,
@@ -639,7 +639,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1504674900247-0877df9cc836?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Omar Haddad",
+    author: "Carlos Rodríguez",
     category: "Snack",
     cookTime: 35,
     servings: 4,
@@ -671,7 +671,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1504674900247-c5985c92d0a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Sergio Martínez",
+    author: "Ana López",
     category: "Almuerzo",
     cookTime: 60,
     servings: 6,
@@ -706,7 +706,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Paola Ruiz",
+    author: "Ana López",
     category: "Panadería",
     cookTime: 25,
     servings: 12,
@@ -737,7 +737,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1553621042-f6e147245754?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "María del Mar",
+    author: "Ana López",
     category: "Entrante",
     cookTime: 20,
     servings: 4,
@@ -767,7 +767,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1525755662778-989d0524087e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Federico Rossi",
+    author: "Pedro Martínez",
     category: "Almuerzo",
     cookTime: 40,
     servings: 4,
@@ -799,7 +799,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1604908177524-2c3f0f68f8b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Kenji Yamamoto",
+    author: "Pedro Martínez",
     category: "Cena",
     cookTime: 90,
     servings: 6,
@@ -830,7 +830,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1599785209707-0b09e9b8b2c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Camila Ortiz",
+    author: "Lucía Fernández",
     category: "Postre",
     cookTime: 35,
     servings: 9,
@@ -872,7 +872,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Daniela Castro",
+    author: "Lucía Fernández",
     category: "Ensalada",
     cookTime: 30,
     servings: 4,
@@ -903,7 +903,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1542444459-db5b7b445d9b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Mateo Blanco",
+    author: "Lucía Fernández",
     category: "Cena",
     cookTime: 35,
     servings: 4,

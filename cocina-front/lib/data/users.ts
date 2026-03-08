@@ -33,7 +33,7 @@ export const MOCK_USERS: User[] = [
     savedRecipes: ["1", "3", "5"],         // Recetas que María ha guardado
     following: ["2", "3"],                 // María sigue a Carlos y Ana
     followers: ["2", "3", "4"],            // Estos usuarios siguen a María
-    recipes: ["1", "2", "3"],              // Recetas creadas por María
+    recipes: ["1", "2", "3", "14", "15", "16"], // Recetas creadas por María
     location: "Madrid, España",
     website: "https://maria-user.com",
     socialMedia: {
@@ -60,7 +60,7 @@ export const MOCK_USERS: User[] = [
     savedRecipes: ["2", "4", "6"],
     following: ["1"],                      // Carlos sigue a María
     followers: ["1", "3"],                 // María y Ana siguen a Carlos
-    recipes: ["4", "5"],
+    recipes: ["4", "5", "17", "18", "19"],
     location: "Barcelona, España",
   },
   {
@@ -82,7 +82,7 @@ export const MOCK_USERS: User[] = [
     savedRecipes: ["1", "2", "3", "4"],
     following: ["1", "2"],                 // Ana sigue a María y Carlos
     followers: ["1", "2", "4", "5"],
-    recipes: ["6", "7", "8"],
+    recipes: ["6", "7", "8", "20", "21", "22"],
     location: "Valencia, España",
     website: "https://ana-reposteria.com",
     socialMedia: {
@@ -109,7 +109,7 @@ export const MOCK_USERS: User[] = [
     savedRecipes: ["5", "6"],
     following: ["1", "3"],                 // Pedro sigue a María y Ana
     followers: ["3", "5"],
-    recipes: ["9", "10"],
+    recipes: ["9", "10", "23", "24"],
     location: "Sevilla, España",
     socialMedia: {
       instagram: "@pedro_vegano",
@@ -134,7 +134,7 @@ export const MOCK_USERS: User[] = [
     savedRecipes: ["1", "3", "7"],
     following: ["1", "2", "3", "4"],       // Lucía sigue a todos
     followers: ["2", "4"],
-    recipes: ["11", "12", "13"],
+    recipes: ["11", "12", "13", "25", "26", "27"],
     location: "Bilbao, España",
     website: "https://lucia-fusion.com",
   },
