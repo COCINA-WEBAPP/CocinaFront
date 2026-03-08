@@ -22,6 +22,9 @@
 import { Home, Search, BookMarked, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { getCurrentUser } from "@/lib/services/user";
+import type { User as AppUser } from "@/lib/types/users";
 
 /**
  * Definición de cada ítem del menú de navegación inferior.
@@ -38,6 +41,11 @@ const NAV_ITEMS = [
 
 export function MobileBottomNav() {
   const pathname = usePathname();
+  const [currentUser, setCurrentUser] = useState<AppUser | null>(null);
+
+  useEffect(() => {
+    setCurrentUser(getCurrentUser());
+  }, []);
 
   return (
     /**
@@ -55,16 +63,12 @@ export function MobileBottomNav() {
     >
       <div className="flex items-center justify-around h-16 px-2">
         {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
-          /**
-           * Lógica de estado activo:
-           * - Para "/" (Inicio): solo es activo si la ruta es exactamente "/"
-           * - Para otras rutas: activo si pathname comienza con el href
-           *   (ej: /Explorar/algo sigue mostrando Explorar como activo)
-           */
           const isActive =
             href === "/"
               ? pathname === "/"
               : pathname.startsWith(href);
+
+          const showAvatar = href === "/account" && currentUser?.avatar;
 
           return (
             <Link
@@ -77,7 +81,15 @@ export function MobileBottomNav() {
               }`}
               aria-current={isActive ? "page" : undefined}
             >
-              <Icon className="h-6 w-6" />
+              {showAvatar ? (
+                <img
+                  src={currentUser.avatar}
+                  alt={currentUser.fullName}
+                  className={`h-6 w-6 rounded-full object-cover ${isActive ? "ring-2 ring-primary" : ""}`}
+                />
+              ) : (
+                <Icon className="h-6 w-6" />
+              )}
               <span className="text-[10px] font-medium leading-none">
                 {label}
               </span>

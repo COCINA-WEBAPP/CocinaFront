@@ -16,7 +16,7 @@ export function Footer() {
      *   MobileBottomNav que ocupa la parte inferior de la pantalla.
      * - En desktop (>=768px): se muestra normalmente (md:block).
      */
-    <footer className="hidden md:block bg-muted/30 border-t">
+    <footer className="bg-muted/30 border-t">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
