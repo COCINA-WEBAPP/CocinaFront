@@ -485,7 +485,7 @@ export const MOCK_RECIPES: Recipe[] = [
     title: "Goulash Húngaro Tradicional",
     description: "Estofado robusto de carne con pimentón y verduras, reconfortante y lleno de sabor.",
     images: [
-      "https://images.unsplash.com/photo-1542365887-6c9b1a8f0d3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1534939561126-855b8675edd7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
     author: "María García",
     category: "Almuerzo",
@@ -521,7 +521,7 @@ export const MOCK_RECIPES: Recipe[] = [
     title: "Arepas Rellenas de Queso y Aguacate",
     description: "Arepas crujientes por fuera y suaves por dentro, rellenas con queso fundido y aguacate.",
     images: [
-      "https://images.unsplash.com/photo-1604908177522-8f6d6f7a2f7f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1644753787071-8933b5daed2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
     author: "María García",
     category: "Desayuno",
@@ -593,7 +593,7 @@ export const MOCK_RECIPES: Recipe[] = [
     title: "Milhojas de Berenjena y Queso de Cabra",
     description: "Capas de berenjena asada y queso de cabra con reducción balsámica.",
     images: [
-      "https://images.unsplash.com/photo-1543332164-6e3155f694ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
     author: "Carlos Rodríguez",
     category: "Cena",
@@ -624,7 +624,7 @@ export const MOCK_RECIPES: Recipe[] = [
     title: "Chai Latte Especiado",
     description: "Bebida caliente con té negro y mezcla de especias — ideal para las mañanas frías.",
     images: [
-      "https://images.unsplash.com/photo-1505576391880-9c6b1e5c9f55?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
     author: "Carlos Rodríguez",
     category: "Bebida",
@@ -688,7 +688,7 @@ export const MOCK_RECIPES: Recipe[] = [
     title: "Paella de Mariscos Clásica",
     description: "Paella tradicional con arroz suelto, mariscos frescos y azafrán.",
     images: [
-      "https://images.unsplash.com/photo-1504674900247-c5985c92d0a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1623961990059-28356e226a77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
     author: "Ana López",
     category: "Almuerzo",
@@ -820,7 +820,7 @@ export const MOCK_RECIPES: Recipe[] = [
     title: "Bao de Pulled Pork con Salsa Hoisin",
     description: "Panecillos al vapor rellenos de cerdo desmenuzado y salsa hoisin, street food asiático.",
     images: [
-      "https://images.unsplash.com/photo-1604908177524-2c3f0f68f8b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1602143249253-9805c88841ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
     author: "Pedro Martínez",
     category: "Cena",
@@ -852,7 +852,7 @@ export const MOCK_RECIPES: Recipe[] = [
     title: "Brownie Vegano Sin Gluten",
     description: "Brownies intensos en chocolate, 100% veganos y sin gluten, densos y húmedos.",
     images: [
-      "https://images.unsplash.com/photo-1599785209707-0b09e9b8b2c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1515037893149-de7f840978e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
     author: "Lucía Fernández",
     category: "Postre",
@@ -927,7 +927,7 @@ export const MOCK_RECIPES: Recipe[] = [
     title: "Polenta Cremosa con Champiñones",
     description: "Polenta suave y cremosa servida con champiñones salteados y ajo.",
     images: [
-      "https://images.unsplash.com/photo-1542444459-db5b7b445d9b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1476124369491-e7addf5db371?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
     author: "Lucía Fernández",
     category: "Cena",
