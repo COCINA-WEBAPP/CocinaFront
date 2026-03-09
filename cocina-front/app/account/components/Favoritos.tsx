@@ -13,6 +13,11 @@ import { MOCK_RECIPES } from "@/lib/data/recipes";
 import type { User as AppUser } from "@/lib/types/users";
 import { RecipeCard } from "@/app/Explorar/components/RecipeCard";
 
+function refreshUser(setter: (u: AppUser | null) => void) {
+	const user = getCurrentUser();
+	setter(user ? { ...user } : null);
+}
+
 interface FavoritosProps {
 	user?: AppUser;
 }
@@ -50,7 +55,11 @@ export function Favoritos({ user: passedUser }: FavoritosProps) {
 					) : (
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							{favoriteRecipes.map((recipe) => (
-								<RecipeCard key={recipe.id} recipe={recipe} />
+								<RecipeCard
+									key={recipe.id}
+									recipe={recipe}
+									onFavoriteChange={() => refreshUser(setCurrentUser)}
+								/>
 							))}
 						</div>
 					)}

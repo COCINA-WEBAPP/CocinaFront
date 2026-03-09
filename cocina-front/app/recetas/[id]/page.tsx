@@ -11,18 +11,24 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Clock, Users, ChefHat, Star, Heart, Share2, Printer, Flame } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { ImageCarousel } from "./components/ImageCarousel";
 import { Comments } from "./components/Comments";
 import { Reseñas } from "./components/Reseñas";
 import type { Recipe } from "@/lib/types/recipes";
 import Link from "next/link";
+import { getCurrentUser, saveRecipe, unsaveRecipe, isRecipeSaved } from "@/lib/services/user";
 
 export default function RecipePage() {
   const params = useParams();
   const recipeId = (params as any).id as string; // ajusta si usas slug
   const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    getCurrentUser();
+    setIsSaved(isRecipeSaved(recipeId));
+  }, [recipeId]);
 
   const recipe: Recipe | undefined = MOCK_RECIPES.find((r) => r.id === recipeId || r.slug === recipeId);
 
@@ -39,9 +45,26 @@ export default function RecipePage() {
     );
   }
 
-  const handleSave = () => {
-    setIsSaved(!isSaved);
-    toast.success(isSaved ? "Receta eliminada de favoritos" : "Receta guardada en favoritos");
+  const handleSave = async () => {
+    const user = getCurrentUser();
+    if (!user) {
+      toast.error("Debes iniciar sesión para guardar recetas");
+      return;
+    }
+
+    try {
+      if (isSaved) {
+        await unsaveRecipe(recipeId);
+        setIsSaved(false);
+        toast.success("Receta eliminada de favoritos");
+      } else {
+        await saveRecipe(recipeId);
+        setIsSaved(true);
+        toast.success("Receta guardada en favoritos");
+      }
+    } catch {
+      toast.error("Error al actualizar favoritos");
+    }
   };
 
   const handleShare = () => {

@@ -60,7 +60,14 @@ export default function GuardadosPage() {
 						) : (
 							<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 								{savedRecipes.map((recipe) => (
-									<RecipeCard key={recipe.id} recipe={recipe} />
+									<RecipeCard
+										key={recipe.id}
+										recipe={recipe}
+										onFavoriteChange={() => {
+											const user = getCurrentUser();
+											setCurrentUser(user ? { ...user } : null);
+										}}
+									/>
 								))}
 							</div>
 						)}

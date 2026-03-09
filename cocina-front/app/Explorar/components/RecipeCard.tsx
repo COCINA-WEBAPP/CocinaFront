@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Heart, Clock, ChefHat, Users, Star, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,23 +9,44 @@ import { toast } from "sonner";
 import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
 import Link from "next/link";
 import { Recipe } from "@/lib/types/recipes";
+import { getCurrentUser, saveRecipe, unsaveRecipe, isRecipeSaved } from "@/lib/services/user";
 
 interface RecipeCardProps {
   recipe: Recipe;
+  onFavoriteChange?: (recipeId: string, saved: boolean) => void;
 }
 
-export function RecipeCard({ recipe }: RecipeCardProps) {
+export function RecipeCard({ recipe, onFavoriteChange }: RecipeCardProps) {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const reviewCount = recipe.reviews.length;
 
-  const handleWishlist = () => {
-    setIsWishlisted(!isWishlisted);
-    toast.success(
-      isWishlisted
-        ? "Receta eliminada de favoritos"
-        : "Receta agregada a favoritos"
-    );
+  useEffect(() => {
+    getCurrentUser();
+    setIsWishlisted(isRecipeSaved(recipe.id));
+  }, [recipe.id]);
+
+  const handleWishlist = async () => {
+    const user = getCurrentUser();
+    if (!user) {
+      toast.error("Debes iniciar sesión para guardar recetas");
+      return;
+    }
+
+    try {
+      if (isWishlisted) {
+        await unsaveRecipe(recipe.id);
+        setIsWishlisted(false);
+        toast.success("Receta eliminada de favoritos");
+      } else {
+        await saveRecipe(recipe.id);
+        setIsWishlisted(true);
+        toast.success("Receta agregada a favoritos");
+      }
+      onFavoriteChange?.(recipe.id, !isWishlisted);
+    } catch {
+      toast.error("Error al actualizar favoritos");
+    }
   };
 
   const getDifficultyColor = (difficulty: string) => {
