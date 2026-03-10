@@ -19,12 +19,29 @@
  */
 "use client";
 
-import { Home, Search, BookMarked, User } from "lucide-react";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+import { Home, Search, BookMarked, User, Globe } from "lucide-react";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { useTranslations, useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "@/lib/services/user";
 import type { User as AppUser } from "@/lib/types/users";
+import { routing } from "@/i18n/routing";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+
+const LOCALE_LABELS: Record<string, string> = {
+  es: "Español",
+  en: "English",
+  fr: "Français",
+  it: "Italiano",
+  hu: "Magyar",
+  cs: "Čeština",
+  ja: "日本語",
+};
 
 /**
  * Definición de cada ítem del menú de navegación inferior.
@@ -33,15 +50,22 @@ import type { User as AppUser } from "@/lib/types/users";
  * - label: texto visible debajo del icono
  */
 const NAV_ITEMS = [
-  { href: "/", icon: Home, label: "Inicio" },
-  { href: "/Explorar", icon: Search, label: "Explorar" },
-  { href: "/guardados", icon: BookMarked, label: "Guardados" },
-  { href: "/account", icon: User, label: "Perfil" },
+  { href: "/", icon: Home, labelKey: "home" },
+  { href: "/Explorar", icon: Search, labelKey: "explore" },
+  { href: "/guardados", icon: BookMarked, labelKey: "saved" },
+  { href: "/account", icon: User, labelKey: "profile" },
 ] as const;
 
 export function MobileBottomNav() {
+  const t = useTranslations("MobileNav");
   const pathname = usePathname();
+  const locale = useLocale();
+  const router = useRouter();
   const [currentUser, setCurrentUser] = useState<AppUser | null>(null);
+
+  const handleLocaleChange = (newLocale: string) => {
+    router.replace(pathname, { locale: newLocale });
+  };
 
   useEffect(() => {
     setCurrentUser(getCurrentUser());
@@ -62,7 +86,8 @@ export function MobileBottomNav() {
       aria-label="Navegación principal móvil"
     >
       <div className="flex items-center justify-around h-16 px-2">
-        {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
+        {NAV_ITEMS.map((item) => {
+          const { href, icon: Icon, labelKey } = item;
           const isActive =
             href === "/"
               ? pathname === "/"
@@ -91,11 +116,37 @@ export function MobileBottomNav() {
                 <Icon className="h-6 w-6" />
               )}
               <span className="text-[10px] font-medium leading-none">
-                {label}
+                {t(item.labelKey)}
               </span>
             </Link>
           );
         })}
+
+        {/* Language Switcher */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className="flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors text-muted-foreground hover:text-foreground"
+              aria-label={t("language")}
+            >
+              <Globe className="h-6 w-6" />
+              <span className="text-[10px] font-medium leading-none uppercase">
+                {locale}
+              </span>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" side="top" className="mb-2">
+            {routing.locales.map((loc) => (
+              <DropdownMenuItem
+                key={loc}
+                onSelect={() => handleLocaleChange(loc)}
+                className={loc === locale ? "font-semibold" : ""}
+              >
+                {LOCALE_LABELS[loc] || loc}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </nav>
   );

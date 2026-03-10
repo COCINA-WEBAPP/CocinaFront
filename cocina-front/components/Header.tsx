@@ -5,7 +5,8 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +16,7 @@ import {
 } from "./ui/dropdown-menu";
 import { getCurrentUser, logout } from "@/lib/services/user";
 import type { User as AppUser } from "@/lib/types/users";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 interface HeaderProps {
   savedRecipesCount?: number;
@@ -25,6 +27,7 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentUser, setCurrentUser] = useState<AppUser | null>(null);
   const router = useRouter();
+  const t = useTranslations("Header");
 
   useEffect(() => {
     setCurrentUser(getCurrentUser());
@@ -45,12 +48,6 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
   };
 
   return (
-    /**
-     * Header principal de la aplicación.
-     * - En móvil (<768px): se oculta completamente (hidden) porque la navegación
-     *   la maneja el componente MobileBottomNav (barra inferior).
-     * - En desktop (>=768px): se muestra como barra superior sticky (md:block).
-     */
     <header className="hidden md:block sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
@@ -73,16 +70,15 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
 
         {/* Navigation - Hidden on mobile */}
         <nav className="hidden md:flex items-center gap-6">
-          <a href="/" className="hover:text-primary transition-colors">Inicio</a>
-          <a href="/Explorar" className="hover:text-primary transition-colors">Explorar</a>
-
+          <Link href="/" className="hover:text-primary transition-colors">{t("home")}</Link>
+          <Link href="/Explorar" className="hover:text-primary transition-colors">{t("explore")}</Link>
         </nav>
 
         {/* Search Bar - Hidden on small screens */}
         <form onSubmit={handleSearch} className="hidden sm:flex relative max-w-sm flex-1 mx-4">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder="Buscar recetas..." 
+          <Input
+            placeholder={t("searchPlaceholder")}
             className="pl-10 bg-input-background"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -97,14 +93,15 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
           <Button variant="ghost" size="sm" className="relative" onClick={handleSavedClick}>
             <BookMarked className="h-5 w-5" />
             {savedRecipesCount > 0 && (
-              <Badge 
-                variant="destructive" 
+              <Badge
+                variant="destructive"
                 className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
               >
                 {savedRecipesCount}
               </Badge>
             )}
           </Button>
+          <LanguageSwitcher />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" aria-label="User menu">
@@ -122,16 +119,15 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
             <DropdownMenuContent align="end" className="w-44">
               {!currentUser && (
                 <>
-                  <DropdownMenuItem onSelect={() => router.push("/login?tab=login")}>Login</DropdownMenuItem>
-                  <DropdownMenuItem onSelect={() => router.push("/login?tab=register")}>Register</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => router.push("/login?tab=login")}>{t("login")}</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => router.push("/login?tab=register")}>{t("register")}</DropdownMenuItem>
                 </>
               )}
               {currentUser && (
                 <>
-                  <DropdownMenuItem onSelect={() => router.push("/account")}
-                  >
+                  <DropdownMenuItem onSelect={() => router.push("/account")}>
                     <UserCircle className="mr-2 h-4 w-4" />
-                    My profile
+                    {t("myProfile")}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
@@ -142,7 +138,7 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
                     }}
                   >
                     <LogOut className="mr-2 h-4 w-4" />
-                    Log out
+                    {t("logout")}
                   </DropdownMenuItem>
                 </>
               )}

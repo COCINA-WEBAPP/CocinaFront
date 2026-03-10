@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Facebook, Twitter, Instagram, Youtube, Mail, ChefHat } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -7,6 +8,7 @@ import { Separator } from "./ui/separator";
 import { useState } from "react";
 
 export function Footer() {
+  const t = useTranslations("Footer");
   const [email, setEmail] = useState("");
 
   return (
@@ -28,8 +30,7 @@ export function Footer() {
               <span className="font-bold text-lg">RecipeShare</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Tu destino para descubrir y compartir recetas increíbles de cocineros 
-              de todo el mundo. Únete a nuestra comunidad culinaria hoy.
+              {t("description")}
             </p>
             <div className="flex space-x-2">
               <Button variant="ghost" size="sm">
@@ -49,58 +50,58 @@ export function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h3>Enlaces Rápidos</h3>
+            <h3>{t("quickLinks")}</h3>
             <nav className="flex flex-col space-y-2">
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Sobre Nosotros
+                {t("aboutUs")}
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Contacto
+                {t("contact")}
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Preguntas Frecuentes
+                {t("faq")}
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Cómo Publicar
+                {t("howToPublish")}
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Comunidad
+                {t("community")}
               </a>
             </nav>
           </div>
 
           {/* Categories */}
           <div className="space-y-4">
-            <h3>Categorías</h3>
+            <h3>{t("categories")}</h3>
             <nav className="flex flex-col space-y-2">
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Desayuno
+                {t("breakfast")}
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Almuerzo
+                {t("lunch")}
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Cena
+                {t("dinner")}
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Postres
+                {t("desserts")}
               </a>
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Bebidas
+                {t("drinks")}
               </a>
             </nav>
           </div>
 
           {/* Newsletter */}
           <div className="space-y-4">
-            <h3>Mantente Actualizado</h3>
+            <h3>{t("stayUpdated")}</h3>
             <p className="text-sm text-muted-foreground">
-              Suscríbete para recibir las mejores recetas y consejos de cocina.
+              {t("subscribeText")}
             </p>
             <div className="flex flex-col space-y-2">
               <div className="flex">
                 <Input 
-                  placeholder="Tu correo electrónico" 
+                  placeholder={t("emailPlaceholder")}
                   className="rounded-r-none"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -110,7 +111,7 @@ export function Footer() {
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground">
-                Al suscribirte, aceptas nuestra Política de Privacidad.
+                {t("privacyNote")}
               </p>
             </div>
           </div>
@@ -120,12 +121,12 @@ export function Footer() {
         
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-sm text-muted-foreground">
-            © 2026 RecipeShare. Todos los derechos reservados.
+            {t("copyright")}
           </p>
           <div className="flex space-x-4 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">Privacidad</a>
-            <a href="#" className="hover:text-foreground transition-colors">Términos de Servicio</a>
-            <a href="#" className="hover:text-foreground transition-colors">Cookies</a>
+            <a href="#" className="hover:text-foreground transition-colors">{t("privacy")}</a>
+            <a href="#" className="hover:text-foreground transition-colors">{t("terms")}</a>
+            <a href="#" className="hover:text-foreground transition-colors">{t("cookies")}</a>
           </div>
         </div>
       </div>

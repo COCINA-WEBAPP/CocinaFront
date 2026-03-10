@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
@@ -16,25 +17,10 @@ interface ChatMessage {
   timestamp: Date;
 }
 
-const WELCOME_MESSAGE: ChatMessage = {
-  id: "welcome",
-  role: "bot",
-  content:
-    "Hola, soy **ChefBot**, tu asistente de cocina. Puedo ayudarte con:\n\n• **Sustituir ingredientes** que no tengas disponibles\n• **Explicar términos culinarios** que no entiendas\n\n¿En qué puedo ayudarte hoy?",
-  timestamp: new Date(),
-};
-
-const SUGGESTION_CHIPS = [
-  "¿Con qué reemplazo el huevo?",
-  "¿Qué significa blanquear?",
-  "No tengo mantequilla",
-  "¿Qué es juliana?",
-];
-
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatTime(date: Date) {
-  return date.toLocaleTimeString("es", { hour: "2-digit", minute: "2-digit" });
+  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
 /** Convierte markdown básico (**bold** y *italic*) a JSX inline */
@@ -71,8 +57,29 @@ function renderMessageContent(content: string) {
 // ─── Componente ───────────────────────────────────────────────────────────────
 
 export function ChefBot() {
+  const t = useTranslations("ChefBot");
+
+  const WELCOME_MESSAGE: ChatMessage = {
+    id: "welcome",
+    role: "bot",
+    content: t("welcomeMessage"),
+    timestamp: new Date(),
+  };
+
+  const SUGGESTION_CHIPS = [
+    t("chip1"),
+    t("chip2"),
+    t("chip3"),
+    t("chip4"),
+  ];
+
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([WELCOME_MESSAGE]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [{
+    id: "welcome",
+    role: "bot",
+    content: t("welcomeMessage"),
+    timestamp: new Date(),
+  }]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
@@ -159,7 +166,7 @@ export function ChefBot() {
                 ChefBot
               </h3>
               <p className="text-xs text-white/70">
-                Asistente de cocina
+                {t("assistantTitle")}
               </p>
             </div>
             <Button
@@ -167,7 +174,7 @@ export function ChefBot() {
               size="icon"
               className="h-8 w-8 text-white hover:bg-white/20 hover:text-white"
               onClick={() => setIsOpen(false)}
-              aria-label="Cerrar chat"
+              aria-label={t("closeChat")}
             >
               <X className="h-4 w-4" />
             </Button>
@@ -264,7 +271,7 @@ export function ChefBot() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Escribe tu pregunta..."
+              placeholder={t("inputPlaceholder")}
               className="flex-1 rounded-full border bg-background px-4 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-citrus-accent focus:ring-1 focus:ring-citrus-accent/30"
               disabled={isTyping}
             />
@@ -273,7 +280,7 @@ export function ChefBot() {
               size="icon"
               className="h-9 w-9 rounded-full bg-citrus-accent text-white hover:bg-citrus-accent/90"
               disabled={!input.trim() || isTyping}
-              aria-label="Enviar mensaje"
+              aria-label={t("sendMessage")}
             >
               <Send className="h-4 w-4" />
             </Button>
@@ -292,7 +299,7 @@ export function ChefBot() {
             "max-md:bottom-[5.5rem]",
             "bg-citrus-accent text-white"
           )}
-          aria-label="Abrir ChefBot"
+          aria-label={t("openChat")}
         >
           <Bot className="h-6 w-6" />
           {/* Pulso indicador */}
