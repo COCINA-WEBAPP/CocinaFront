@@ -2,8 +2,12 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { toast } from "sonner";
 import type { Recipe } from "@/lib/types/recipes";
+import { getCurrentUser } from "@/lib/services/user";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getAvatarSrc, getDisplayNameFromRef, getInitials, resolveRecipeUser } from "@/lib/services/recipe-user";
 
 type Comment = NonNullable<Recipe["comments"]>[number];
 
@@ -26,8 +30,11 @@ export const Comments: React.FC<CommentsProps> = ({ initialComments = [], onChan
   const addComment = () => {
     const text = newCommentText.trim();
     if (!text) return toast.error("Escribe un comentario antes de publicar");
+    const sessionUser = getCurrentUser();
     const newC: Comment = {
-      user: "Usuario (demo)",
+      user: sessionUser
+        ? { username: sessionUser.username, fullName: sessionUser.fullName }
+        : { username: "maria_user", fullName: "María García" },
       comment: text,
       likeCount: 0,
       dislikeCount: 0,
@@ -59,9 +66,12 @@ export const Comments: React.FC<CommentsProps> = ({ initialComments = [], onChan
   const submitReply = (index: number) => {
     const text = replyText.trim();
     if (!text) return toast.error("Escribe una respuesta antes de publicar");
+    const sessionUser = getCurrentUser();
     const copy = [...comments];
     const answer = {
-      user: "Usuario (demo)",
+      user: sessionUser
+        ? { username: sessionUser.username, fullName: sessionUser.fullName }
+        : { username: "maria_user", fullName: "María García" },
       comment: text,
       date: new Date().toISOString().slice(0, 10),
     };
@@ -115,10 +125,28 @@ export const Comments: React.FC<CommentsProps> = ({ initialComments = [], onChan
         <div className="space-y-4">
           {comments.map((c, i) => (
             <div key={i} className="rounded-lg border p-4">
+              {(() => {
+                const resolvedCommentUser = resolveRecipeUser(c.user);
+                return (
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-semibold">{c.user}</p>
+                <div className="flex items-center gap-2">
+                  <Avatar size="sm">
+                    <AvatarImage
+                      src={getAvatarSrc(getDisplayNameFromRef(c.user), resolvedCommentUser?.avatar)}
+                      alt={getDisplayNameFromRef(c.user)}
+                    />
+                    <AvatarFallback>{getInitials(getDisplayNameFromRef(c.user))}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    {resolvedCommentUser ? (
+                      <Link href={`/perfil/${resolvedCommentUser.username}`} className="font-semibold hover:underline">
+                        {resolvedCommentUser.fullName}
+                      </Link>
+                    ) : (
+                      <p className="font-semibold">{getDisplayNameFromRef(c.user)}</p>
+                    )}
                   <p className="text-xs text-muted-foreground">{c.date}</p>
+                  </div>
                 </div>
                 <div className="text-sm text-muted-foreground flex gap-3">
                   <button onClick={() => toggleLike(i)} aria-label="Me gusta">
@@ -132,6 +160,8 @@ export const Comments: React.FC<CommentsProps> = ({ initialComments = [], onChan
                   </button>
                 </div>
               </div>
+                );
+              })()}
 
               <p className="mt-3 text-sm">{c.comment}</p>
 
@@ -140,10 +170,30 @@ export const Comments: React.FC<CommentsProps> = ({ initialComments = [], onChan
                 <div className="mt-4 ml-4 space-y-3 border-l-2 border-muted pl-4">
                   {c.answers.map((a, ai) => (
                     <div key={ai} className="rounded-lg bg-muted p-3">
+                      {(() => {
+                        const resolvedAnswerUser = resolveRecipeUser(a.user);
+                        return (
                       <div className="mb-1 flex items-center justify-between">
-                        <span className="text-sm font-semibold">{a.user}</span>
+                        <div className="flex items-center gap-2">
+                          <Avatar size="sm">
+                            <AvatarImage
+                              src={getAvatarSrc(getDisplayNameFromRef(a.user), resolvedAnswerUser?.avatar)}
+                              alt={getDisplayNameFromRef(a.user)}
+                            />
+                            <AvatarFallback>{getInitials(getDisplayNameFromRef(a.user))}</AvatarFallback>
+                          </Avatar>
+                          {resolvedAnswerUser ? (
+                            <Link href={`/perfil/${resolvedAnswerUser.username}`} className="text-sm font-semibold hover:underline">
+                              {resolvedAnswerUser.fullName}
+                            </Link>
+                          ) : (
+                            <span className="text-sm font-semibold">{getDisplayNameFromRef(a.user)}</span>
+                          )}
+                        </div>
                         <span className="text-xs text-muted-foreground">{a.date}</span>
                       </div>
+                        );
+                      })()}
                       <p className="text-sm">{a.comment}</p>
                     </div>
                   ))}

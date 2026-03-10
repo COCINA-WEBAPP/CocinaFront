@@ -141,7 +141,12 @@ export function RecipeCard({ recipe, onFavoriteChange }: RecipeCardProps) {
         {/* Author */}
         <div className="mb-3 flex items-center gap-2 text-sm text-muted-foreground">
           <ChefHat className="h-4 w-4" />
-          <span>Por {recipe.author}</span>
+          <span>
+            Por{" "}
+            <Link href={`/perfil/${recipe.author.username}`} className="hover:underline">
+              {recipe.author.fullName}
+            </Link>
+          </span>
         </div>
 
         {/* Stats */}

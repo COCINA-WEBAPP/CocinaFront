@@ -1,3 +1,5 @@
+import type { Recipe } from "@/lib/types/recipes";
+
 /**
  * TIPOS DE USUARIO
  * 
@@ -29,8 +31,8 @@ export type User = {
   };
 
   // ===== Relaciones con Recetas =====
-  savedRecipes: string[];        // IDs de recetas que ha guardado
-  recipes: string[];             // IDs de recetas que ha creado
+  savedRecipes: Recipe["id"][]; // IDs de recetas que ha guardado
+  recipes: Recipe["id"][];      // IDs de recetas que ha creado
 
   // ===== Relaciones con Otros Usuarios =====
   following: string[];           // IDs de usuarios que este usuario sigue

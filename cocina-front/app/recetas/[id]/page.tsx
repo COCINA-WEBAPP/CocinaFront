@@ -19,6 +19,8 @@ import { Reseñas } from "./components/Reseñas";
 import type { Recipe } from "@/lib/types/recipes";
 import Link from "next/link";
 import { getCurrentUser, saveRecipe, unsaveRecipe, isRecipeSaved } from "@/lib/services/user";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { resolveRecipeUser, getInitials, getAvatarSrc } from "@/lib/services/recipe-user";
 
 export default function RecipePage() {
   const params = useParams();
@@ -77,6 +79,7 @@ export default function RecipePage() {
   };
 
   const [reviews, setReviews] = useState(recipe.reviews);
+  const resolvedAuthor = resolveRecipeUser(recipe.author);
   const reviewCount = reviews.length;
   const avgRating = reviewCount > 0
     ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount
@@ -160,12 +163,20 @@ export default function RecipePage() {
               <Card>
                 <CardContent className="pt-6">
                   <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                      <ChefHat className="h-6 w-6" />
-                    </div>
+                    <Link href={`/perfil/${recipe.author.username}`} aria-label={`Ir al perfil de ${recipe.author.fullName}`}>
+                      <Avatar size="lg">
+                        <AvatarImage src={getAvatarSrc(recipe.author.fullName, resolvedAuthor?.avatar)} alt={recipe.author.fullName} />
+                        <AvatarFallback>{getInitials(recipe.author.fullName)}</AvatarFallback>
+                      </Avatar>
+                    </Link>
                     <div>
                       <p className="text-sm text-muted-foreground">Creado por</p>
-                      <p className="font-semibold">{recipe.author}</p>
+                      <Link
+                        href={`/perfil/${recipe.author.username}`}
+                        className="font-semibold text-primary hover:underline"
+                      >
+                        {recipe.author.fullName}
+                      </Link>
                     </div>
                   </div>
                 </CardContent>

@@ -12,7 +12,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1619592982310-7b7d51e4207f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080","https://mojo.generalmills.com/api/public/content/X9po4cWU8UaTyRR3YCsdjg_gmi_hi_res_jpeg.jpeg?v=217e4d28&t=16e3ce250f244648bef28c5949fb99ff"
     ],
-    author: "María García",
+    author: { username: "maria_user", fullName: "María García" },
     category: "Desayuno",
     cookTime: 20,
     calories: 320,
@@ -31,19 +31,19 @@ export const MOCK_RECIPES: Recipe[] = [
       "Miel al gusto",
     ],
     reviews: [
-      { user: "Ana", comment: "Quedaron perfectos, esponjosos.", rating: 5 },
-      { user: "David", comment: "Fácil y rápido, recomendados.", rating: 4 },
+      { user: { username: "ana_reposteria", fullName: "Ana López" }, comment: "Quedaron perfectos, esponjosos.", rating: 5 },
+      { user: { username: "david_cook", fullName: "David" }, comment: "Fácil y rápido, recomendados.", rating: 4 },
     ],
     comments: [
       {
-        user: "Sofía",
+        user: { username: "sofia_cook", fullName: "Sofía" },
         comment: "¿Se puede usar leche vegetal?",
         likeCount: 5,
         dislikeCount: 0,
         date: "2025-01-12",
         answers: [
           {
-            user: "María (autor)",
+            user: { username: "maria_user", fullName: "María García" },
             comment: "Sí, funciona muy bien con leche de avena.",
             date: "2025-01-13",
           },
@@ -62,7 +62,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1655662844229-d2c2a81f09ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "María García",
+    author: { username: "maria_user", fullName: "María García" },
     category: "Almuerzo",
     cookTime: 25,
     calories: 480,
@@ -79,8 +79,8 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite de oliva",
     ],
     reviews: [
-      { user: "Lucía", comment: "Sabor auténtico, excelente receta.", rating: 5 },
-      { user: "Marco", comment: "Perfecta textura y sabor.", rating: 5 },
+      { user: { username: "lucia_fusion", fullName: "Lucía Fernández" }, comment: "Sabor auténtico, excelente receta.", rating: 5 },
+      { user: { username: "marco_cook", fullName: "Marco" }, comment: "Perfecta textura y sabor.", rating: 5 },
     ],
     comments: [],
   },
@@ -95,7 +95,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1607257882338-70f7dd2ae344?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "María García",
+    author: { username: "maria_user", fullName: "María García" },
     category: "Postre",
     cookTime: 60,
     calories: 450,
@@ -117,7 +117,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Azúcar glas",
       "Leche (si se requiere ajustar la textura)",
     ],
-    reviews: [{ user: "Carlos", comment: "La mejor torta que probé.", rating: 5 }],
+    reviews: [{ user: { username: "carlos_cocina", fullName: "Carlos Rodríguez" }, comment: "La mejor torta que probé.", rating: 5 }],
     comments: [],
   },
 
@@ -131,7 +131,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1677653805080-59c57727c84e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Carlos Rodríguez",
+    author: { username: "carlos_cocina", fullName: "Carlos Rodríguez" },
     category: "Ensalada",
     cookTime: 15,
     calories: 180,
@@ -151,7 +151,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Sal y pimienta",
       "Cebolla roja",
     ],
-    reviews: [{ user: "Elena", comment: "Muy fresca y sabrosa.", rating: 5 }],
+    reviews: [{ user: { username: "elena_cook", fullName: "Elena" }, comment: "Muy fresca y sabrosa.", rating: 5 }],
     comments: [],
   },
 
@@ -165,7 +165,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1496074620649-6b1b02e5c1c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Carlos Rodríguez",
+    author: { username: "carlos_cocina", fullName: "Carlos Rodríguez" },
     category: "Cena",
     cookTime: 45,
     calories: 350,
@@ -184,7 +184,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Pimienta negra",
       "Miel (opcional para glaseado)",
     ],
-    reviews: [{ user: "Jorge", comment: "Quedó jugoso y con buen sabor.", rating: 5 }],
+    reviews: [{ user: { username: "jorge_cook", fullName: "Jorge" }, comment: "Quedó jugoso y con buen sabor.", rating: 5 }],
     comments: [],
   },
 
@@ -198,7 +198,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1640126219893-6c869dbe9bd0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Ana López",
+    author: { username: "ana_reposteria", fullName: "Ana López" },
     category: "Desayuno",
     cookTime: 10,
     calories: 220,
@@ -215,7 +215,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Granola",
       "Frutas frescas para topping",
     ],
-    reviews: [{ user: "Paula", comment: "Refrescante y nutritivo.", rating: 5 }],
+    reviews: [{ user: { username: "paula_cook", fullName: "Paula" }, comment: "Refrescante y nutritivo.", rating: 5 }],
     comments: [],
   },
 
@@ -229,7 +229,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1599488400918-5f5f96b3f463?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Ana López",
+    author: { username: "ana_reposteria", fullName: "Ana López" },
     category: "Cena",
     cookTime: 35,
     calories: 420,
@@ -255,8 +255,8 @@ export const MOCK_RECIPES: Recipe[] = [
       "Queso fresco",
     ],
     reviews: [
-      { user: "Ricardo", comment: "Sabor intenso, muy mexicanos.", rating: 5 },
-      { user: "Luz", comment: "La carne quedó perfecta.", rating: 4 },
+      { user: { username: "ricardo_cook", fullName: "Ricardo" }, comment: "Sabor intenso, muy mexicanos.", rating: 5 },
+      { user: { username: "luz_cook", fullName: "Luz" }, comment: "La carne quedó perfecta.", rating: 4 },
     ],
     comments: [],
   },
@@ -271,7 +271,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1712183718471-dab51f0748ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Ana López",
+    author: { username: "ana_reposteria", fullName: "Ana López" },
     category: "Almuerzo",
     cookTime: 50,
     calories: 380,
@@ -292,7 +292,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Semillas de sésamo",
       "Esterilla para enrollar",
     ],
-    reviews: [{ user: "Hiro", comment: "Excelente guía para principiantes.", rating: 5 }],
+    reviews: [{ user: { username: "hiro_cook", fullName: "Hiro" }, comment: "Excelente guía para principiantes.", rating: 5 }],
     comments: [],
   },
 
@@ -306,7 +306,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1573821663912-6df460f9c684?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Pedro Martínez",
+    author: { username: "pedro_vegano", fullName: "Pedro Martínez" },
     category: "Cena",
     cookTime: 40,
     calories: 400,
@@ -324,7 +324,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Harina para estirar la masa",
       "Orégano",
     ],
-    reviews: [{ user: "Paolo", comment: "Auténtica, buen balance de sabores.", rating: 5 }],
+    reviews: [{ user: { username: "paolo_cook", fullName: "Paolo" }, comment: "Auténtica, buen balance de sabores.", rating: 5 }],
     comments: [],
   },
 
@@ -338,7 +338,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1714385905983-6f8e06fffae1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Pedro Martínez",
+    author: { username: "pedro_vegano", fullName: "Pedro Martínez" },
     category: "Postre",
     cookTime: 30,
     calories: 380,
@@ -355,7 +355,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Cacao en polvo",
       "Licor (opcional)",
     ],
-    reviews: [{ user: "Giulia", comment: "Perfecto equilibrio de texturas.", rating: 5 }],
+    reviews: [{ user: { username: "giulia_cook", fullName: "Giulia" }, comment: "Perfecto equilibrio de texturas.", rating: 5 }],
     comments: [],
   },
 
@@ -369,7 +369,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1701109876066-7fc0c08da447?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Lucía Fernández",
+    author: { username: "lucia_fusion", fullName: "Lucía Fernández" },
     category: "Sopa",
     cookTime: 35,
     calories: 150,
@@ -391,7 +391,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite de oliva",
       "Especias al gusto",
     ],
-    reviews: [{ user: "Marta", comment: "Sabor casero, muy reconfortante.", rating: 5 }],
+    reviews: [{ user: { username: "marta_cook", fullName: "Marta" }, comment: "Sabor casero, muy reconfortante.", rating: 5 }],
     comments: [],
   },
 
@@ -405,7 +405,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1643234567681-b28137fb1c33?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Lucía Fernández",
+    author: { username: "lucia_fusion", fullName: "Lucía Fernández" },
     category: "Almuerzo",
     cookTime: 30,
     calories: 550,
@@ -429,7 +429,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Mostaza",
       "Bacon (opcional)",
     ],
-    reviews: [{ user: "Oliver", comment: "Muy sabrosa y bien armada.", rating: 5 }],
+    reviews: [{ user: { username: "oliver_cook", fullName: "Oliver" }, comment: "Muy sabrosa y bien armada.", rating: 5 }],
     comments: [],
   },
   {
@@ -442,7 +442,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1506084868230-bb9d95c24759?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Lucía Fernández",
+    author: { username: "lucia_fusion", fullName: "Lucía Fernández" },
     category: "Entrada",
     cookTime: 30,
     calories: 280,
@@ -461,17 +461,17 @@ export const MOCK_RECIPES: Recipe[] = [
       "Sal y pimienta",
     ],
     reviews: [
-      { user: "Natalia", comment: "Excelente combinación, muy suaves.", rating: 5 }
+      { user: { username: "natalia_cook", fullName: "Natalia" }, comment: "Excelente combinación, muy suaves.", rating: 5 }
     ],
     comments: [
       {
-        user: "Marta",
+        user: { username: "marta_cook", fullName: "Marta" },
         comment: "¿Se pueden congelar los crepes ya rellenos?",
         likeCount: 3,
         dislikeCount: 0,
         date: "2025-11-02",
         answers: [
-          { user: "Isabel (autor)", comment: "Mejor congelar la masa sin rellenar y rellenar al descongelar.", date: "2025-11-03" }
+          { user: { username: "isabel_cook", fullName: "Isabel" }, comment: "Mejor congelar la masa sin rellenar y rellenar al descongelar.", date: "2025-11-03" }
         ]
       }
     ],
@@ -487,7 +487,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1534939561126-855b8675edd7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "María García",
+    author: { username: "maria_user", fullName: "María García" },
     category: "Almuerzo",
     cookTime: 120,
     calories: 460,
@@ -507,8 +507,8 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite",
     ],
     reviews: [
-      { user: "Pablo", comment: "Me transportó a Europa central.", rating: 5 },
-      { user: "Sonia", comment: "Sabores profundos, requiere tiempo.", rating: 4 }
+      { user: { username: "pablo_cook", fullName: "Pablo" }, comment: "Me transportó a Europa central.", rating: 5 },
+      { user: { username: "sonia_cook", fullName: "Sonia" }, comment: "Sabores profundos, requiere tiempo.", rating: 4 }
     ],
     comments: [],
   },
@@ -523,7 +523,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1644753787071-8933b5daed2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "María García",
+    author: { username: "maria_user", fullName: "María García" },
     category: "Desayuno",
     cookTime: 25,
     calories: 340,
@@ -540,16 +540,16 @@ export const MOCK_RECIPES: Recipe[] = [
       "Mantequilla para freír",
     ],
     reviews: [
-      { user: "Diego", comment: "Mejor que en la arepera.", rating: 5 }
+      { user: { username: "diego_cook", fullName: "Diego" }, comment: "Mejor que en la arepera.", rating: 5 }
     ],
     comments: [
       {
-        user: "Valentina",
+        user: { username: "valentina_cook", fullName: "Valentina" },
         comment: "¿Con qué queso quedaría igual si no tengo blanco?",
         likeCount: 7,
         dislikeCount: 0,
         date: "2026-01-10",
-        answers: [{ user: "Carolina (autor)", comment: "Queso mozzarella o queso fresco funcionan bien.", date: "2026-01-10" }]
+        answers: [{ user: { username: "carolina_cook", fullName: "Carolina" }, comment: "Queso mozzarella o queso fresco funcionan bien.", date: "2026-01-10" }]
       }
     ],
   },
@@ -564,7 +564,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1525351484163-7529414344d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "María García",
+    author: { username: "maria_user", fullName: "María García" },
     category: "Sopa",
     cookTime: 40,
     calories: 180,
@@ -581,7 +581,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite de oliva",
       "Sal y pimienta",
     ],
-    reviews: [{ user: "Ana", comment: "Perfecta para días fríos.", rating: 5 }],
+    reviews: [{ user: { username: "ana_reposteria", fullName: "Ana López" }, comment: "Perfecta para días fríos.", rating: 5 }],
     comments: [],
   },
 
@@ -595,7 +595,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Carlos Rodríguez",
+    author: { username: "carlos_cocina", fullName: "Carlos Rodríguez" },
     category: "Cena",
     cookTime: 50,
     calories: 290,
@@ -612,7 +612,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite de oliva",
       "Sal y pimienta",
     ],
-    reviews: [{ user: "Marcos", comment: "Elegante y sabroso.", rating: 4 }],
+    reviews: [{ user: { username: "marcos_cook", fullName: "Marcos" }, comment: "Elegante y sabroso.", rating: 4 }],
     comments: [],
   },
 
@@ -626,7 +626,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Carlos Rodríguez",
+    author: { username: "carlos_cocina", fullName: "Carlos Rodríguez" },
     category: "Bebida",
     cookTime: 10,
     calories: 120,
@@ -643,7 +643,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "2 clavos de olor",
       "Azúcar o miel al gusto",
     ],
-    reviews: [{ user: "Sara", comment: "Aroma maravilloso.", rating: 4 }],
+    reviews: [{ user: { username: "sara_cook", fullName: "Sara" }, comment: "Aroma maravilloso.", rating: 4 }],
     comments: [],
   },
 
@@ -657,7 +657,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1504674900247-0877df9cc836?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Carlos Rodríguez",
+    author: { username: "carlos_cocina", fullName: "Carlos Rodríguez" },
     category: "Snack",
     cookTime: 35,
     calories: 310,
@@ -676,7 +676,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite para freír",
       "Yogurt natural para la salsa",
     ],
-    reviews: [{ user: "Karim", comment: "Auténtico y crocante.", rating: 5 }],
+    reviews: [{ user: { username: "karim_cook", fullName: "Karim" }, comment: "Auténtico y crocante.", rating: 5 }],
     comments: [],
   },
 
@@ -690,7 +690,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1623961990059-28356e226a77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Ana López",
+    author: { username: "ana_reposteria", fullName: "Ana López" },
     category: "Almuerzo",
     cookTime: 60,
     calories: 420,
@@ -711,7 +711,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Sal",
     ],
     reviews: [
-      { user: "Inés", comment: "Sabor impresionante, muy bien hecha.", rating: 5 }
+      { user: { username: "ines_cook", fullName: "Inés" }, comment: "Sabor impresionante, muy bien hecha.", rating: 5 }
     ],
     comments: [],
   },
@@ -726,7 +726,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Ana López",
+    author: { username: "ana_reposteria", fullName: "Ana López" },
     category: "Panadería",
     cookTime: 25,
     calories: 240,
@@ -744,7 +744,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "1 taza de arándanos",
       "1 pizca de sal",
     ],
-    reviews: [{ user: "Lina", comment: "Textura perfecta.", rating: 4 }],
+    reviews: [{ user: { username: "lina_cook", fullName: "Lina" }, comment: "Textura perfecta.", rating: 4 }],
     comments: [],
   },
 
@@ -758,7 +758,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1553621042-f6e147245754?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Ana López",
+    author: { username: "ana_reposteria", fullName: "Ana López" },
     category: "Entrante",
     cookTime: 20,
     calories: 190,
@@ -775,7 +775,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Sal",
       "Maíz cancha (opc.)",
     ],
-    reviews: [{ user: "Andrés", comment: "Muy fresco y equilibrado.", rating: 5 }],
+    reviews: [{ user: { username: "andres_cook", fullName: "Andrés" }, comment: "Muy fresco y equilibrado.", rating: 5 }],
     comments: [],
   },
 
@@ -789,7 +789,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1525755662778-989d0524087e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Pedro Martínez",
+    author: { username: "pedro_vegano", fullName: "Pedro Martínez" },
     category: "Almuerzo",
     cookTime: 40,
     calories: 400,
@@ -808,7 +808,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite de oliva",
       "Sal y pimienta",
     ],
-    reviews: [{ user: "Giulia", comment: "Cremoso y profundo.", rating: 5 }],
+    reviews: [{ user: { username: "giulia_cook", fullName: "Giulia" }, comment: "Cremoso y profundo.", rating: 5 }],
     comments: [],
   },
 
@@ -822,7 +822,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1602143249253-9805c88841ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Pedro Martínez",
+    author: { username: "pedro_vegano", fullName: "Pedro Martínez" },
     category: "Cena",
     cookTime: 90,
     calories: 480,
@@ -840,7 +840,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Jengibre",
       "Salsa de soja",
     ],
-    reviews: [{ user: "Luis", comment: "Impresionante combinación.", rating: 5 }],
+    reviews: [{ user: { username: "luis_cook", fullName: "Luis" }, comment: "Impresionante combinación.", rating: 5 }],
     comments: [],
   },
 
@@ -854,7 +854,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1515037893149-de7f840978e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Lucía Fernández",
+    author: { username: "lucia_fusion", fullName: "Lucía Fernández" },
     category: "Postre",
     cookTime: 35,
     calories: 280,
@@ -873,16 +873,16 @@ export const MOCK_RECIPES: Recipe[] = [
       "Chips de chocolate vegano",
     ],
     reviews: [
-      { user: "Sofía", comment: "No extrañas nada de lo tradicional.", rating: 5 }
+      { user: { username: "sofia_cook", fullName: "Sofía" }, comment: "No extrañas nada de lo tradicional.", rating: 5 }
     ],
     comments: [
       {
-        user: "Bruno",
+        user: { username: "bruno_cook", fullName: "Bruno" },
         comment: "¿Puedo usar harina de avena en vez de almendra?",
         likeCount: 4,
         dislikeCount: 0,
         date: "2025-08-20",
-        answers: [{ user: "Camila (autor)", comment: "Sí, ajusta la cantidad de líquido si la masa queda muy densa.", date: "2025-08-21" }]
+        answers: [{ user: { username: "camila_cook", fullName: "Camila" }, comment: "Sí, ajusta la cantidad de líquido si la masa queda muy densa.", date: "2025-08-21" }]
       }
     ],
   },
@@ -897,7 +897,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Lucía Fernández",
+    author: { username: "lucia_fusion", fullName: "Lucía Fernández" },
     category: "Ensalada",
     cookTime: 30,
     calories: 260,
@@ -915,7 +915,7 @@ export const MOCK_RECIPES: Recipe[] = [
       "Perejil",
       "Sal y pimienta",
     ],
-    reviews: [{ user: "Olga", comment: "Ideal para llevar al trabajo.", rating: 4 }],
+    reviews: [{ user: { username: "olga_cook", fullName: "Olga" }, comment: "Ideal para llevar al trabajo.", rating: 4 }],
     comments: [],
   },
 
@@ -929,7 +929,7 @@ export const MOCK_RECIPES: Recipe[] = [
     images: [
       "https://images.unsplash.com/photo-1476124369491-e7addf5db371?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     ],
-    author: "Lucía Fernández",
+    author: { username: "lucia_fusion", fullName: "Lucía Fernández" },
     category: "Cena",
     cookTime: 35,
     calories: 320,
@@ -946,9 +946,10 @@ export const MOCK_RECIPES: Recipe[] = [
       "Queso parmesano (opcional)",
       "Perejil",
     ],
-    reviews: [{ user: "Rosa", comment: "Textura perfecta y buen sabor.", rating: 5 }],
+    reviews: [{ user: { username: "rosa_cook", fullName: "Rosa" }, comment: "Textura perfecta y buen sabor.", rating: 5 }],
     comments: [],
   },
 
 
 ];
+

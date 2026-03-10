@@ -2,11 +2,15 @@
 
 import { useMemo, useState } from "react";
 import { Star } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import type { Recipe } from "@/lib/types/recipes";
+import { getCurrentUser } from "@/lib/services/user";
+import { getAvatarSrc, getDisplayNameFromRef, getInitials, resolveRecipeUser } from "@/lib/services/recipe-user";
 
 type Review = Recipe["reviews"][number];
 
@@ -18,7 +22,6 @@ type ReseñasProps = {
 export function Reseñas({ initialReviews, onChange }: ReseñasProps) {
 	const [comment, setComment] = useState("");
 	const [rating, setRating] = useState(0);
-	const demoUser = "Usuario (demo)"; // TODO: reemplazar por el usuario real cuando haya login
 
 	const reviewCount = initialReviews.length;
 	const avgRating = useMemo(() => {
@@ -36,8 +39,11 @@ export function Reseñas({ initialReviews, onChange }: ReseñasProps) {
 			toast.error("Escribe un comentario");
 			return;
 		}
+		const sessionUser = getCurrentUser();
 		const next: Review = {
-			user: demoUser,
+			user: sessionUser
+				? { username: sessionUser.username, fullName: sessionUser.fullName }
+				: { username: "maria_user", fullName: "María García" },
 			comment: comment.trim(),
 			rating,
 		};
@@ -103,8 +109,26 @@ export function Reseñas({ initialReviews, onChange }: ReseñasProps) {
 				<div className="space-y-4">
 					{initialReviews.map((review, index) => (
 						<div key={index} className="rounded-lg border p-4">
+							{(() => {
+								const resolvedReviewUser = resolveRecipeUser(review.user);
+								return (
 							<div className="mb-2 flex items-center justify-between">
-								<span className="font-semibold">{review.user}</span>
+								<div className="flex items-center gap-2">
+									<Avatar size="sm">
+										<AvatarImage
+											src={getAvatarSrc(getDisplayNameFromRef(review.user), resolvedReviewUser?.avatar)}
+											alt={getDisplayNameFromRef(review.user)}
+										/>
+										<AvatarFallback>{getInitials(getDisplayNameFromRef(review.user))}</AvatarFallback>
+									</Avatar>
+									{resolvedReviewUser ? (
+										<Link href={`/perfil/${resolvedReviewUser.username}`} className="font-semibold hover:underline">
+											{resolvedReviewUser.fullName}
+										</Link>
+									) : (
+										<span className="font-semibold">{getDisplayNameFromRef(review.user)}</span>
+									)}
+								</div>
 								<div className="flex items-center gap-1">
 									{[...Array(5)].map((_, i) => (
 										<Star
@@ -116,6 +140,8 @@ export function Reseñas({ initialReviews, onChange }: ReseñasProps) {
 									))}
 								</div>
 							</div>
+								);
+							})()}
 							<p className="text-sm text-muted-foreground">{review.comment}</p>
 						</div>
 					))}

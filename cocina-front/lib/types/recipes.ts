@@ -1,10 +1,13 @@
+import type { User } from "@/lib/types/users";
+import type { RecipeComment, RecipeReview } from "@/lib/types/recipe-interactions";
+
 export type Recipe = {
   id: string;
   slug: string;
   title: string;
   description: string;
   images: string[];
-  author: string;
+  author: Pick<User, "username" | "fullName">;
   category: string;
   cookTime: number;
   calories: number;
@@ -13,23 +16,8 @@ export type Recipe = {
   rating: number;
   tags: string[];
   ingredients: string[];
-  reviews: {
-    user: string;
-    comment: string;
-    rating: number;
-  }[]; 
-  comments: {
-    user: string;
-    comment: string;
-    likeCount: number;
-    dislikeCount: number;
-    date: string;
-    answers: {
-      user: string;
-      comment: string;
-      date: string;
-    }[];
-  }[]; 
+  reviews: RecipeReview[];
+  comments: RecipeComment[];
   isNew: boolean;
   isFeatured: boolean;
 };
