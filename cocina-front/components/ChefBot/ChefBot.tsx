@@ -85,6 +85,7 @@ export function ChefBot() {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const openButtonRef = useRef<HTMLButtonElement>(null);
 
   // Auto-scroll al último mensaje
   useEffect(() => {
@@ -146,7 +147,9 @@ export function ChefBot() {
     <>
       {/* ── Ventana de Chat ────────────────────────────────────────────── */}
       {isOpen && (
-        <div
+        <section
+          role="dialog"
+          aria-label={t("chatTitle")}
           className={cn(
             "fixed z-50 flex flex-col overflow-hidden rounded-2xl border bg-card shadow-2xl",
             "bottom-24 right-4 w-[calc(100vw-2rem)] max-w-sm",
@@ -173,7 +176,10 @@ export function ChefBot() {
               variant="ghost"
               size="icon"
               className="h-8 w-8 text-white hover:bg-white/20 hover:text-white"
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+                setTimeout(() => openButtonRef.current?.focus(), 100);
+              }}
               aria-label={t("closeChat")}
             >
               <X className="h-4 w-4" />
@@ -181,7 +187,7 @@ export function ChefBot() {
           </div>
 
           {/* Mensajes */}
-          <div ref={scrollRef} className="flex-1 min-h-0 overflow-y-auto px-4 py-3">
+          <div ref={scrollRef} className="flex-1 min-h-0 overflow-y-auto px-4 py-3" role="log" aria-live="polite">
             <div className="space-y-4">
               {messages.map((msg) => (
                 <div
@@ -228,7 +234,7 @@ export function ChefBot() {
 
               {/* Indicador de "escribiendo" */}
               {isTyping && (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2" aria-hidden="true">
                   <Avatar className="mt-1 h-7 w-7 flex-shrink-0">
                     <AvatarFallback className="bg-citrus-accent/10 text-citrus-accent">
                       <ChefHat className="h-3.5 w-3.5" />
@@ -243,6 +249,9 @@ export function ChefBot() {
                   </div>
                 </div>
               )}
+              <span className="sr-only" aria-live="assertive">
+                {isTyping ? t("typing") : ""}
+              </span>
 
               {/* Chips sugeridos (solo cuando hay 1 mensaje = bienvenida) */}
               {messages.length === 1 && !isTyping && (
@@ -272,6 +281,7 @@ export function ChefBot() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t("inputPlaceholder")}
+              aria-label={t("inputPlaceholder")}
               className="flex-1 rounded-full border bg-background px-4 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-citrus-accent focus:ring-1 focus:ring-citrus-accent/30"
               disabled={isTyping}
             />
@@ -285,12 +295,13 @@ export function ChefBot() {
               <Send className="h-4 w-4" />
             </Button>
           </form>
-        </div>
+        </section>
       )}
 
       {/* ── Botón Flotante (oculto cuando el chat está abierto) ──────── */}
       {!isOpen && (
         <button
+          ref={openButtonRef}
           onClick={() => setIsOpen(true)}
           className={cn(
             "fixed z-50 flex items-center justify-center rounded-full shadow-lg transition-all duration-300 hover:scale-105 active:scale-95",

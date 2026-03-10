@@ -10,7 +10,11 @@
     "login": "Bejelentkezés",
     "register": "Regisztráció",
     "myProfile": "Profilom",
-    "logout": "Kijelentkezés"
+    "logout": "Kijelentkezés",
+    "menuToggle": "Menü megnyitása",
+    "search": "Keresés",
+    "savedRecipes": "Mentett receptek",
+    "userMenu": "Felhasználói menü"
   },
   "Footer": {
     "description": "A te célpontod hihetetlen receptek felfedezéséhez és megosztásához a világ minden tájáról érkező szakácsoktól. Csatlakozz kulináris közösségünkhöz még ma.",
@@ -40,7 +44,8 @@
     "explore": "Felfedezés",
     "saved": "Mentettek",
     "profile": "Profil",
-    "language": "Nyelv"
+    "language": "Nyelv",
+    "navLabel": "Fő navigáció"
   },
   "Login": {
     "welcome": "Üdvözöl a RecipeShare",
@@ -282,9 +287,14 @@
     "chip1": "Mivel helyettesíthetem a tojást?",
     "chip2": "Mit jelent a blansírozás?",
     "chip3": "Nincs vajam",
-    "chip4": "Mi az a julienne?"
+    "chip4": "Mi az a julienne?",
+    "chatTitle": "Chat a ChefBot-tal",
+    "typing": "ChefBot gépel..."
   },
   "LanguageSwitcher": {
     "label": "Nyelv"
+  },
+  "Accessibility": {
+    "skipToContent": "Ugrás a fő tartalomhoz"
   }
 }

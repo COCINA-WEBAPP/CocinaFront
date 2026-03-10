@@ -1,9 +1,23 @@
+import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Toaster } from "@/components/ui/sonner";
 import { ChefBot } from "@/components/ChefBot";
+import "@/styles/globals.css";
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["700"],
+});
 
 type Props = {
   children: React.ReactNode;
@@ -37,11 +51,22 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   setRequestLocale(locale);
 
+  const t = await getTranslations({ locale, namespace: "Accessibility" });
+
   return (
-    <NextIntlClientProvider>
-      {children}
-      <ChefBot />
-      <Toaster />
-    </NextIntlClientProvider>
+    <html lang={locale} suppressHydrationWarning>
+      <body
+        className={`${plusJakarta.variable} ${playfair.variable} min-h-screen bg-background antialiased`}
+      >
+        <a href="#main-content" className="skip-link">
+          {t("skipToContent")}
+        </a>
+        <NextIntlClientProvider>
+          {children}
+          <ChefBot />
+          <Toaster />
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 }

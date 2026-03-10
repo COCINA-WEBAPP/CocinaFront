@@ -57,6 +57,7 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
             size="sm"
             className="md:hidden"
             onClick={onMenuToggle}
+            aria-label={t("menuToggle")}
           >
             <Menu className="h-5 w-5" />
           </Button>
@@ -75,9 +76,11 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
         </nav>
 
         {/* Search Bar - Hidden on small screens */}
-        <form onSubmit={handleSearch} className="hidden sm:flex relative max-w-sm flex-1 mx-4">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <form onSubmit={handleSearch} role="search" className="hidden sm:flex relative max-w-sm flex-1 mx-4">
+          <label htmlFor="header-search" className="sr-only">{t("searchPlaceholder")}</label>
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" aria-hidden="true" />
           <Input
+            id="header-search"
             placeholder={t("searchPlaceholder")}
             className="pl-10 bg-input-background"
             value={searchQuery}
@@ -87,10 +90,10 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
 
         {/* Actions */}
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" className="sm:hidden">
+          <Button variant="ghost" size="sm" className="sm:hidden" aria-label={t("search")}>
             <Search className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" size="sm" className="relative" onClick={handleSavedClick}>
+          <Button variant="ghost" size="sm" className="relative" onClick={handleSavedClick} aria-label={t("savedRecipes")}>
             <BookMarked className="h-5 w-5" />
             {savedRecipesCount > 0 && (
               <Badge
@@ -104,7 +107,7 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
           <LanguageSwitcher />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" aria-label="User menu">
+              <Button variant="ghost" size="sm" aria-label={t("userMenu")}>
                 {currentUser?.avatar ? (
                   <img
                     src={currentUser.avatar}

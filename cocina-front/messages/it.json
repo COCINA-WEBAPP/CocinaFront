@@ -10,7 +10,11 @@
     "login": "Login",
     "register": "Register",
     "myProfile": "Il mio profilo",
-    "logout": "Esci"
+    "logout": "Esci",
+    "menuToggle": "Apri menu",
+    "search": "Cerca",
+    "savedRecipes": "Ricette salvate",
+    "userMenu": "Menu utente"
   },
   "Footer": {
     "description": "La tua destinazione per scoprire e condividere ricette incredibili da cuochi di tutto il mondo. Unisciti alla nostra comunità culinaria oggi.",
@@ -40,7 +44,8 @@
     "explore": "Esplora",
     "saved": "Salvati",
     "profile": "Profilo",
-    "language": "Lingua"
+    "language": "Lingua",
+    "navLabel": "Navigazione principale"
   },
   "Login": {
     "welcome": "Benvenuto su RecipeShare",
@@ -282,9 +287,14 @@
     "chip1": "Con cosa sostituisco l'uovo?",
     "chip2": "Cosa significa sbollentare?",
     "chip3": "Non ho il burro",
-    "chip4": "Cos'è la julienne?"
+    "chip4": "Cos'è la julienne?",
+    "chatTitle": "Chat con ChefBot",
+    "typing": "ChefBot sta scrivendo..."
   },
   "LanguageSwitcher": {
     "label": "Lingua"
+  },
+  "Accessibility": {
+    "skipToContent": "Vai al contenuto principale"
   }
 }

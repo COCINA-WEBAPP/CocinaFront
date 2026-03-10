@@ -9,7 +9,7 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Header />
       {/* pb-20 en móvil para evitar que el contenido quede detrás del MobileBottomNav */}
-      <main className="pb-20 md:pb-0">
+      <main id="main-content" className="pb-20 md:pb-0">
         <Suspense fallback={<div className="container mx-auto px-4 py-8" />}>
           <RecipeCatalogue />
         </Suspense>

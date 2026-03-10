@@ -10,7 +10,11 @@
     "login": "ログイン",
     "register": "新規登録",
     "myProfile": "マイプロフィール",
-    "logout": "ログアウト"
+    "logout": "ログアウト",
+    "menuToggle": "メニューを開く",
+    "search": "検索",
+    "savedRecipes": "保存済みレシピ",
+    "userMenu": "ユーザーメニュー"
   },
   "Footer": {
     "description": "世界中の料理人が作った素晴らしいレシピを発見・共有できるサイトです。今日から私たちの料理コミュニティに参加しましょう。",
@@ -40,7 +44,8 @@
     "explore": "探索",
     "saved": "保存済み",
     "profile": "プロフィール",
-    "language": "言語"
+    "language": "言語",
+    "navLabel": "メインナビゲーション"
   },
   "Login": {
     "welcome": "RecipeShareへようこそ",
@@ -282,9 +287,14 @@
     "chip1": "卵の代わりになるものは？",
     "chip2": "湯通しとは何ですか？",
     "chip3": "バターがありません",
-    "chip4": "千切りとは？"
+    "chip4": "千切りとは？",
+    "chatTitle": "ChefBotとチャット",
+    "typing": "ChefBotが入力中..."
   },
   "LanguageSwitcher": {
     "label": "言語"
+  },
+  "Accessibility": {
+    "skipToContent": "メインコンテンツへスキップ"
   }
 }

@@ -15,7 +15,7 @@ export default async function LoginLayout({ children, params }: Props) {
 	return (
 		<div className="flex flex-col min-h-screen">
 			<Header />
-			<main className="flex-1 pb-20 md:pb-0">{children}</main>
+			<main id="main-content" className="flex-1 pb-20 md:pb-0">{children}</main>
 			<Footer />
 			<MobileBottomNav />
 		</div>

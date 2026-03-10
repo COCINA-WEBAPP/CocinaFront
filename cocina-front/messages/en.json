@@ -10,7 +10,11 @@
     "login": "Login",
     "register": "Register",
     "myProfile": "My Profile",
-    "logout": "Log out"
+    "logout": "Log out",
+    "menuToggle": "Open menu",
+    "search": "Search",
+    "savedRecipes": "Saved recipes",
+    "userMenu": "User menu"
   },
   "Footer": {
     "description": "Your destination to discover and share amazing recipes from cooks around the world. Join our culinary community today.",
@@ -40,7 +44,8 @@
     "explore": "Explore",
     "saved": "Saved",
     "profile": "Profile",
-    "language": "Language"
+    "language": "Language",
+    "navLabel": "Main navigation"
   },
   "Login": {
     "welcome": "Welcome to RecipeShare",
@@ -282,9 +287,14 @@
     "chip1": "What can I use instead of eggs?",
     "chip2": "What does blanching mean?",
     "chip3": "I don't have butter",
-    "chip4": "What is julienne?"
+    "chip4": "What is julienne?",
+    "chatTitle": "Chat with ChefBot",
+    "typing": "ChefBot is typing..."
   },
   "LanguageSwitcher": {
     "label": "Language"
+  },
+  "Accessibility": {
+    "skipToContent": "Skip to main content"
   }
 }

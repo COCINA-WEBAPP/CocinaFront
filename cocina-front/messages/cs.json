@@ -10,7 +10,11 @@
     "login": "Přihlášení",
     "register": "Registrace",
     "myProfile": "Můj profil",
-    "logout": "Odhlásit se"
+    "logout": "Odhlásit se",
+    "menuToggle": "Otevřít menu",
+    "search": "Hledat",
+    "savedRecipes": "Uložené recepty",
+    "userMenu": "Uživatelské menu"
   },
   "Footer": {
     "description": "Váš cíl pro objevování a sdílení úžasných receptů od kuchařů z celého světa. Přidejte se k naší kulinářské komunitě ještě dnes.",
@@ -40,7 +44,8 @@
     "explore": "Prozkoumat",
     "saved": "Uložené",
     "profile": "Profil",
-    "language": "Jazyk"
+    "language": "Jazyk",
+    "navLabel": "Hlavní navigace"
   },
   "Login": {
     "welcome": "Vítejte na RecipeShare",
@@ -282,9 +287,14 @@
     "chip1": "Čím nahradím vejce?",
     "chip2": "Co znamená blanchírovat?",
     "chip3": "Nemám máslo",
-    "chip4": "Co je julienne?"
+    "chip4": "Co je julienne?",
+    "chatTitle": "Chat s ChefBot",
+    "typing": "ChefBot píše..."
   },
   "LanguageSwitcher": {
     "label": "Jazyk"
+  },
+  "Accessibility": {
+    "skipToContent": "Přeskočit na hlavní obsah"
   }
 }

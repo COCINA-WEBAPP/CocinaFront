@@ -180,7 +180,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
 				/>
 			</div>
 
-			<Button type="submit" className="w-full" disabled={isLoading || success}>
+			<Button type="submit" className="w-full" disabled={isLoading || success} aria-busy={isLoading}>
 				{isLoading ? (
 					<>
 						<Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -193,6 +193,12 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
 					</>
 				)}
 			</Button>
+
+			{/* Región aria-live para anunciar resultados a lectores de pantalla */}
+			<div className="sr-only" aria-live="polite" role="status">
+				{success && t("successMessage")}
+				{error && error}
+			</div>
 
 			<p className="text-xs text-muted-foreground text-center">
 				{t("termsNotice")}

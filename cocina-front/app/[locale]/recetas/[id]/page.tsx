@@ -41,7 +41,7 @@ export default function RecipePage() {
     return (
       <div className="min-h-screen bg-background flex flex-col">
         <Header />
-        <main className="flex flex-1 items-center justify-center pb-20 md:pb-0">
+        <main id="main-content" className="flex flex-1 items-center justify-center pb-20 md:pb-0">
           <p className="text-muted-foreground">{t("notFound")}</p>
         </main>
         <Footer />
@@ -92,7 +92,7 @@ export default function RecipePage() {
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
       {/* pb-20 en móvil para evitar que el contenido quede detrás del MobileBottomNav */}
-      <main className="flex-1 pb-20 md:pb-0">
+      <main id="main-content" className="flex-1 pb-20 md:pb-0">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           {/* Header Carousel */}
           <div className="relative mb-8">

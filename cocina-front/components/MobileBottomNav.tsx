@@ -83,7 +83,7 @@ export function MobileBottomNav() {
     <nav
       className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:hidden"
       role="navigation"
-      aria-label="Navegación principal móvil"
+      aria-label={t("navLabel")}
     >
       <div className="flex items-center justify-around h-16 px-2">
         {NAV_ITEMS.map((item) => {

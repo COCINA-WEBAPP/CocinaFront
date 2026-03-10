@@ -14,7 +14,7 @@ export default async function Home({ params }: Props) {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pb-20 md:pb-0">
+      <main id="main-content" className="pb-20 md:pb-0">
 
       </main>
       <Footer />

@@ -10,7 +10,11 @@
     "login": "Connexion",
     "register": "Inscription",
     "myProfile": "Mon profil",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "menuToggle": "Ouvrir le menu",
+    "search": "Rechercher",
+    "savedRecipes": "Recettes sauvegardées",
+    "userMenu": "Menu utilisateur"
   },
   "Footer": {
     "description": "Votre destination pour découvrir et partager des recettes incroyables de cuisiniers du monde entier. Rejoignez notre communauté culinaire aujourd'hui.",
@@ -40,7 +44,8 @@
     "explore": "Explorer",
     "saved": "Enregistrés",
     "profile": "Profil",
-    "language": "Langue"
+    "language": "Langue",
+    "navLabel": "Navigation principale"
   },
   "Login": {
     "welcome": "Bienvenue sur RecipeShare",
@@ -282,9 +287,14 @@
     "chip1": "Par quoi remplacer l'œuf ?",
     "chip2": "Que signifie blanchir ?",
     "chip3": "Je n'ai pas de beurre",
-    "chip4": "Qu'est-ce que la julienne ?"
+    "chip4": "Qu'est-ce que la julienne ?",
+    "chatTitle": "Chat avec ChefBot",
+    "typing": "ChefBot est en train d'écrire..."
   },
   "LanguageSwitcher": {
     "label": "Langue"
+  },
+  "Accessibility": {
+    "skipToContent": "Aller au contenu principal"
   }
 }
