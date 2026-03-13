@@ -14,7 +14,8 @@
     "menuToggle": "Menü megnyitása",
     "search": "Keresés",
     "savedRecipes": "Mentett receptek",
-    "userMenu": "Felhasználói menü"
+    "userMenu": "Felhasználói menü",
+    "createRecipe": "Recept Létrehozása"
   },
   "Footer": {
     "description": "A te célpontod hihetetlen receptek felfedezéséhez és megosztásához a világ minden tájáról érkező szakácsoktól. Csatlakozz kulináris közösségünkhöz még ma.",
@@ -44,6 +45,7 @@
     "explore": "Felfedezés",
     "saved": "Mentettek",
     "profile": "Profil",
+    "create": "Letrehozas",
     "language": "Nyelv",
     "navLabel": "Fő navigáció"
   },
@@ -168,7 +170,22 @@
     "savedSuccess": "Recept mentve a kedvencekhez",
     "unsavedSuccess": "Recept eltávolítva a kedvencekből",
     "favoriteError": "Hiba a kedvencek frissítésekor",
-    "goToProfile": "{name} profiljának megtekintése"
+    "goToProfile": "{name} profiljának megtekintése",
+    "edit": "Szerkesztés",
+    "delete": "Törlés",
+    "confirmDelete": "Recept törlése",
+    "confirmDeleteDescription": "Ez a művelet nem vonható vissza. A recept véglegesen törlődik.",
+    "cancel": "Mégse",
+    "deleting": "Törlés...",
+    "recipeDeleted": "Recept sikeresen törölve",
+    "deleteError": "Hiba a recept törlésekor",
+    "addTag": "Címke hozzáadása...",
+    "tagAdded": "Címke sikeresen hozzáadva",
+    "tagDuplicate": "Ez a recept már rendelkezik ezzel a címkével",
+    "tagError": "Hiba a címke hozzáadásakor",
+    "removeTag": "Címke eltávolítása",
+    "tagRemoved": "Címke sikeresen eltávolítva",
+    "tagRemoveError": "Hiba a címke eltávolításakor"
   },
   "Reviews": {
     "title": "Vélemények",
@@ -293,6 +310,41 @@
   },
   "LanguageSwitcher": {
     "label": "Nyelv"
+  },
+  "RecipeForm": {
+    "createTitle": "Új Recept Létrehozása",
+    "createSubtitle": "Oszd meg a receptedet a közösséggel",
+    "editTitle": "Recept Szerkesztése",
+    "editSubtitle": "Módosítsd a recepted részleteit",
+    "basicInfo": "Alapadatok",
+    "title": "Cím",
+    "titlePlaceholder": "A recepted neve",
+    "description": "Leírás",
+    "descriptionPlaceholder": "Röviden írd le a receptedet...",
+    "category": "Kategória",
+    "selectCategory": "Válassz kategóriát",
+    "difficulty": "Nehézség",
+    "selectDifficulty": "Válassz nehézséget",
+    "cookTime": "Főzési idő (perc)",
+    "calories": "Kalóriák",
+    "servings": "Adagok",
+    "ingredients": "Hozzávalók",
+    "ingredientPlaceholder": "Pl: 2 csésze liszt",
+    "addIngredient": "Hozzávaló hozzáadása",
+    "tags": "Címkék",
+    "tagPlaceholder": "Írj be egy címkét és nyomj Entert",
+    "addTag": "Hozzáadás",
+    "images": "Képek",
+    "imagePlaceholder": "Kép URL",
+    "addImage": "Kép hozzáadása",
+    "publishRecipe": "Recept Közzététele",
+    "publishing": "Közzététel...",
+    "saveChanges": "Változtatások Mentése",
+    "saving": "Mentés...",
+    "recipeCreated": "Recept sikeresen létrehozva",
+    "recipeUpdated": "Recept sikeresen frissítve",
+    "createError": "Hiba a recept létrehozásakor",
+    "updateError": "Hiba a recept frissítésekor"
   },
   "Accessibility": {
     "skipToContent": "Ugrás a fő tartalomhoz"

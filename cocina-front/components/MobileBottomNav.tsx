@@ -19,7 +19,7 @@
  */
 "use client";
 
-import { Home, Search, BookMarked, User, Globe } from "lucide-react";
+import { Home, Search, BookMarked, User, Globe, PlusCircle } from "lucide-react";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { useEffect, useState } from "react";
@@ -50,10 +50,11 @@ const LOCALE_LABELS: Record<string, string> = {
  * - label: texto visible debajo del icono
  */
 const NAV_ITEMS = [
-  { href: "/", icon: Home, labelKey: "home" },
-  { href: "/Explorar", icon: Search, labelKey: "explore" },
-  { href: "/guardados", icon: BookMarked, labelKey: "saved" },
-  { href: "/account", icon: User, labelKey: "profile" },
+  { href: "/", icon: Home, labelKey: "home", authOnly: false },
+  { href: "/Explorar", icon: Search, labelKey: "explore", authOnly: false },
+  { href: "/create", icon: PlusCircle, labelKey: "create", authOnly: true },
+  { href: "/guardados", icon: BookMarked, labelKey: "saved", authOnly: false },
+  { href: "/account", icon: User, labelKey: "profile", authOnly: false },
 ] as const;
 
 export function MobileBottomNav() {
@@ -86,7 +87,7 @@ export function MobileBottomNav() {
       aria-label={t("navLabel")}
     >
       <div className="flex items-center justify-around h-16 px-2">
-        {NAV_ITEMS.map((item) => {
+        {NAV_ITEMS.filter((item) => !item.authOnly || currentUser).map((item) => {
           const { href, icon: Icon, labelKey } = item;
           const isActive =
             href === "/"

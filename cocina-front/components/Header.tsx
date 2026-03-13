@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, BookMarked, User, Menu, ChefHat, LogOut, UserCircle } from "lucide-react";
+import { Search, BookMarked, User, Menu, ChefHat, LogOut, UserCircle, Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
@@ -104,6 +104,14 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
               </Badge>
             )}
           </Button>
+          {currentUser && (
+            <Link href="/create">
+              <Button variant="default" size="sm">
+                <Plus className="mr-1 h-4 w-4" />
+                <span className="hidden lg:inline">{t("createRecipe")}</span>
+              </Button>
+            </Link>
+          )}
           <LanguageSwitcher />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

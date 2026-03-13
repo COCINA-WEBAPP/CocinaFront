@@ -14,7 +14,8 @@
     "menuToggle": "Open menu",
     "search": "Search",
     "savedRecipes": "Saved recipes",
-    "userMenu": "User menu"
+    "userMenu": "User menu",
+    "createRecipe": "Create Recipe"
   },
   "Footer": {
     "description": "Your destination to discover and share amazing recipes from cooks around the world. Join our culinary community today.",
@@ -44,6 +45,7 @@
     "explore": "Explore",
     "saved": "Saved",
     "profile": "Profile",
+    "create": "Create",
     "language": "Language",
     "navLabel": "Main navigation"
   },
@@ -168,7 +170,22 @@
     "savedSuccess": "Recipe saved to favorites",
     "unsavedSuccess": "Recipe removed from favorites",
     "favoriteError": "Failed to update favorites",
-    "goToProfile": "Go to {name}'s profile"
+    "goToProfile": "Go to {name}'s profile",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirmDelete": "Delete recipe",
+    "confirmDeleteDescription": "This action cannot be undone. The recipe will be permanently deleted.",
+    "cancel": "Cancel",
+    "deleting": "Deleting...",
+    "recipeDeleted": "Recipe deleted successfully",
+    "deleteError": "Error deleting recipe",
+    "addTag": "Add tag...",
+    "tagAdded": "Tag added successfully",
+    "tagDuplicate": "This recipe already has this tag",
+    "tagError": "Error adding tag",
+    "removeTag": "Remove tag",
+    "tagRemoved": "Tag removed successfully",
+    "tagRemoveError": "Error removing tag"
   },
   "Reviews": {
     "title": "Reviews",
@@ -293,6 +310,41 @@
   },
   "LanguageSwitcher": {
     "label": "Language"
+  },
+  "RecipeForm": {
+    "createTitle": "Create New Recipe",
+    "createSubtitle": "Share your recipe with the community",
+    "editTitle": "Edit Recipe",
+    "editSubtitle": "Modify your recipe details",
+    "basicInfo": "Basic Information",
+    "title": "Title",
+    "titlePlaceholder": "Name of your recipe",
+    "description": "Description",
+    "descriptionPlaceholder": "Briefly describe your recipe...",
+    "category": "Category",
+    "selectCategory": "Select a category",
+    "difficulty": "Difficulty",
+    "selectDifficulty": "Select difficulty",
+    "cookTime": "Cook time (min)",
+    "calories": "Calories",
+    "servings": "Servings",
+    "ingredients": "Ingredients",
+    "ingredientPlaceholder": "E.g.: 2 cups of flour",
+    "addIngredient": "Add ingredient",
+    "tags": "Tags",
+    "tagPlaceholder": "Type a tag and press Enter",
+    "addTag": "Add",
+    "images": "Images",
+    "imagePlaceholder": "Image URL",
+    "addImage": "Add image",
+    "publishRecipe": "Publish Recipe",
+    "publishing": "Publishing...",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "recipeCreated": "Recipe created successfully",
+    "recipeUpdated": "Recipe updated successfully",
+    "createError": "Error creating recipe",
+    "updateError": "Error updating recipe"
   },
   "Accessibility": {
     "skipToContent": "Skip to main content"

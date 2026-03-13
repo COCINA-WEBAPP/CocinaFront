@@ -10,25 +10,33 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Clock, Users, ChefHat, Star, Heart, Share2, Printer, Flame } from "lucide-react";
+import { Clock, Users, ChefHat, Star, Heart, Share2, Printer, Flame, Pencil, Trash2, Tag, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ImageCarousel } from "./components/ImageCarousel";
 import { Comments } from "./components/Comments";
 import { Reseñas } from "./components/Reseñas";
 import type { Recipe } from "@/lib/types/recipes";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { getCurrentUser, saveRecipe, unsaveRecipe, isRecipeSaved } from "@/lib/services/user";
+import { deleteRecipe, getAllTags, addTagToRecipe, removeTagFromRecipe } from "@/lib/services/recipe";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { resolveRecipeUser, getInitials, getAvatarSrc } from "@/lib/services/recipe-user";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function RecipePage() {
   const t = useTranslations("Recipe");
   const tCard = useTranslations("RecipeCard");
   const params = useParams();
+  const router = useRouter();
   const recipeId = (params as any).id as string; // ajusta si usas slug
   const [isSaved, setIsSaved] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [recipeTags, setRecipeTags] = useState<string[]>([]);
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
 
   useEffect(() => {
     getCurrentUser();
@@ -36,6 +44,39 @@ export default function RecipePage() {
   }, [recipeId]);
 
   const recipe: Recipe | undefined = MOCK_RECIPES.find((r) => r.id === recipeId || r.slug === recipeId);
+
+  useEffect(() => {
+    if (recipe) {
+      setRecipeTags([...recipe.tags]);
+      setAvailableTags(getAllTags().filter((tag) => !recipe.tags.includes(tag)));
+    }
+  }, [recipe?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleAddTag = async (tag: string) => {
+    try {
+      await addTagToRecipe(recipeId, tag);
+      setRecipeTags((prev) => [...prev, tag]);
+      setAvailableTags((prev) => prev.filter((t) => t !== tag));
+      toast.success(t("tagAdded"));
+    } catch (error) {
+      if (error instanceof Error && error.message === "La receta ya tiene esta etiqueta") {
+        toast.error(t("tagDuplicate"));
+      } else {
+        toast.error(t("tagError"));
+      }
+    }
+  };
+
+  const handleRemoveTag = async (tag: string) => {
+    try {
+      await removeTagFromRecipe(recipeId, tag);
+      setRecipeTags((prev) => prev.filter((t) => t !== tag));
+      setAvailableTags((prev) => [...prev, tag].sort());
+      toast.success(t("tagRemoved"));
+    } catch {
+      toast.error(t("tagRemoveError"));
+    }
+  };
 
   if (!recipe) {
     return (
@@ -81,6 +122,23 @@ export default function RecipePage() {
     window.print();
   };
 
+  const currentUser = getCurrentUser();
+  const isAuthor = currentUser?.username === recipe.author.username;
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteRecipe(recipeId);
+      toast.success(t("recipeDeleted"));
+      router.push("/Explorar");
+    } catch {
+      toast.error(t("deleteError"));
+    } finally {
+      setIsDeleting(false);
+      setIsDeleteDialogOpen(false);
+    }
+  };
+
   const [reviews, setReviews] = useState(recipe.reviews);
   const resolvedAuthor = resolveRecipeUser(recipe.author);
   const reviewCount = reviews.length;
@@ -123,7 +181,21 @@ export default function RecipePage() {
             <Button onClick={handlePrint} variant="outline">
               <Printer className="mr-2 h-4 w-4" />
               {t("print")}
-            </Button> 
+            </Button>
+            {isAuthor && (
+              <>
+                <Link href={`/recetas/${recipeId}/editar`}>
+                  <Button variant="outline">
+                    <Pencil className="mr-2 h-4 w-4" />
+                    {t("edit")}
+                  </Button>
+                </Link>
+                <Button variant="destructive" onClick={() => setIsDeleteDialogOpen(true)}>
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  {t("delete")}
+                </Button>
+              </>
+            )}
           </div>
 
           <div className="grid gap-8 lg:grid-cols-3">
@@ -242,19 +314,48 @@ export default function RecipePage() {
               </Card>
 
               {/* Tags */}
-              {recipe.tags.length > 0 && (
+              {(recipeTags.length > 0 || isAuthor) && (
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg">{t("tags")}</CardTitle>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Tag className="h-5 w-5" />
+                      {t("tags")}
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2">
-                      {recipe.tags.map((tag, index) => (
-                        <Badge key={index} variant="secondary">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
+                  <CardContent className="space-y-3">
+                    {recipeTags.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {recipeTags.map((tag, index) => (
+                          <Badge key={index} variant="secondary" className="flex items-center gap-1">
+                            {tag}
+                            {isAuthor && (
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveTag(tag)}
+                                className="ml-0.5 rounded-full hover:bg-destructive/20 hover:text-destructive"
+                                aria-label={t("removeTag")}
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            )}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                    {isAuthor && availableTags.length > 0 && (
+                      <Select onValueChange={handleAddTag}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={t("addTag")} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {availableTags.map((tag) => (
+                            <SelectItem key={tag} value={tag}>
+                              {tag}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
                   </CardContent>
                 </Card>
               )}
@@ -287,6 +388,23 @@ export default function RecipePage() {
       </main>
       <Footer />
       <MobileBottomNav />
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("confirmDelete")}</DialogTitle>
+            <DialogDescription>{t("confirmDeleteDescription")}</DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)} disabled={isDeleting}>
+              {t("cancel")}
+            </Button>
+            <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
+              {isDeleting ? t("deleting") : t("delete")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -14,7 +14,8 @@
     "menuToggle": "Apri menu",
     "search": "Cerca",
     "savedRecipes": "Ricette salvate",
-    "userMenu": "Menu utente"
+    "userMenu": "Menu utente",
+    "createRecipe": "Crea Ricetta"
   },
   "Footer": {
     "description": "La tua destinazione per scoprire e condividere ricette incredibili da cuochi di tutto il mondo. Unisciti alla nostra comunità culinaria oggi.",
@@ -44,6 +45,7 @@
     "explore": "Esplora",
     "saved": "Salvati",
     "profile": "Profilo",
+    "create": "Crea",
     "language": "Lingua",
     "navLabel": "Navigazione principale"
   },
@@ -168,7 +170,22 @@
     "savedSuccess": "Ricetta salvata nei preferiti",
     "unsavedSuccess": "Ricetta rimossa dai preferiti",
     "favoriteError": "Errore nell'aggiornamento dei preferiti",
-    "goToProfile": "Vai al profilo di {name}"
+    "goToProfile": "Vai al profilo di {name}",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "confirmDelete": "Elimina ricetta",
+    "confirmDeleteDescription": "Questa azione non puo essere annullata. La ricetta verra eliminata permanentemente.",
+    "cancel": "Annulla",
+    "deleting": "Eliminazione...",
+    "recipeDeleted": "Ricetta eliminata con successo",
+    "deleteError": "Errore durante l'eliminazione della ricetta",
+    "addTag": "Aggiungi etichetta...",
+    "tagAdded": "Etichetta aggiunta con successo",
+    "tagDuplicate": "Questa ricetta ha già questa etichetta",
+    "tagError": "Errore durante l'aggiunta dell'etichetta",
+    "removeTag": "Rimuovi etichetta",
+    "tagRemoved": "Etichetta rimossa con successo",
+    "tagRemoveError": "Errore durante la rimozione dell'etichetta"
   },
   "Reviews": {
     "title": "Recensioni",
@@ -293,6 +310,41 @@
   },
   "LanguageSwitcher": {
     "label": "Lingua"
+  },
+  "RecipeForm": {
+    "createTitle": "Crea Nuova Ricetta",
+    "createSubtitle": "Condividi la tua ricetta con la comunita",
+    "editTitle": "Modifica Ricetta",
+    "editSubtitle": "Modifica i dettagli della tua ricetta",
+    "basicInfo": "Informazioni di Base",
+    "title": "Titolo",
+    "titlePlaceholder": "Nome della tua ricetta",
+    "description": "Descrizione",
+    "descriptionPlaceholder": "Descrivi brevemente la tua ricetta...",
+    "category": "Categoria",
+    "selectCategory": "Seleziona una categoria",
+    "difficulty": "Difficolta",
+    "selectDifficulty": "Seleziona la difficolta",
+    "cookTime": "Tempo di cottura (min)",
+    "calories": "Calorie",
+    "servings": "Porzioni",
+    "ingredients": "Ingredienti",
+    "ingredientPlaceholder": "Es: 2 tazze di farina",
+    "addIngredient": "Aggiungi ingrediente",
+    "tags": "Etichette",
+    "tagPlaceholder": "Scrivi un'etichetta e premi Invio",
+    "addTag": "Aggiungi",
+    "images": "Immagini",
+    "imagePlaceholder": "URL dell'immagine",
+    "addImage": "Aggiungi immagine",
+    "publishRecipe": "Pubblica Ricetta",
+    "publishing": "Pubblicazione...",
+    "saveChanges": "Salva Modifiche",
+    "saving": "Salvataggio...",
+    "recipeCreated": "Ricetta creata con successo",
+    "recipeUpdated": "Ricetta aggiornata con successo",
+    "createError": "Errore durante la creazione della ricetta",
+    "updateError": "Errore durante l'aggiornamento della ricetta"
   },
   "Accessibility": {
     "skipToContent": "Vai al contenuto principale"

@@ -14,7 +14,8 @@
     "menuToggle": "メニューを開く",
     "search": "検索",
     "savedRecipes": "保存済みレシピ",
-    "userMenu": "ユーザーメニュー"
+    "userMenu": "ユーザーメニュー",
+    "createRecipe": "レシピを作成"
   },
   "Footer": {
     "description": "世界中の料理人が作った素晴らしいレシピを発見・共有できるサイトです。今日から私たちの料理コミュニティに参加しましょう。",
@@ -44,6 +45,7 @@
     "explore": "探索",
     "saved": "保存済み",
     "profile": "プロフィール",
+    "create": "作成",
     "language": "言語",
     "navLabel": "メインナビゲーション"
   },
@@ -168,7 +170,22 @@
     "savedSuccess": "お気に入りに保存しました",
     "unsavedSuccess": "お気に入りから削除しました",
     "favoriteError": "お気に入りの更新エラー",
-    "goToProfile": "{name}のプロフィールへ"
+    "goToProfile": "{name}のプロフィールへ",
+    "edit": "編集",
+    "delete": "削除",
+    "confirmDelete": "レシピを削除",
+    "confirmDeleteDescription": "この操作は取り消せません。レシピは完全に削除されます。",
+    "cancel": "キャンセル",
+    "deleting": "削除中...",
+    "recipeDeleted": "レシピが正常に削除されました",
+    "deleteError": "レシピの削除エラー",
+    "addTag": "タグを追加...",
+    "tagAdded": "タグを追加しました",
+    "tagDuplicate": "このレシピには既にこのタグがあります",
+    "tagError": "タグの追加エラー",
+    "removeTag": "タグを削除",
+    "tagRemoved": "タグを削除しました",
+    "tagRemoveError": "タグの削除エラー"
   },
   "Reviews": {
     "title": "レビュー",
@@ -293,6 +310,41 @@
   },
   "LanguageSwitcher": {
     "label": "言語"
+  },
+  "RecipeForm": {
+    "createTitle": "新しいレシピを作成",
+    "createSubtitle": "コミュニティとレシピを共有しましょう",
+    "editTitle": "レシピを編集",
+    "editSubtitle": "レシピの詳細を変更します",
+    "basicInfo": "基本情報",
+    "title": "タイトル",
+    "titlePlaceholder": "レシピの名前",
+    "description": "説明",
+    "descriptionPlaceholder": "レシピを簡単に説明してください...",
+    "category": "カテゴリー",
+    "selectCategory": "カテゴリーを選択",
+    "difficulty": "難易度",
+    "selectDifficulty": "難易度を選択",
+    "cookTime": "調理時間（分）",
+    "calories": "カロリー",
+    "servings": "人前",
+    "ingredients": "材料",
+    "ingredientPlaceholder": "例：小麦粉2カップ",
+    "addIngredient": "材料を追加",
+    "tags": "タグ",
+    "tagPlaceholder": "タグを入力してEnterを押してください",
+    "addTag": "追加",
+    "images": "画像",
+    "imagePlaceholder": "画像URL",
+    "addImage": "画像を追加",
+    "publishRecipe": "レシピを公開",
+    "publishing": "公開中...",
+    "saveChanges": "変更を保存",
+    "saving": "保存中...",
+    "recipeCreated": "レシピが正常に作成されました",
+    "recipeUpdated": "レシピが正常に更新されました",
+    "createError": "レシピの作成エラー",
+    "updateError": "レシピの更新エラー"
   },
   "Accessibility": {
     "skipToContent": "メインコンテンツへスキップ"

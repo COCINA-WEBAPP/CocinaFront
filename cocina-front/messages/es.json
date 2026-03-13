@@ -14,7 +14,8 @@
     "menuToggle": "Abrir menú",
     "search": "Buscar",
     "savedRecipes": "Recetas guardadas",
-    "userMenu": "Menú de usuario"
+    "userMenu": "Menú de usuario",
+    "createRecipe": "Crear Receta"
   },
   "Footer": {
     "description": "Tu destino para descubrir y compartir recetas increíbles de cocineros de todo el mundo. Únete a nuestra comunidad culinaria hoy.",
@@ -44,6 +45,7 @@
     "explore": "Explorar",
     "saved": "Guardados",
     "profile": "Perfil",
+    "create": "Crear",
     "language": "Idioma",
     "navLabel": "Navegación principal"
   },
@@ -168,7 +170,22 @@
     "savedSuccess": "Receta guardada en favoritos",
     "unsavedSuccess": "Receta eliminada de favoritos",
     "favoriteError": "Error al actualizar favoritos",
-    "goToProfile": "Ir al perfil de {name}"
+    "goToProfile": "Ir al perfil de {name}",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "confirmDelete": "Eliminar receta",
+    "confirmDeleteDescription": "Esta accion no se puede deshacer. La receta sera eliminada permanentemente.",
+    "cancel": "Cancelar",
+    "deleting": "Eliminando...",
+    "recipeDeleted": "Receta eliminada correctamente",
+    "deleteError": "Error al eliminar la receta",
+    "addTag": "Añadir etiqueta...",
+    "tagAdded": "Etiqueta añadida correctamente",
+    "tagDuplicate": "La receta ya tiene esta etiqueta",
+    "tagError": "Error al añadir la etiqueta",
+    "removeTag": "Eliminar etiqueta",
+    "tagRemoved": "Etiqueta eliminada correctamente",
+    "tagRemoveError": "Error al eliminar la etiqueta"
   },
   "Reviews": {
     "title": "Reseñas",
@@ -293,6 +310,41 @@
   },
   "LanguageSwitcher": {
     "label": "Idioma"
+  },
+  "RecipeForm": {
+    "createTitle": "Crear Nueva Receta",
+    "createSubtitle": "Comparte tu receta con la comunidad",
+    "editTitle": "Editar Receta",
+    "editSubtitle": "Modifica los detalles de tu receta",
+    "basicInfo": "Informacion Basica",
+    "title": "Titulo",
+    "titlePlaceholder": "Nombre de tu receta",
+    "description": "Descripcion",
+    "descriptionPlaceholder": "Describe brevemente tu receta...",
+    "category": "Categoria",
+    "selectCategory": "Selecciona una categoria",
+    "difficulty": "Dificultad",
+    "selectDifficulty": "Selecciona la dificultad",
+    "cookTime": "Tiempo de coccion (min)",
+    "calories": "Calorias",
+    "servings": "Porciones",
+    "ingredients": "Ingredientes",
+    "ingredientPlaceholder": "Ej: 2 tazas de harina",
+    "addIngredient": "Agregar ingrediente",
+    "tags": "Etiquetas",
+    "tagPlaceholder": "Escribe una etiqueta y presiona Enter",
+    "addTag": "Agregar",
+    "images": "Imagenes",
+    "imagePlaceholder": "URL de la imagen",
+    "addImage": "Agregar imagen",
+    "publishRecipe": "Publicar Receta",
+    "publishing": "Publicando...",
+    "saveChanges": "Guardar Cambios",
+    "saving": "Guardando...",
+    "recipeCreated": "Receta creada correctamente",
+    "recipeUpdated": "Receta actualizada correctamente",
+    "createError": "Error al crear la receta",
+    "updateError": "Error al actualizar la receta"
   },
   "Accessibility": {
     "skipToContent": "Saltar al contenido principal"

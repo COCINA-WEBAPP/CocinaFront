@@ -14,7 +14,8 @@
     "menuToggle": "Ouvrir le menu",
     "search": "Rechercher",
     "savedRecipes": "Recettes sauvegardées",
-    "userMenu": "Menu utilisateur"
+    "userMenu": "Menu utilisateur",
+    "createRecipe": "Creer une Recette"
   },
   "Footer": {
     "description": "Votre destination pour découvrir et partager des recettes incroyables de cuisiniers du monde entier. Rejoignez notre communauté culinaire aujourd'hui.",
@@ -44,6 +45,7 @@
     "explore": "Explorer",
     "saved": "Enregistrés",
     "profile": "Profil",
+    "create": "Creer",
     "language": "Langue",
     "navLabel": "Navigation principale"
   },
@@ -168,7 +170,22 @@
     "savedSuccess": "Recette enregistrée dans les favoris",
     "unsavedSuccess": "Recette retirée des favoris",
     "favoriteError": "Erreur lors de la mise à jour des favoris",
-    "goToProfile": "Voir le profil de {name}"
+    "goToProfile": "Voir le profil de {name}",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "confirmDelete": "Supprimer la recette",
+    "confirmDeleteDescription": "Cette action est irreversible. La recette sera definitivement supprimee.",
+    "cancel": "Annuler",
+    "deleting": "Suppression...",
+    "recipeDeleted": "Recette supprimee avec succes",
+    "deleteError": "Erreur lors de la suppression de la recette",
+    "addTag": "Ajouter un tag...",
+    "tagAdded": "Tag ajouté avec succès",
+    "tagDuplicate": "Cette recette a déjà ce tag",
+    "tagError": "Erreur lors de l'ajout du tag",
+    "removeTag": "Supprimer le tag",
+    "tagRemoved": "Tag supprimé avec succès",
+    "tagRemoveError": "Erreur lors de la suppression du tag"
   },
   "Reviews": {
     "title": "Avis",
@@ -293,6 +310,41 @@
   },
   "LanguageSwitcher": {
     "label": "Langue"
+  },
+  "RecipeForm": {
+    "createTitle": "Creer une Nouvelle Recette",
+    "createSubtitle": "Partagez votre recette avec la communaute",
+    "editTitle": "Modifier la Recette",
+    "editSubtitle": "Modifiez les details de votre recette",
+    "basicInfo": "Informations de Base",
+    "title": "Titre",
+    "titlePlaceholder": "Nom de votre recette",
+    "description": "Description",
+    "descriptionPlaceholder": "Decrivez brievement votre recette...",
+    "category": "Categorie",
+    "selectCategory": "Selectionnez une categorie",
+    "difficulty": "Difficulte",
+    "selectDifficulty": "Selectionnez la difficulte",
+    "cookTime": "Temps de cuisson (min)",
+    "calories": "Calories",
+    "servings": "Portions",
+    "ingredients": "Ingredients",
+    "ingredientPlaceholder": "Ex: 2 tasses de farine",
+    "addIngredient": "Ajouter un ingredient",
+    "tags": "Tags",
+    "tagPlaceholder": "Tapez un tag et appuyez sur Entree",
+    "addTag": "Ajouter",
+    "images": "Images",
+    "imagePlaceholder": "URL de l'image",
+    "addImage": "Ajouter une image",
+    "publishRecipe": "Publier la Recette",
+    "publishing": "Publication...",
+    "saveChanges": "Enregistrer les Modifications",
+    "saving": "Enregistrement...",
+    "recipeCreated": "Recette creee avec succes",
+    "recipeUpdated": "Recette mise a jour avec succes",
+    "createError": "Erreur lors de la creation de la recette",
+    "updateError": "Erreur lors de la mise a jour de la recette"
   },
   "Accessibility": {
     "skipToContent": "Aller au contenu principal"

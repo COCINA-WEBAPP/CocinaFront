@@ -14,7 +14,8 @@
     "menuToggle": "Otevřít menu",
     "search": "Hledat",
     "savedRecipes": "Uložené recepty",
-    "userMenu": "Uživatelské menu"
+    "userMenu": "Uživatelské menu",
+    "createRecipe": "Vytvořit Recept"
   },
   "Footer": {
     "description": "Váš cíl pro objevování a sdílení úžasných receptů od kuchařů z celého světa. Přidejte se k naší kulinářské komunitě ještě dnes.",
@@ -44,6 +45,7 @@
     "explore": "Prozkoumat",
     "saved": "Uložené",
     "profile": "Profil",
+    "create": "Vytvorit",
     "language": "Jazyk",
     "navLabel": "Hlavní navigace"
   },
@@ -168,7 +170,22 @@
     "savedSuccess": "Recept uložen do oblíbených",
     "unsavedSuccess": "Recept odebrán z oblíbených",
     "favoriteError": "Chyba při aktualizaci oblíbených",
-    "goToProfile": "Přejít na profil uživatele {name}"
+    "goToProfile": "Přejít na profil uživatele {name}",
+    "edit": "Upravit",
+    "delete": "Smazat",
+    "confirmDelete": "Smazat recept",
+    "confirmDeleteDescription": "Tuto akci nelze vrátit zpět. Recept bude trvale smazán.",
+    "cancel": "Zrušit",
+    "deleting": "Mazání...",
+    "recipeDeleted": "Recept byl úspěšně smazán",
+    "deleteError": "Chyba při mazání receptu",
+    "addTag": "Přidat štítek...",
+    "tagAdded": "Štítek úspěšně přidán",
+    "tagDuplicate": "Tento recept již má tento štítek",
+    "tagError": "Chyba při přidávání štítku",
+    "removeTag": "Odstranit štítek",
+    "tagRemoved": "Štítek úspěšně odstraněn",
+    "tagRemoveError": "Chyba při odstraňování štítku"
   },
   "Reviews": {
     "title": "Recenze",
@@ -293,6 +310,41 @@
   },
   "LanguageSwitcher": {
     "label": "Jazyk"
+  },
+  "RecipeForm": {
+    "createTitle": "Vytvořit Nový Recept",
+    "createSubtitle": "Sdílejte svůj recept s komunitou",
+    "editTitle": "Upravit Recept",
+    "editSubtitle": "Upravte detaily svého receptu",
+    "basicInfo": "Základní Informace",
+    "title": "Název",
+    "titlePlaceholder": "Název vašeho receptu",
+    "description": "Popis",
+    "descriptionPlaceholder": "Stručně popište svůj recept...",
+    "category": "Kategorie",
+    "selectCategory": "Vyberte kategorii",
+    "difficulty": "Obtížnost",
+    "selectDifficulty": "Vyberte obtížnost",
+    "cookTime": "Doba vaření (min)",
+    "calories": "Kalorie",
+    "servings": "Porce",
+    "ingredients": "Ingredience",
+    "ingredientPlaceholder": "Např: 2 hrnky mouky",
+    "addIngredient": "Přidat ingredienci",
+    "tags": "Štítky",
+    "tagPlaceholder": "Napište štítek a stiskněte Enter",
+    "addTag": "Přidat",
+    "images": "Obrázky",
+    "imagePlaceholder": "URL obrázku",
+    "addImage": "Přidat obrázek",
+    "publishRecipe": "Publikovat Recept",
+    "publishing": "Publikování...",
+    "saveChanges": "Uložit Změny",
+    "saving": "Ukládání...",
+    "recipeCreated": "Recept byl úspěšně vytvořen",
+    "recipeUpdated": "Recept byl úspěšně aktualizován",
+    "createError": "Chyba při vytváření receptu",
+    "updateError": "Chyba při aktualizaci receptu"
   },
   "Accessibility": {
     "skipToContent": "Přeskočit na hlavní obsah"

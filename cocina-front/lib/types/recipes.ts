@@ -21,3 +21,18 @@ export type Recipe = {
   isNew: boolean;
   isFeatured: boolean;
 };
+
+export type CreateRecipeData = {
+  title: string;
+  description: string;
+  images: string[];
+  category: string;
+  cookTime: number;
+  calories: number;
+  servings: number;
+  difficulty: "Fácil" | "Intermedio" | "Difícil";
+  tags: string[];
+  ingredients: string[];
+};
+
+export type UpdateRecipeData = Partial<CreateRecipeData>;
