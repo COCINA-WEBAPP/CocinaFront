@@ -15,7 +15,8 @@
     "search": "Keresés",
     "savedRecipes": "Mentett receptek",
     "userMenu": "Felhasználói menü",
-    "createRecipe": "Recept Létrehozása"
+    "createRecipe": "Recept Létrehozása",
+    "shoppingList": "Bevásárlólista"
   },
   "Footer": {
     "description": "A te célpontod hihetetlen receptek felfedezéséhez és megosztásához a világ minden tájáról érkező szakácsoktól. Csatlakozz kulináris közösségünkhöz még ma.",
@@ -47,7 +48,8 @@
     "profile": "Profil",
     "create": "Letrehozas",
     "language": "Nyelv",
-    "navLabel": "Fő navigáció"
+    "navLabel": "Fő navigáció",
+    "shoppingList": "Bevásárlás"
   },
   "Login": {
     "welcome": "Üdvözöl a RecipeShare",
@@ -185,7 +187,47 @@
     "tagError": "Hiba a címke hozzáadásakor",
     "removeTag": "Címke eltávolítása",
     "tagRemoved": "Címke sikeresen eltávolítva",
-    "tagRemoveError": "Hiba a címke eltávolításakor"
+    "tagRemoveError": "Hiba a címke eltávolításakor",
+    "shoppingList": "Bevásárlólista",
+    "addedToShoppingList": "Hozzávalók hozzáadva a bevásárlólistához",
+    "alreadyInShoppingList": "Már a listában"
+  },
+  "ShoppingListPage": {
+    "title": "Bevásárlólista",
+    "description": "Az összes hozzáadott recept hozzávalóinak listája",
+    "empty": "A bevásárlólistád üres",
+    "emptyHint": "Adj hozzá hozzávalókat bármely receptből",
+    "goExplore": "Receptek böngészése",
+    "clearAll": "Lista ürítése",
+    "clearAllConfirm": "Biztosan üríteni szeretnéd az egész bevásárlólistát?",
+    "cancel": "Mégse",
+    "removeRecipe": "Recept eltávolítása a listáról",
+    "recipeRemoved": "Recept eltávolítva a listáról",
+    "listCleared": "Bevásárlólista ürítve",
+    "finalList": "Végső bevásárlólista",
+    "toBuyCount": "{count} megvásárolni",
+    "ownedCount": "{count} otthon van",
+    "totalRecipes": "{count} recept a listában",
+    "totalIngredients": "{count} hozzávaló",
+    "total": "összesen",
+    "allOwned": "Már minden hozzávaló megvan otthon",
+    "copy": "Lista másolása",
+    "print": "Nyomtatás",
+    "copied": "Lista a vágólapra másolva",
+    "atHome": "Otthon van"
+  },
+  "IngredientCategories": {
+    "dairy": "Tejtermékek",
+    "meat": "Húsok",
+    "seafood": "Halak és tenger gyümölcsei",
+    "vegetables": "Zöldségek",
+    "fruits": "Gyümölcsök",
+    "grains": "Gabonák és tészták",
+    "spices": "Fűszerek",
+    "oils": "Olajok és szószok",
+    "eggs": "Tojás",
+    "bakery": "Pékáru",
+    "other": "Egyéb"
   },
   "Reviews": {
     "title": "Vélemények",

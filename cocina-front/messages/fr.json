@@ -15,7 +15,8 @@
     "search": "Rechercher",
     "savedRecipes": "Recettes sauvegardées",
     "userMenu": "Menu utilisateur",
-    "createRecipe": "Creer une Recette"
+    "createRecipe": "Creer une Recette",
+    "shoppingList": "Liste de Courses"
   },
   "Footer": {
     "description": "Votre destination pour découvrir et partager des recettes incroyables de cuisiniers du monde entier. Rejoignez notre communauté culinaire aujourd'hui.",
@@ -47,7 +48,8 @@
     "profile": "Profil",
     "create": "Creer",
     "language": "Langue",
-    "navLabel": "Navigation principale"
+    "navLabel": "Navigation principale",
+    "shoppingList": "Courses"
   },
   "Login": {
     "welcome": "Bienvenue sur RecipeShare",
@@ -185,7 +187,47 @@
     "tagError": "Erreur lors de l'ajout du tag",
     "removeTag": "Supprimer le tag",
     "tagRemoved": "Tag supprimé avec succès",
-    "tagRemoveError": "Erreur lors de la suppression du tag"
+    "tagRemoveError": "Erreur lors de la suppression du tag",
+    "shoppingList": "Liste de courses",
+    "addedToShoppingList": "Ingrédients ajoutés à la liste de courses",
+    "alreadyInShoppingList": "Déjà dans la liste"
+  },
+  "ShoppingListPage": {
+    "title": "Liste de Courses",
+    "description": "Votre liste d'ingrédients de toutes les recettes ajoutées",
+    "empty": "Votre liste de courses est vide",
+    "emptyHint": "Ajoutez des ingrédients depuis n'importe quelle recette",
+    "goExplore": "Explorer les recettes",
+    "clearAll": "Vider la liste",
+    "clearAllConfirm": "Êtes-vous sûr de vouloir vider toute la liste de courses?",
+    "cancel": "Annuler",
+    "removeRecipe": "Retirer la recette de la liste",
+    "recipeRemoved": "Recette retirée de la liste",
+    "listCleared": "Liste de courses vidée",
+    "finalList": "Liste finale d'achats",
+    "toBuyCount": "{count} à acheter",
+    "ownedCount": "{count} à la maison",
+    "totalRecipes": "{count} recettes dans la liste",
+    "totalIngredients": "{count} ingrédients",
+    "total": "au total",
+    "allOwned": "Vous avez déjà tous les ingrédients à la maison",
+    "copy": "Copier la liste",
+    "print": "Imprimer",
+    "copied": "Liste copiée dans le presse-papiers",
+    "atHome": "À la maison"
+  },
+  "IngredientCategories": {
+    "dairy": "Produits laitiers",
+    "meat": "Viandes",
+    "seafood": "Poissons et fruits de mer",
+    "vegetables": "Légumes",
+    "fruits": "Fruits",
+    "grains": "Céréales et pâtes",
+    "spices": "Épices et assaisonnements",
+    "oils": "Huiles et sauces",
+    "eggs": "Oeufs",
+    "bakery": "Pâtisserie",
+    "other": "Autres"
   },
   "Reviews": {
     "title": "Avis",

@@ -15,7 +15,8 @@
     "search": "Hledat",
     "savedRecipes": "Uložené recepty",
     "userMenu": "Uživatelské menu",
-    "createRecipe": "Vytvořit Recept"
+    "createRecipe": "Vytvořit Recept",
+    "shoppingList": "Nákupní Seznam"
   },
   "Footer": {
     "description": "Váš cíl pro objevování a sdílení úžasných receptů od kuchařů z celého světa. Přidejte se k naší kulinářské komunitě ještě dnes.",
@@ -47,7 +48,8 @@
     "profile": "Profil",
     "create": "Vytvorit",
     "language": "Jazyk",
-    "navLabel": "Hlavní navigace"
+    "navLabel": "Hlavní navigace",
+    "shoppingList": "Nákupy"
   },
   "Login": {
     "welcome": "Vítejte na RecipeShare",
@@ -185,7 +187,47 @@
     "tagError": "Chyba při přidávání štítku",
     "removeTag": "Odstranit štítek",
     "tagRemoved": "Štítek úspěšně odstraněn",
-    "tagRemoveError": "Chyba při odstraňování štítku"
+    "tagRemoveError": "Chyba při odstraňování štítku",
+    "shoppingList": "Nákupní seznam",
+    "addedToShoppingList": "Ingredience přidány do nákupního seznamu",
+    "alreadyInShoppingList": "Již v seznamu"
+  },
+  "ShoppingListPage": {
+    "title": "Nákupní Seznam",
+    "description": "Váš seznam ingrediencí ze všech přidaných receptů",
+    "empty": "Váš nákupní seznam je prázdný",
+    "emptyHint": "Přidejte ingredience z libovolného receptu",
+    "goExplore": "Prozkoumat recepty",
+    "clearAll": "Vymazat seznam",
+    "clearAllConfirm": "Opravdu chcete vymazat celý nákupní seznam?",
+    "cancel": "Zrušit",
+    "removeRecipe": "Odebrat recept ze seznamu",
+    "recipeRemoved": "Recept odebrán ze seznamu",
+    "listCleared": "Nákupní seznam vymazán",
+    "finalList": "Finální nákupní seznam",
+    "toBuyCount": "{count} ke koupi",
+    "ownedCount": "{count} doma",
+    "totalRecipes": "{count} receptů v seznamu",
+    "totalIngredients": "{count} ingrediencí",
+    "total": "celkem",
+    "allOwned": "Všechny ingredience už máte doma",
+    "copy": "Kopírovat seznam",
+    "print": "Tisk",
+    "copied": "Seznam zkopírován do schránky",
+    "atHome": "Doma"
+  },
+  "IngredientCategories": {
+    "dairy": "Mléčné výrobky",
+    "meat": "Maso",
+    "seafood": "Ryby a mořské plody",
+    "vegetables": "Zelenina",
+    "fruits": "Ovoce",
+    "grains": "Obiloviny a těstoviny",
+    "spices": "Koření",
+    "oils": "Oleje a omáčky",
+    "eggs": "Vejce",
+    "bakery": "Pečivo",
+    "other": "Ostatní"
   },
   "Reviews": {
     "title": "Recenze",

@@ -19,7 +19,7 @@
  */
 "use client";
 
-import { Home, Search, BookMarked, User, Globe, PlusCircle } from "lucide-react";
+import { Home, Search, BookMarked, User, Globe, PlusCircle, ShoppingCart } from "lucide-react";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { useEffect, useState } from "react";
@@ -54,6 +54,7 @@ const NAV_ITEMS = [
   { href: "/Explorar", icon: Search, labelKey: "explore", authOnly: false },
   { href: "/create", icon: PlusCircle, labelKey: "create", authOnly: true },
   { href: "/guardados", icon: BookMarked, labelKey: "saved", authOnly: false },
+  { href: "/lista-compras", icon: ShoppingCart, labelKey: "shoppingList", authOnly: false },
   { href: "/account", icon: User, labelKey: "profile", authOnly: false },
 ] as const;
 

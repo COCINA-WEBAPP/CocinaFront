@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Clock, Users, ChefHat, Star, Heart, Share2, Printer, Flame, Pencil, Trash2, Tag, X } from "lucide-react";
+import { Clock, Users, ChefHat, Star, Heart, Share2, Printer, Flame, Pencil, Trash2, Tag, X, ShoppingCart } from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -22,6 +22,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { getCurrentUser, saveRecipe, unsaveRecipe, isRecipeSaved } from "@/lib/services/user";
 import { deleteRecipe, getAllTags, addTagToRecipe, removeTagFromRecipe } from "@/lib/services/recipe";
+import { addRecipeToShoppingList, isRecipeInShoppingList } from "@/lib/services/shopping-list";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { resolveRecipeUser, getInitials, getAvatarSrc } from "@/lib/services/recipe-user";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -37,10 +38,12 @@ export default function RecipePage() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [recipeTags, setRecipeTags] = useState<string[]>([]);
   const [availableTags, setAvailableTags] = useState<string[]>([]);
+  const [inShoppingList, setInShoppingList] = useState(false);
 
   useEffect(() => {
     getCurrentUser();
     setIsSaved(isRecipeSaved(recipeId));
+    setInShoppingList(isRecipeInShoppingList(recipeId));
   }, [recipeId]);
 
   const recipe: Recipe | undefined = MOCK_RECIPES.find((r) => r.id === recipeId || r.slug === recipeId);
@@ -76,6 +79,13 @@ export default function RecipePage() {
     } catch {
       toast.error(t("tagRemoveError"));
     }
+  };
+
+  const handleAddToShoppingList = () => {
+    if (!recipe) return;
+    addRecipeToShoppingList(recipeId, recipe.title, recipe.ingredients);
+    setInShoppingList(true);
+    toast.success(t("addedToShoppingList"));
   };
 
   if (!recipe) {
@@ -181,6 +191,13 @@ export default function RecipePage() {
             <Button onClick={handlePrint} variant="outline">
               <Printer className="mr-2 h-4 w-4" />
               {t("print")}
+            </Button>
+            <Button
+              onClick={handleAddToShoppingList}
+              variant={inShoppingList ? "default" : "outline"}
+            >
+              <ShoppingCart className={`mr-2 h-4 w-4 ${inShoppingList ? "fill-current" : ""}`} />
+              {inShoppingList ? t("alreadyInShoppingList") : t("shoppingList")}
             </Button>
             {isAuthor && (
               <>
@@ -405,6 +422,7 @@ export default function RecipePage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
     </div>
   );
 }

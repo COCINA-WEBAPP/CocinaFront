@@ -15,7 +15,8 @@
     "search": "Search",
     "savedRecipes": "Saved recipes",
     "userMenu": "User menu",
-    "createRecipe": "Create Recipe"
+    "createRecipe": "Create Recipe",
+    "shoppingList": "Shopping List"
   },
   "Footer": {
     "description": "Your destination to discover and share amazing recipes from cooks around the world. Join our culinary community today.",
@@ -47,7 +48,8 @@
     "profile": "Profile",
     "create": "Create",
     "language": "Language",
-    "navLabel": "Main navigation"
+    "navLabel": "Main navigation",
+    "shoppingList": "Shopping"
   },
   "Login": {
     "welcome": "Welcome to RecipeShare",
@@ -185,7 +187,47 @@
     "tagError": "Error adding tag",
     "removeTag": "Remove tag",
     "tagRemoved": "Tag removed successfully",
-    "tagRemoveError": "Error removing tag"
+    "tagRemoveError": "Error removing tag",
+    "shoppingList": "Shopping list",
+    "addedToShoppingList": "Ingredients added to shopping list",
+    "alreadyInShoppingList": "Already in list"
+  },
+  "ShoppingListPage": {
+    "title": "Shopping List",
+    "description": "Your ingredient list from all added recipes",
+    "empty": "Your shopping list is empty",
+    "emptyHint": "Add ingredients from any recipe",
+    "goExplore": "Explore recipes",
+    "clearAll": "Clear list",
+    "clearAllConfirm": "Are you sure you want to clear the entire shopping list?",
+    "cancel": "Cancel",
+    "removeRecipe": "Remove recipe from list",
+    "recipeRemoved": "Recipe removed from list",
+    "listCleared": "Shopping list cleared",
+    "finalList": "Final shopping list",
+    "toBuyCount": "{count} to buy",
+    "ownedCount": "{count} at home",
+    "totalRecipes": "{count} recipes in list",
+    "totalIngredients": "{count} ingredients",
+    "total": "total",
+    "allOwned": "You already have all ingredients at home",
+    "copy": "Copy list",
+    "print": "Print",
+    "copied": "List copied to clipboard",
+    "atHome": "At home"
+  },
+  "IngredientCategories": {
+    "dairy": "Dairy",
+    "meat": "Meat",
+    "seafood": "Seafood",
+    "vegetables": "Vegetables",
+    "fruits": "Fruits",
+    "grains": "Grains & pasta",
+    "spices": "Spices & seasonings",
+    "oils": "Oils & sauces",
+    "eggs": "Eggs",
+    "bakery": "Baking",
+    "other": "Other"
   },
   "Reviews": {
     "title": "Reviews",

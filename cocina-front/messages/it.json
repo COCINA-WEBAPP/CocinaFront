@@ -15,7 +15,8 @@
     "search": "Cerca",
     "savedRecipes": "Ricette salvate",
     "userMenu": "Menu utente",
-    "createRecipe": "Crea Ricetta"
+    "createRecipe": "Crea Ricetta",
+    "shoppingList": "Lista della Spesa"
   },
   "Footer": {
     "description": "La tua destinazione per scoprire e condividere ricette incredibili da cuochi di tutto il mondo. Unisciti alla nostra comunità culinaria oggi.",
@@ -47,7 +48,8 @@
     "profile": "Profilo",
     "create": "Crea",
     "language": "Lingua",
-    "navLabel": "Navigazione principale"
+    "navLabel": "Navigazione principale",
+    "shoppingList": "Spesa"
   },
   "Login": {
     "welcome": "Benvenuto su RecipeShare",
@@ -185,7 +187,47 @@
     "tagError": "Errore durante l'aggiunta dell'etichetta",
     "removeTag": "Rimuovi etichetta",
     "tagRemoved": "Etichetta rimossa con successo",
-    "tagRemoveError": "Errore durante la rimozione dell'etichetta"
+    "tagRemoveError": "Errore durante la rimozione dell'etichetta",
+    "shoppingList": "Lista della spesa",
+    "addedToShoppingList": "Ingredienti aggiunti alla lista della spesa",
+    "alreadyInShoppingList": "Già nella lista"
+  },
+  "ShoppingListPage": {
+    "title": "Lista della Spesa",
+    "description": "La tua lista di ingredienti da tutte le ricette aggiunte",
+    "empty": "La tua lista della spesa è vuota",
+    "emptyHint": "Aggiungi ingredienti da qualsiasi ricetta",
+    "goExplore": "Esplora ricette",
+    "clearAll": "Svuota lista",
+    "clearAllConfirm": "Sei sicuro di voler svuotare tutta la lista della spesa?",
+    "cancel": "Annulla",
+    "removeRecipe": "Rimuovi ricetta dalla lista",
+    "recipeRemoved": "Ricetta rimossa dalla lista",
+    "listCleared": "Lista della spesa svuotata",
+    "finalList": "Lista finale degli acquisti",
+    "toBuyCount": "{count} da comprare",
+    "ownedCount": "{count} a casa",
+    "totalRecipes": "{count} ricette nella lista",
+    "totalIngredients": "{count} ingredienti",
+    "total": "in totale",
+    "allOwned": "Hai già tutti gli ingredienti a casa",
+    "copy": "Copia lista",
+    "print": "Stampa",
+    "copied": "Lista copiata negli appunti",
+    "atHome": "A casa"
+  },
+  "IngredientCategories": {
+    "dairy": "Latticini",
+    "meat": "Carni",
+    "seafood": "Pesce e frutti di mare",
+    "vegetables": "Verdure",
+    "fruits": "Frutta",
+    "grains": "Cereali e pasta",
+    "spices": "Spezie e condimenti",
+    "oils": "Oli e salse",
+    "eggs": "Uova",
+    "bakery": "Pasticceria",
+    "other": "Altro"
   },
   "Reviews": {
     "title": "Recensioni",

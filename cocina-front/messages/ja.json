@@ -15,7 +15,8 @@
     "search": "検索",
     "savedRecipes": "保存済みレシピ",
     "userMenu": "ユーザーメニュー",
-    "createRecipe": "レシピを作成"
+    "createRecipe": "レシピを作成",
+    "shoppingList": "買い物リスト"
   },
   "Footer": {
     "description": "世界中の料理人が作った素晴らしいレシピを発見・共有できるサイトです。今日から私たちの料理コミュニティに参加しましょう。",
@@ -47,7 +48,8 @@
     "profile": "プロフィール",
     "create": "作成",
     "language": "言語",
-    "navLabel": "メインナビゲーション"
+    "navLabel": "メインナビゲーション",
+    "shoppingList": "買い物"
   },
   "Login": {
     "welcome": "RecipeShareへようこそ",
@@ -185,7 +187,47 @@
     "tagError": "タグの追加エラー",
     "removeTag": "タグを削除",
     "tagRemoved": "タグを削除しました",
-    "tagRemoveError": "タグの削除エラー"
+    "tagRemoveError": "タグの削除エラー",
+    "shoppingList": "買い物リスト",
+    "addedToShoppingList": "食材を買い物リストに追加しました",
+    "alreadyInShoppingList": "リストに追加済み"
+  },
+  "ShoppingListPage": {
+    "title": "買い物リスト",
+    "description": "追加したすべてのレシピの食材リスト",
+    "empty": "買い物リストは空です",
+    "emptyHint": "レシピから食材を追加してください",
+    "goExplore": "レシピを探す",
+    "clearAll": "リストをクリア",
+    "clearAllConfirm": "買い物リスト全体をクリアしますか？",
+    "cancel": "キャンセル",
+    "removeRecipe": "リストからレシピを削除",
+    "recipeRemoved": "リストからレシピを削除しました",
+    "listCleared": "買い物リストをクリアしました",
+    "finalList": "最終買い物リスト",
+    "toBuyCount": "{count} 購入予定",
+    "ownedCount": "{count} 自宅にあり",
+    "totalRecipes": "{count} レシピ",
+    "totalIngredients": "{count} 食材",
+    "total": "合計",
+    "allOwned": "すべての食材が自宅にあります",
+    "copy": "リストをコピー",
+    "print": "印刷",
+    "copied": "リストをクリップボードにコピーしました",
+    "atHome": "自宅にあり"
+  },
+  "IngredientCategories": {
+    "dairy": "乳製品",
+    "meat": "肉類",
+    "seafood": "魚介類",
+    "vegetables": "野菜",
+    "fruits": "果物",
+    "grains": "穀物・パスタ",
+    "spices": "スパイス・調味料",
+    "oils": "油・ソース",
+    "eggs": "卵",
+    "bakery": "製菓",
+    "other": "その他"
   },
   "Reviews": {
     "title": "レビュー",
