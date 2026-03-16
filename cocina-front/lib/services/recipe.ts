@@ -132,6 +132,27 @@ export async function updateRecipe(id: string, data: UpdateRecipeData): Promise<
 
   MOCK_RECIPES[recipeIndex] = updatedRecipe;
 
+  // Actualizar inventario de etiquetas del usuario
+  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
+  if (userIndex !== -1 && data.tags) {
+    // Agregar etiquetas nuevas al inventario
+    for (const tag of data.tags) {
+      if (!MOCK_USERS[userIndex].tagInventory.includes(tag)) {
+        MOCK_USERS[userIndex].tagInventory.push(tag);
+      }
+    }
+    // Eliminar del inventario las etiquetas que ya no usa en ninguna receta
+    const oldTags = recipe.tags.filter((t) => !data.tags!.includes(t));
+    for (const tag of oldTags) {
+      const stillUsed = MOCK_RECIPES.some(
+        (r) => r.author.username === user.username && r.tags.includes(tag)
+      );
+      if (!stillUsed) {
+        MOCK_USERS[userIndex].tagInventory = MOCK_USERS[userIndex].tagInventory.filter((t) => t !== tag);
+      }
+    }
+  }
+
   return updatedRecipe;
 }
 

@@ -73,8 +73,9 @@ export default function RecipePage() {
   const handleRemoveTag = async (tag: string) => {
     try {
       await removeTagFromRecipe(recipeId, tag);
-      setRecipeTags((prev) => prev.filter((t) => t !== tag));
-      setAvailableTags((prev) => [...prev, tag].sort());
+      const updatedRecipeTags = recipeTags.filter((t) => t !== tag);
+      setRecipeTags(updatedRecipeTags);
+      setAvailableTags(getUserTags().filter((t) => !updatedRecipeTags.includes(t)));
       toast.success(t("tagRemoved"));
     } catch {
       toast.error(t("tagRemoveError"));
