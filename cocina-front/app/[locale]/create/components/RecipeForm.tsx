@@ -27,9 +27,10 @@ interface RecipeFormProps {
   error: string;
   submitLabel: string;
   submittingLabel: string;
+  userTags?: string[];
 }
 
-export function RecipeForm({ initialData, onSubmit, isLoading, error, submitLabel, submittingLabel }: RecipeFormProps) {
+export function RecipeForm({ initialData, onSubmit, isLoading, error, submitLabel, submittingLabel, userTags = [] }: RecipeFormProps) {
   const t = useTranslations("RecipeForm");
 
   const [title, setTitle] = useState(initialData?.title || "");
@@ -249,6 +250,22 @@ export function RecipeForm({ initialData, onSubmit, isLoading, error, submitLabe
               </Badge>
             ))}
           </div>
+          {(() => {
+            const availableUserTags = userTags.filter((t) => !tags.includes(t));
+            if (availableUserTags.length === 0) return null;
+            return (
+              <Select onValueChange={(tag) => { setTags([...tags, tag]); }} disabled={isLoading}>
+                <SelectTrigger>
+                  <SelectValue placeholder={t("selectExistingTag")} />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableUserTags.map((tag) => (
+                    <SelectItem key={tag} value={tag}>{tag}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            );
+          })()}
           <div className="flex gap-2">
             <Input
               value={tagInput}

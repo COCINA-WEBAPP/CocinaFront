@@ -376,6 +376,7 @@
     "tags": "Tags",
     "tagPlaceholder": "Tapez un tag et appuyez sur Entree",
     "addTag": "Ajouter",
+    "selectExistingTag": "Sélectionner un tag existant...",
     "images": "Images",
     "imagePlaceholder": "URL de l'image",
     "addImage": "Ajouter une image",

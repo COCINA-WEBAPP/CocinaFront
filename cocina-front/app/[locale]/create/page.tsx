@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/services/user";
-import { createRecipe } from "@/lib/services/recipe";
+import { createRecipe, getUserTags } from "@/lib/services/recipe";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -18,10 +18,14 @@ export default function CreateRecipePage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [userTags, setUserTags] = useState<string[]>([]);
 
   useEffect(() => {
     const user = getCurrentUser();
     setIsAuthenticated(!!user);
+    if (user) {
+      setUserTags(getUserTags());
+    }
   }, []);
 
   if (isAuthenticated === null) {
@@ -72,6 +76,7 @@ export default function CreateRecipePage() {
         error={error}
         submitLabel={t("publishRecipe")}
         submittingLabel={t("publishing")}
+        userTags={userTags}
       />
     </div>
   );

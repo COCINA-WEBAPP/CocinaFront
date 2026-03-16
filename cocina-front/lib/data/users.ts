@@ -34,6 +34,7 @@ export const MOCK_USERS: User[] = [
     following: ["2", "3"],                 // María sigue a Carlos y Ana
     followers: ["2", "3", "4"],            // Estos usuarios siguen a María
     recipes: ["1", "2", "3", "14", "15", "16"], // Recetas creadas por María
+    tagInventory: ["Carnes", "Chocolate", "Clásico", "Cremosa", "Cumpleaños", "Dulce", "Especial", "Estofado", "Italiana", "Latina", "Otoño", "Pasta", "Reconfortante", "Rápido", "Sin Gluten", "Tradicional", "Vegetariano"],
     location: "Madrid, España",
     website: "https://maria-user.com",
     socialMedia: {
@@ -61,6 +62,7 @@ export const MOCK_USERS: User[] = [
     following: ["1"],                      // Carlos sigue a María
     followers: ["1", "3"],                 // María y Ana siguen a Carlos
     recipes: ["4", "5", "17", "18", "19"],
+    tagInventory: ["Aperitivo", "Bebida", "Café alternativo", "Especias", "Frito", "Gourmet", "Mediterránea", "Medio Oriente", "Parrilla", "Proteína", "Saludable", "Vegano", "Vegetariano"],
     location: "Barcelona, España",
   },
   {
@@ -83,6 +85,7 @@ export const MOCK_USERS: User[] = [
     following: ["1", "2"],                 // Ana sigue a María y Carlos
     followers: ["1", "2", "4", "5"],
     recipes: ["6", "7", "8", "20", "21", "22"],
+    tagInventory: ["Carne", "Desayuno", "Española", "Fresco", "Frutas", "Gourmet", "Horno", "Integrales", "Japonesa", "Mariscos", "Mexicana", "Peruano", "Pescado", "Picante", "Saludable", "Vegano"],
     location: "Valencia, España",
     website: "https://ana-reposteria.com",
     socialMedia: {
@@ -110,6 +113,7 @@ export const MOCK_USERS: User[] = [
     following: ["1", "3"],                 // Pedro sigue a María y Ana
     followers: ["3", "5"],
     recipes: ["9", "10", "23", "24"],
+    tagInventory: ["Arroz", "Asiática", "Café", "Cerdo", "Cremoso", "Italiana", "Pizza", "Setas", "Street Food", "Vegetariano"],
     location: "Sevilla, España",
     socialMedia: {
       instagram: "@pedro_vegano",
@@ -135,6 +139,7 @@ export const MOCK_USERS: User[] = [
     following: ["1", "2", "3", "4"],       // Lucía sigue a todos
     followers: ["2", "4"],
     recipes: ["11", "12", "13", "25", "26", "27"],
+    tagInventory: ["Americana", "Carne", "Chocolate", "Clásico", "Confort", "Entradas", "Italiana", "Ligero", "Reconfortante", "Saludable", "Sin Gluten", "Vegano", "Vegetariano"],
     location: "Bilbao, España",
     website: "https://lucia-fusion.com",
   },
@@ -158,6 +163,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -179,6 +185,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -200,6 +207,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -221,6 +229,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -242,6 +251,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -263,6 +273,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -284,6 +295,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -305,6 +317,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -326,6 +339,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -347,6 +361,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -368,6 +383,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -389,6 +405,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -410,6 +427,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -431,6 +449,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -452,6 +471,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -473,6 +493,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -494,6 +515,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -515,6 +537,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -536,6 +559,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -557,6 +581,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -578,6 +603,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -599,6 +625,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -620,6 +647,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -641,6 +669,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -662,6 +691,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -683,6 +713,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -704,6 +735,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -725,6 +757,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -746,6 +779,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -767,6 +801,7 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 
   {
@@ -788,5 +823,6 @@ export const MOCK_USERS: User[] = [
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   },
 ];

@@ -376,6 +376,7 @@
     "tags": "Címkék",
     "tagPlaceholder": "Írj be egy címkét és nyomj Entert",
     "addTag": "Hozzáadás",
+    "selectExistingTag": "Meglévő címke kiválasztása...",
     "images": "Képek",
     "imagePlaceholder": "Kép URL",
     "addImage": "Kép hozzáadása",

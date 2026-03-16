@@ -112,6 +112,7 @@ export async function register(data: RegisterData): Promise<User> {
     following: [],
     followers: [],
     recipes: [],
+    tagInventory: [],
   };
   
   // Agrega el usuario al array mock

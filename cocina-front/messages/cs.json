@@ -376,6 +376,7 @@
     "tags": "Štítky",
     "tagPlaceholder": "Napište štítek a stiskněte Enter",
     "addTag": "Přidat",
+    "selectExistingTag": "Vybrat existující štítek...",
     "images": "Obrázky",
     "imagePlaceholder": "URL obrázku",
     "addImage": "Přidat obrázek",

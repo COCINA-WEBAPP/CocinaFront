@@ -376,6 +376,7 @@
     "tags": "Etichette",
     "tagPlaceholder": "Scrivi un'etichetta e premi Invio",
     "addTag": "Aggiungi",
+    "selectExistingTag": "Seleziona un'etichetta esistente...",
     "images": "Immagini",
     "imagePlaceholder": "URL dell'immagine",
     "addImage": "Aggiungi immagine",

@@ -376,6 +376,7 @@
     "tags": "タグ",
     "tagPlaceholder": "タグを入力してEnterを押してください",
     "addTag": "追加",
+    "selectExistingTag": "既存のタグを選択...",
     "images": "画像",
     "imagePlaceholder": "画像URL",
     "addImage": "画像を追加",

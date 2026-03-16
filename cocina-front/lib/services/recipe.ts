@@ -83,6 +83,13 @@ export async function createRecipe(data: CreateRecipeData): Promise<Recipe> {
   if (userIndex !== -1) {
     MOCK_USERS[userIndex].recipes.push(newId);
     MOCK_USERS[userIndex].stats.recipesCount++;
+
+    // Agregar etiquetas nuevas al inventario del usuario
+    for (const tag of data.tags) {
+      if (!MOCK_USERS[userIndex].tagInventory.includes(tag)) {
+        MOCK_USERS[userIndex].tagInventory.push(tag);
+      }
+    }
   }
 
   return newRecipe;
@@ -156,7 +163,21 @@ export async function deleteRecipe(id: string): Promise<void> {
     throw new Error("No tienes permiso para eliminar esta receta");
   }
 
+  const deletedTags = [...recipe.tags];
   MOCK_RECIPES.splice(recipeIndex, 1);
+
+  // Limpiar inventario de etiquetas: eliminar las que ya no usa el usuario
+  const userIndex2 = MOCK_USERS.findIndex((u) => u.id === user.id);
+  if (userIndex2 !== -1) {
+    for (const tag of deletedTags) {
+      const stillUsed = MOCK_RECIPES.some(
+        (r) => r.author.username === user.username && r.tags.includes(tag)
+      );
+      if (!stillUsed) {
+        MOCK_USERS[userIndex2].tagInventory = MOCK_USERS[userIndex2].tagInventory.filter((t) => t !== tag);
+      }
+    }
+  }
 
   // Actualizar las recetas del usuario
   const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
@@ -192,6 +213,17 @@ export function getAllTags(): string[] {
 }
 
 /**
+ * Obtiene el inventario de etiquetas del usuario autenticado
+ */
+export function getUserTags(): string[] {
+  const user = getCurrentUser();
+  if (!user) return [];
+  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
+  if (userIndex === -1) return [];
+  return [...MOCK_USERS[userIndex].tagInventory].sort();
+}
+
+/**
  * Añade una etiqueta existente a una receta
  *
  * Valida que:
@@ -221,6 +253,13 @@ export async function addTagToRecipe(recipeId: string, tag: string): Promise<Rec
   }
 
   recipe.tags.push(tag);
+
+  // Agregar al inventario del usuario si no existe
+  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
+  if (userIndex !== -1 && !MOCK_USERS[userIndex].tagInventory.includes(tag)) {
+    MOCK_USERS[userIndex].tagInventory.push(tag);
+  }
+
   return recipe;
 }
 
@@ -255,5 +294,17 @@ export async function removeTagFromRecipe(recipeId: string, tag: string): Promis
   }
 
   recipe.tags.splice(tagIndex, 1);
+
+  // Si la etiqueta ya no está en ninguna receta del usuario, eliminarla del inventario
+  const userStillUsesTag = MOCK_RECIPES.some(
+    (r) => r.author.username === user.username && r.tags.includes(tag)
+  );
+  if (!userStillUsesTag) {
+    const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
+    if (userIndex !== -1) {
+      MOCK_USERS[userIndex].tagInventory = MOCK_USERS[userIndex].tagInventory.filter((t) => t !== tag);
+    }
+  }
+
   return recipe;
 }

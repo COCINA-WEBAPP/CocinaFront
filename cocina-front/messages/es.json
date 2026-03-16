@@ -376,6 +376,7 @@
     "tags": "Etiquetas",
     "tagPlaceholder": "Escribe una etiqueta y presiona Enter",
     "addTag": "Agregar",
+    "selectExistingTag": "Seleccionar etiqueta existente...",
     "images": "Imagenes",
     "imagePlaceholder": "URL de la imagen",
     "addImage": "Agregar imagen",

@@ -21,7 +21,7 @@ import type { Recipe } from "@/lib/types/recipes";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { getCurrentUser, saveRecipe, unsaveRecipe, isRecipeSaved } from "@/lib/services/user";
-import { deleteRecipe, getAllTags, addTagToRecipe, removeTagFromRecipe } from "@/lib/services/recipe";
+import { deleteRecipe, getUserTags, addTagToRecipe, removeTagFromRecipe } from "@/lib/services/recipe";
 import { addRecipeToShoppingList, isRecipeInShoppingList } from "@/lib/services/shopping-list";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { resolveRecipeUser, getInitials, getAvatarSrc } from "@/lib/services/recipe-user";
@@ -51,7 +51,7 @@ export default function RecipePage() {
   useEffect(() => {
     if (recipe) {
       setRecipeTags([...recipe.tags]);
-      setAvailableTags(getAllTags().filter((tag) => !recipe.tags.includes(tag)));
+      setAvailableTags(getUserTags().filter((tag) => !recipe.tags.includes(tag)));
     }
   }, [recipe?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 

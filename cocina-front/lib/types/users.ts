@@ -34,6 +34,9 @@ export type User = {
   savedRecipes: Recipe["id"][]; // IDs de recetas que ha guardado
   recipes: Recipe["id"][];      // IDs de recetas que ha creado
 
+  // ===== Inventario de Etiquetas =====
+  tagInventory: string[];        // Etiquetas que el usuario ha usado en sus recetas
+
   // ===== Relaciones con Otros Usuarios =====
   following: string[];           // IDs de usuarios que este usuario sigue
   followers: string[];           // IDs de usuarios que siguen a este usuario

@@ -8,7 +8,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { getCurrentUser } from "@/lib/services/user";
-import { getRecipeById, updateRecipe } from "@/lib/services/recipe";
+import { getRecipeById, updateRecipe, getUserTags } from "@/lib/services/recipe";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -27,6 +27,7 @@ export default function EditRecipePage() {
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [userTags, setUserTags] = useState<string[]>([]);
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -50,6 +51,7 @@ export default function EditRecipePage() {
 
     setRecipe(found);
     setIsAuthorized(true);
+    setUserTags(getUserTags());
   }, [recipeId]);
 
   if (isAuthorized === null) {
@@ -135,6 +137,7 @@ export default function EditRecipePage() {
             error={error}
             submitLabel={t("saveChanges")}
             submittingLabel={t("saving")}
+            userTags={userTags}
           />
         </div>
       </main>
