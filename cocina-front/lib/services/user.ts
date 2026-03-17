@@ -1,23 +1,25 @@
 /**
  * SERVICIOS DE USUARIO
- * 
- * Este archivo contiene todas las funciones para interactuar con usuarios.
- * Incluye autenticación, gestión de perfil, seguimiento y recetas guardadas.
- * 
- * IMPORTANTE: Estas funciones usan datos MOCK actualmente.
- * Cuando conectes con el backend, reemplaza las funciones con llamadas fetch/axios.
+ *
+ * Incluye autenticación, gestión de perfil, seguimiento, recetas guardadas
+ * e historial de cocina.
  */
 
 import { MOCK_USERS } from "@/lib/data/users";
-import { User, LoginCredentials, RegisterData, UpdateUserProfile } from "@/lib/types/users";
+import { User, LoginCredentials, RegisterData, UpdateUserProfile, CookingHistoryEntry } from "@/lib/types/users";
 
 // ========================================
 // VARIABLE GLOBAL: Usuario Actual
 // ========================================
-// En producción, esto se manejaría con Context API, Redux, Zustand, o similar
 let currentUser: User | null = null;
 
-const SESSION_KEY = "recipeshare_session";
+const SESSION_KEY   = "recipeshare_session";
+const SAVED_KEY     = "recipeshare_saved_recipes";
+const HISTORY_KEY   = "recipeshare_cooking_history";
+const CREDENTIALS_KEY = "recipeshare_credentials";   // email → password
+const USERS_KEY       = "recipeshare_registered_users"; // usuarios nuevos persistidos
+
+// ─── Session helpers ──────────────────────────────────────────────────────────
 
 function persistSession(user: User | null): void {
   if (typeof window === "undefined") return;
@@ -33,70 +35,158 @@ function restoreSession(): User | null {
   try {
     const stored = localStorage.getItem(SESSION_KEY);
     if (!stored) return null;
-    return JSON.parse(stored) as User;
+    const parsed = JSON.parse(stored) as User;
+    loadRegisteredUsers(); // asegura que usuarios nuevos estén en MOCK_USERS
+    const live = MOCK_USERS.find((u) => u.id === parsed.id);
+    return live ?? parsed;
   } catch {
     localStorage.removeItem(SESSION_KEY);
     return null;
   }
 }
 
+// ─── Credential helpers ───────────────────────────────────────────────────────
+
+function saveCredentials(email: string, password: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = localStorage.getItem(CREDENTIALS_KEY);
+    const all: Record<string, string> = raw ? JSON.parse(raw) : {};
+    all[email] = password;
+    localStorage.setItem(CREDENTIALS_KEY, JSON.stringify(all));
+  } catch { /* noop */ }
+}
+
+function checkCredentials(email: string, password: string): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const raw = localStorage.getItem(CREDENTIALS_KEY);
+    if (!raw) return false;
+    const all: Record<string, string> = JSON.parse(raw);
+    return all[email] === password;
+  } catch {
+    return false;
+  }
+}
+
+function hasStoredCredentials(email: string): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const raw = localStorage.getItem(CREDENTIALS_KEY);
+    if (!raw) return false;
+    const all: Record<string, string> = JSON.parse(raw);
+    return email in all;
+  } catch {
+    return false;
+  }
+}
+
+// ─── Registered users persistence ────────────────────────────────────────────
+
+/**
+ * Guarda un usuario nuevo en localStorage para que sobreviva recargas.
+ */
+function persistNewUser(user: User): void {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = localStorage.getItem(USERS_KEY);
+    const all: User[] = raw ? JSON.parse(raw) : [];
+    if (!all.find((u) => u.id === user.id)) {
+      all.push(user);
+      localStorage.setItem(USERS_KEY, JSON.stringify(all));
+    }
+  } catch { /* noop */ }
+}
+
+/**
+ * Carga usuarios registrados desde localStorage y los fusiona con MOCK_USERS.
+ * Así login() los encuentra aunque se haya recargado la página.
+ */
+function loadRegisteredUsers(): void {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = localStorage.getItem(USERS_KEY);
+    if (!raw) return;
+    const all: User[] = JSON.parse(raw);
+    for (const u of all) {
+      if (!MOCK_USERS.find((m) => m.id === u.id)) {
+        MOCK_USERS.push(u);
+      }
+    }
+  } catch { /* noop */ }
+}
+
+// ─── Saved recipes localStorage helpers ──────────────────────────────────────
+
+function getSavedFromStorage(userId: string): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(`${SAVED_KEY}_${userId}`);
+    return raw ? (JSON.parse(raw) as string[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveSavedToStorage(userId: string, ids: string[]): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(`${SAVED_KEY}_${userId}`, JSON.stringify(ids));
+}
+
+// ─── Cooking history localStorage helpers ────────────────────────────────────
+
+function getHistoryFromStorage(userId: string): CookingHistoryEntry[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(`${HISTORY_KEY}_${userId}`);
+    return raw ? (JSON.parse(raw) as CookingHistoryEntry[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveHistoryToStorage(userId: string, history: CookingHistoryEntry[]): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(`${HISTORY_KEY}_${userId}`, JSON.stringify(history));
+}
+
 // ========================================
 // SECCIÓN 1: AUTENTICACIÓN
 // ========================================
 
-/**
- * Inicia sesión con email y contraseña
- * 
- * @param credentials - Email y contraseña del usuario
- * @returns El usuario autenticado
- * @throws Error si el usuario no existe
- * 
- * MOCK: Solo verifica que el email exista, no valida la contraseña
- * PRODUCCIÓN: Debería hacer POST a /api/auth/login y validar con JWT
- */
 export async function login(credentials: LoginCredentials): Promise<User> {
-  // Simula el delay de una petición HTTP
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  
-  // Busca el usuario por email en los datos mock
+
+  // Carga usuarios registrados para que estén disponibles tras recarga
+  loadRegisteredUsers();
+
   const user = MOCK_USERS.find((u) => u.email === credentials.email);
-  
-  if (!user) {
-    throw new Error("Usuario no encontrado");
+  if (!user) throw new Error("Usuario no encontrado");
+
+  // Usuarios del mock inicial no tienen contraseña guardada → acceso libre
+  // Usuarios registrados → valida contraseña contra localStorage
+  if (hasStoredCredentials(credentials.email)) {
+    if (!checkCredentials(credentials.email, credentials.password)) {
+      throw new Error("Contraseña incorrecta");
+    }
   }
-  
-  // En producción aquí verificarías la contraseña con bcrypt
-  // y recibirías un token JWT del backend
-  
-  // Guarda el usuario como "actual"
+
   currentUser = user;
   persistSession(user);
-
   return user;
 }
 
-/**
- * Registra un nuevo usuario en la aplicación
- * 
- * @param data - Información del nuevo usuario (username, email, password, fullName)
- * @returns El usuario recién creado
- * @throws Error si el email ya está registrado
- * 
- * MOCK: Agrega el usuario al array MOCK_USERS
- * PRODUCCIÓN: Debería hacer POST a /api/auth/register
- */
 export async function register(data: RegisterData): Promise<User> {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  
-  // Verifica si el email ya existe
+
+  // Carga usuarios registrados antes de verificar duplicados
+  loadRegisteredUsers();
+
   const existingUser = MOCK_USERS.find((u) => u.email === data.email);
-  if (existingUser) {
-    throw new Error("El email ya está registrado");
-  }
-  
-  // Crea el nuevo usuario con valores por defecto
+  if (existingUser) throw new Error("El email ya está registrado");
+
   const newUser: User = {
-    id: String(MOCK_USERS.length + 1),
+    id: String(Date.now()),
     username: data.username,
     email: data.email,
     fullName: data.fullName,
@@ -113,123 +203,83 @@ export async function register(data: RegisterData): Promise<User> {
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   };
-  
-  // Agrega el usuario al array mock
+
   MOCK_USERS.push(newUser);
+
+  // Persiste credenciales y usuario para que sobrevivan recargas
+  saveCredentials(data.email, data.password);
+  persistNewUser(newUser);
+
   currentUser = newUser;
   persistSession(newUser);
-
   return newUser;
 }
 
-/**
- * Cierra la sesión del usuario actual
- * 
- * MOCK: Solo limpia la variable currentUser
- * PRODUCCIÓN: Debería invalidar el token JWT y hacer POST a /api/auth/logout
- */
 export async function logout(): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 500));
   currentUser = null;
   persistSession(null);
 }
 
-/**
- * Obtiene el usuario que está actualmente autenticado
- * 
- * @returns El usuario actual o null si no hay sesión
- * 
- * PRODUCCIÓN: Debería obtenerlo de Context API o un state manager
- */
 export function getCurrentUser(): User | null {
   if (!currentUser) {
     currentUser = restoreSession();
   }
+  if (currentUser) {
+    loadRegisteredUsers(); // asegura que usuarios nuevos estén en MOCK_USERS
+    const live = MOCK_USERS.find((u) => u.id === currentUser!.id);
+    const base = live ?? currentUser;
+    const savedRecipes = getSavedFromStorage(base.id);
+    currentUser = {
+      ...base,
+      savedRecipes,
+      stats: {
+        ...base.stats,
+        savedRecipesCount: savedRecipes.length,
+      },
+    };
+  }
   return currentUser;
 }
 
-/**
- * Verifica si hay un usuario autenticado
- * 
- * @returns true si hay un usuario logeado
- */
 export function isAuthenticated(): boolean {
-  return Boolean(currentUser);
+  return Boolean(getCurrentUser());
 }
 
 // ========================================
 // SECCIÓN 2: GESTIÓN DE USUARIOS
 // ========================================
 
-/**
- * Obtiene la lista completa de todos los usuarios
- * 
- * @returns Array con todos los usuarios
- * 
- * MOCK: Retorna MOCK_USERS
- * PRODUCCIÓN: GET /api/users
- */
 export async function getAllUsers(): Promise<User[]> {
   await new Promise((resolve) => setTimeout(resolve, 500));
   return MOCK_USERS;
 }
 
-/**
- * Busca un usuario específico por su ID
- * 
- * @param id - ID del usuario a buscar
- * @returns El usuario encontrado o undefined
- * 
- * PRODUCCIÓN: GET /api/users/:id
- */
 export async function getUserById(id: string): Promise<User | undefined> {
   await new Promise((resolve) => setTimeout(resolve, 300));
   return MOCK_USERS.find((u) => u.id === id);
 }
 
-/**
- * Busca un usuario específico por su nombre de usuario
- * 
- * @param username - Username del usuario a buscar
- * @returns El usuario encontrado o undefined
- * 
- * PRODUCCIÓN: GET /api/users/username/:username
- */
 export async function getUserByUsername(username: string): Promise<User | undefined> {
   await new Promise((resolve) => setTimeout(resolve, 300));
   return MOCK_USERS.find((u) => u.username === username);
 }
 
-/**
- * Actualiza la información del perfil de un usuario
- * 
- * @param userId - ID del usuario a actualizar
- * @param data - Datos a actualizar (solo los campos que cambien)
- * @returns El usuario actualizado
- * @throws Error si el usuario no existe
- * 
- * MOCK: Modifica el usuario en MOCK_USERS
- * PRODUCCIÓN: PATCH /api/users/:id
- */
 export async function updateUserProfile(userId: string, data: UpdateUserProfile): Promise<User> {
   await new Promise((resolve) => setTimeout(resolve, 800));
-  
+
   const userIndex = MOCK_USERS.findIndex((u) => u.id === userId);
-  
-  if (userIndex === -1) {
-    throw new Error("Usuario no encontrado");
-  }
-  
-  // Actualiza solo los campos que vienen en 'data'
-  MOCK_USERS[userIndex] = {
-    ...MOCK_USERS[userIndex],
-    ...data,
-  };
-  
-  // Si es el usuario actual, actualiza también esa variable
+  if (userIndex === -1) throw new Error("Usuario no encontrado");
+
+  MOCK_USERS[userIndex] = { ...MOCK_USERS[userIndex], ...data };
+
+  // Actualiza también en localStorage si es un usuario registrado
+  persistNewUser(MOCK_USERS[userIndex]);
+
   if (currentUser?.id === userId) {
-    currentUser = MOCK_USERS[userIndex];
+    currentUser = { ...MOCK_USERS[userIndex] };
     persistSession(currentUser);
   }
 
@@ -240,118 +290,69 @@ export async function updateUserProfile(userId: string, data: UpdateUserProfile)
 // SECCIÓN 3: SISTEMA DE SEGUIMIENTO (FOLLOW)
 // ========================================
 
-/**
- * Hace que el usuario actual siga a otro usuario
- * 
- * @param userIdToFollow - ID del usuario a seguir
- * @throws Error si no hay sesión activa
- * 
- * PRODUCCIÓN: POST /api/users/:id/follow
- */
 export async function followUser(userIdToFollow: string): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 500));
-  
-  if (!currentUser) {
-    throw new Error("Debes iniciar sesión");
-  }
-  
-  // Actualiza la lista de "following" del usuario actual
+  if (!currentUser) throw new Error("Debes iniciar sesión");
+
   const currentUserIndex = MOCK_USERS.findIndex((u) => u.id === currentUser!.id);
-  if (!MOCK_USERS[currentUserIndex].following.includes(userIdToFollow)) {
+  if (currentUserIndex !== -1 && !MOCK_USERS[currentUserIndex].following.includes(userIdToFollow)) {
     MOCK_USERS[currentUserIndex].following.push(userIdToFollow);
     MOCK_USERS[currentUserIndex].stats.followingCount++;
   }
-  
-  // Actualiza la lista de "followers" del usuario seguido
+
   const userToFollowIndex = MOCK_USERS.findIndex((u) => u.id === userIdToFollow);
-  if (userToFollowIndex !== -1) {
-    if (!MOCK_USERS[userToFollowIndex].followers.includes(currentUser.id)) {
-      MOCK_USERS[userToFollowIndex].followers.push(currentUser.id);
-      MOCK_USERS[userToFollowIndex].stats.followersCount++;
-    }
+  if (userToFollowIndex !== -1 && !MOCK_USERS[userToFollowIndex].followers.includes(currentUser.id)) {
+    MOCK_USERS[userToFollowIndex].followers.push(currentUser.id);
+    MOCK_USERS[userToFollowIndex].stats.followersCount++;
   }
-  
-  currentUser = MOCK_USERS[currentUserIndex];
-  persistSession(currentUser);
+
+  if (currentUserIndex !== -1) {
+    currentUser = MOCK_USERS[currentUserIndex];
+    persistSession(currentUser);
+  }
 }
 
-/**
- * Hace que el usuario actual deje de seguir a otro usuario
- * 
- * @param userIdToUnfollow - ID del usuario a dejar de seguir
- * @throws Error si no hay sesión activa
- * 
- * PRODUCCIÓN: DELETE /api/users/:id/follow
- */
 export async function unfollowUser(userIdToUnfollow: string): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 500));
-  
-  if (!currentUser) {
-    throw new Error("Debes iniciar sesión");
-  }
-  
-  // Quita el usuario de la lista de "following"
+  if (!currentUser) throw new Error("Debes iniciar sesión");
+
   const currentUserIndex = MOCK_USERS.findIndex((u) => u.id === currentUser!.id);
-  MOCK_USERS[currentUserIndex].following = MOCK_USERS[currentUserIndex].following.filter(
-    (id) => id !== userIdToUnfollow
-  );
-  MOCK_USERS[currentUserIndex].stats.followingCount--;
-  
-  // Quita al usuario actual de la lista de "followers" del otro usuario
+  if (currentUserIndex !== -1) {
+    MOCK_USERS[currentUserIndex].following = MOCK_USERS[currentUserIndex].following.filter(
+      (id) => id !== userIdToUnfollow
+    );
+    MOCK_USERS[currentUserIndex].stats.followingCount = Math.max(
+      0, MOCK_USERS[currentUserIndex].stats.followingCount - 1
+    );
+    currentUser = MOCK_USERS[currentUserIndex];
+    persistSession(currentUser);
+  }
+
   const userToUnfollowIndex = MOCK_USERS.findIndex((u) => u.id === userIdToUnfollow);
   if (userToUnfollowIndex !== -1) {
     MOCK_USERS[userToUnfollowIndex].followers = MOCK_USERS[userToUnfollowIndex].followers.filter(
       (id) => id !== currentUser!.id
     );
-    MOCK_USERS[userToUnfollowIndex].stats.followersCount--;
+    MOCK_USERS[userToUnfollowIndex].stats.followersCount = Math.max(
+      0, MOCK_USERS[userToUnfollowIndex].stats.followersCount - 1
+    );
   }
-  
-  currentUser = MOCK_USERS[currentUserIndex];
-  persistSession(currentUser);
 }
 
-/**
- * Obtiene la lista de seguidores de un usuario
- * 
- * @param userId - ID del usuario del cual obtener seguidores
- * @returns Array de usuarios que siguen al usuario especificado
- * 
- * PRODUCCIÓN: GET /api/users/:id/followers
- */
 export async function getUserFollowers(userId: string): Promise<User[]> {
   await new Promise((resolve) => setTimeout(resolve, 400));
-  
   const user = MOCK_USERS.find((u) => u.id === userId);
   if (!user) return [];
-  
-  // Filtra los usuarios que están en la lista de followers
   return MOCK_USERS.filter((u) => user.followers.includes(u.id));
 }
 
-/**
- * Obtiene la lista de usuarios que sigue un usuario
- * 
- * @param userId - ID del usuario del cual obtener "following"
- * @returns Array de usuarios que el usuario especificado sigue
- * 
- * PRODUCCIÓN: GET /api/users/:id/following
- */
 export async function getUserFollowing(userId: string): Promise<User[]> {
   await new Promise((resolve) => setTimeout(resolve, 400));
-  
   const user = MOCK_USERS.find((u) => u.id === userId);
   if (!user) return [];
-  
-  // Filtra los usuarios que están en la lista de following
   return MOCK_USERS.filter((u) => user.following.includes(u.id));
 }
 
-/**
- * Verifica si el usuario actual sigue a otro usuario específico
- * 
- * @param userId - ID del usuario a verificar
- * @returns true si lo sigue, false si no
- */
 export function isFollowingUser(userId: string): boolean {
   if (!currentUser) return false;
   return currentUser.following.includes(userId);
@@ -361,80 +362,123 @@ export function isFollowingUser(userId: string): boolean {
 // SECCIÓN 4: RECETAS GUARDADAS
 // ========================================
 
-/**
- * Guarda una receta en los favoritos del usuario actual
- * 
- * @param recipeId - ID de la receta a guardar
- * @throws Error si no hay sesión activa
- * 
- * PRODUCCIÓN: POST /api/users/:id/saved-recipes
- */
 export async function saveRecipe(recipeId: string): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 400));
-  
-  if (!currentUser) {
-    throw new Error("Debes iniciar sesión");
+  const user = getCurrentUser();
+  if (!user) throw new Error("Debes iniciar sesión");
+
+  const saved = getSavedFromStorage(user.id);
+  if (!saved.includes(recipeId)) {
+    saved.push(recipeId);
+    saveSavedToStorage(user.id, saved);
+
+    const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
+    if (userIndex !== -1) {
+      MOCK_USERS[userIndex].savedRecipes = saved;
+      MOCK_USERS[userIndex].stats.savedRecipesCount = saved.length;
+    }
+    currentUser = { ...user, savedRecipes: saved, stats: { ...user.stats, savedRecipesCount: saved.length } };
+    persistSession(currentUser);
   }
-  
-  const userIndex = MOCK_USERS.findIndex((u) => u.id === currentUser!.id);
-  
-  // Solo agrega si no está ya guardada
-  if (!MOCK_USERS[userIndex].savedRecipes.includes(recipeId)) {
-    MOCK_USERS[userIndex].savedRecipes.push(recipeId);
-    MOCK_USERS[userIndex].stats.savedRecipesCount++;
+}
+
+export async function unsaveRecipe(recipeId: string): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, 400));
+  const user = getCurrentUser();
+  if (!user) throw new Error("Debes iniciar sesión");
+
+  const saved = getSavedFromStorage(user.id).filter((id) => id !== recipeId);
+  saveSavedToStorage(user.id, saved);
+
+  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
+  if (userIndex !== -1) {
+    MOCK_USERS[userIndex].savedRecipes = saved;
+    MOCK_USERS[userIndex].stats.savedRecipesCount = saved.length;
+  }
+  currentUser = { ...user, savedRecipes: saved, stats: { ...user.stats, savedRecipesCount: saved.length } };
+  persistSession(currentUser);
+}
+
+export async function getUserSavedRecipes(userId: string): Promise<string[]> {
+  await new Promise((resolve) => setTimeout(resolve, 300));
+  const user = getCurrentUser();
+  if (user?.id === userId) return getSavedFromStorage(userId);
+  return MOCK_USERS.find((u) => u.id === userId)?.savedRecipes ?? [];
+}
+
+export function isRecipeSaved(recipeId: string): boolean {
+  const user = getCurrentUser();
+  if (!user) return false;
+  return getSavedFromStorage(user.id).includes(recipeId);
+}
+
+// ========================================
+// SECCIÓN 5: HISTORIAL DE COCINA
+// ========================================
+
+export async function addToCookingHistory(
+  recipeId: string,
+  recipeTitle: string,
+  recipeImage?: string
+): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, 300));
+  const user = getCurrentUser();
+  if (!user) throw new Error("Debes iniciar sesión");
+
+  const entry: CookingHistoryEntry = {
+    recipeId,
+    recipeTitle,
+    recipeImage,
+    cookedAt: new Date().toISOString(),
+  };
+
+  const history = getHistoryFromStorage(user.id);
+  history.unshift(entry);
+  saveHistoryToStorage(user.id, history);
+
+  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
+  if (userIndex !== -1) {
+    if (!MOCK_USERS[userIndex].cookingHistory) MOCK_USERS[userIndex].cookingHistory = [];
+    MOCK_USERS[userIndex].cookingHistory = history;
     currentUser = MOCK_USERS[userIndex];
     persistSession(currentUser);
   }
 }
 
-/**
- * Elimina una receta de los favoritos del usuario actual
- * 
- * @param recipeId - ID de la receta a eliminar
- * @throws Error si no hay sesión activa
- * 
- * PRODUCCIÓN: DELETE /api/users/:id/saved-recipes/:recipeId
- */
-export async function unsaveRecipe(recipeId: string): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 400));
-  
-  if (!currentUser) {
-    throw new Error("Debes iniciar sesión");
+export function getCookingHistory(): CookingHistoryEntry[] {
+  const user = getCurrentUser();
+  if (!user) return [];
+  return getHistoryFromStorage(user.id);
+}
+
+export async function removeFromCookingHistory(index: number): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  const user = getCurrentUser();
+  if (!user) throw new Error("Debes iniciar sesión");
+
+  const history = getHistoryFromStorage(user.id);
+  history.splice(index, 1);
+  saveHistoryToStorage(user.id, history);
+
+  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
+  if (userIndex !== -1) {
+    MOCK_USERS[userIndex].cookingHistory = history;
+    currentUser = MOCK_USERS[userIndex];
+    persistSession(currentUser);
   }
-  
-  const userIndex = MOCK_USERS.findIndex((u) => u.id === currentUser!.id);
-  
-  // Filtra la receta de la lista de guardadas
-  MOCK_USERS[userIndex].savedRecipes = MOCK_USERS[userIndex].savedRecipes.filter(
-    (id) => id !== recipeId
-  );
-  MOCK_USERS[userIndex].stats.savedRecipesCount--;
-  currentUser = MOCK_USERS[userIndex];
-  persistSession(currentUser);
 }
 
-/**
- * Obtiene los IDs de todas las recetas guardadas por un usuario
- * 
- * @param userId - ID del usuario
- * @returns Array de IDs de recetas guardadas
- * 
- * PRODUCCIÓN: GET /api/users/:id/saved-recipes
- */
-export async function getUserSavedRecipes(userId: string): Promise<string[]> {
-  await new Promise((resolve) => setTimeout(resolve, 300));
-  
-  const user = MOCK_USERS.find((u) => u.id === userId);
-  return user?.savedRecipes || [];
-}
+export async function clearCookingHistory(): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  const user = getCurrentUser();
+  if (!user) throw new Error("Debes iniciar sesión");
 
-/**
- * Verifica si el usuario actual ha guardado una receta específica
- * 
- * @param recipeId - ID de la receta a verificar
- * @returns true si está guardada, false si no
- */
-export function isRecipeSaved(recipeId: string): boolean {
-  if (!currentUser) return false;
-  return currentUser.savedRecipes.includes(recipeId);
+  saveHistoryToStorage(user.id, []);
+
+  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
+  if (userIndex !== -1) {
+    MOCK_USERS[userIndex].cookingHistory = [];
+    currentUser = MOCK_USERS[userIndex];
+    persistSession(currentUser);
+  }
 }

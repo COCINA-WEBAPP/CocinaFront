@@ -1,161 +1,262 @@
-/**
- * Página de Perfil de Usuario
- * Muestra la información del usuario y permite editar el perfil
- */
-
 "use client";
 
 import { Suspense, useEffect, useMemo, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { getCurrentUser } from "@/lib/services/user";
+import { getCurrentUser, logout } from "@/lib/services/user";
+import { getAllRecipes, getRecipeReviews } from "@/lib/services/recipe";
 import type { User as AppUser } from "@/lib/types/users";
 import { Informacion } from "./components/Informacion";
 import { Favoritos } from "./components/Favoritos";
 import { RecetasCreadas } from "./components/RecetasCreadas";
+import { Historial } from "./components/Historial";
 import { SeguidosySeguidores } from "./components/SeguidosySeguidores";
 import { EditarPerfil } from "./components/Editar";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter, Link } from "@/i18n/navigation";
+import { Heart, Clock, UtensilsCrossed, LogOut, Star, ChefHat, Pencil } from "lucide-react";
 
-function AccountPageContent() {
-	const t = useTranslations("Account");
-	const router = useRouter();
-	const [currentUser, setCurrentUser] = useState<AppUser | null>(null);
-	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-	const [isFollowingDialogOpen, setIsFollowingDialogOpen] = useState(false);
-	const [followingDialogTab, setFollowingDialogTab] = useState<'followers' | 'following'>('followers');
-	const searchParams = useSearchParams();
+// ─── Tab type ─────────────────────────────────────────────────────────────────
+type Tab = "favoritos" | "historial" | "recetas" | "info";
 
-	const defaultTab = useMemo(() => {
-		const tab = searchParams.get("tab");
-		if (tab === "favoritos" || tab === "recetas") {
-			return tab;
-		}
-		return "info";
-	}, [searchParams]);
+const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
+  { id: "favoritos",  label: "Favoritos",   icon: <Heart size={16} /> },
+  { id: "historial",  label: "Historial",   icon: <Clock size={16} /> },
+  { id: "recetas",    label: "Mis Recetas", icon: <UtensilsCrossed size={16} /> },
+  { id: "info",       label: "Información", icon: <ChefHat size={16} /> },
+];
 
-	useEffect(() => {
-		setCurrentUser(getCurrentUser());
-	}, []);
+// ─── Top Recipes mini component ───────────────────────────────────────────────
+function TopRecipes({ user }: { user: AppUser }) {
+  const topRecipes = useMemo(() => {
+    return getAllRecipes()
+      .filter((r) => r.author.username === user.username)
+      .map((r) => {
+        const reviews = getRecipeReviews(r.id);
+        const avg = reviews.length > 0
+          ? reviews.reduce((s, rv) => s + rv.rating, 0) / reviews.length
+          : r.rating;
+        return { ...r, avg };
+      })
+      .sort((a, b) => b.avg - a.avg)
+      .slice(0, 3);
+  }, [user.username]);
 
-	if (!currentUser) {
-		return (
-			<div className="container mx-auto px-4 py-16 flex items-center justify-center">
-				<Card className="w-full max-w-md text-center">
-					<CardHeader>
-						<CardTitle>{t("notLoggedIn")}</CardTitle>
-						<CardDescription>
-							{t("loginRequired")}
-						</CardDescription>
-					</CardHeader>
-					<CardContent>
-						<Button onClick={() => router.push("/login")}>{t("goToLogin")}</Button>
-					</CardContent>
-				</Card>
-			</div>
-		);
-	}
+  if (topRecipes.length === 0) return null;
 
-	return (
-		<div className="container mx-auto px-4 py-10">
-			<div className="max-w-4xl mx-auto">
-				<Card>
-					<CardHeader>
-					<div className="flex items-center justify-between">
-						<div>
-							<CardTitle className="text-2xl">{t("myProfile")}</CardTitle>
-							<CardDescription>
-								{t("profileDescription")}
-							</CardDescription>
-						</div>
-						<Button onClick={() => setIsEditDialogOpen(true)}>{t("edit")}</Button>
-					</div>
-					</CardHeader>
-					<CardContent>
-						<Tabs defaultValue={defaultTab} className="w-full">
-							<TabsList className="grid w-full grid-cols-3">
-								<TabsTrigger value="info">{t("info")}</TabsTrigger>
-								<TabsTrigger value="favoritos">{t("favorites")}</TabsTrigger>
-								<TabsTrigger value="recetas">{t("createdRecipes")}</TabsTrigger>
-							</TabsList>
-
-							<TabsContent value="info" className="mt-6">
-							<Informacion 
-								user={currentUser}
-								onFollowersClick={() => {
-									setFollowingDialogTab('followers');
-									setIsFollowingDialogOpen(true);
-								}}
-								onFollowingClick={() => {
-									setFollowingDialogTab('following');
-									setIsFollowingDialogOpen(true);
-								}}
-							/>
-						</TabsContent>
-
-							<TabsContent value="favoritos" className="mt-6">
-								<Favoritos />
-							</TabsContent>
-
-							<TabsContent value="recetas" className="mt-6">
-								<RecetasCreadas />
-							</TabsContent>
-						</Tabs>
-					</CardContent>
-				</Card>
-			</div>
-
-			<Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-			<DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-				<DialogHeader className="sticky top-0 bg-background z-10">
-					<DialogTitle className="text-2xl">{t("editProfile")}</DialogTitle>
-					<DialogDescription>
-						{t("editDescription")}
-					</DialogDescription>
-				</DialogHeader>
-				<div className="mt-6 pr-4">
-						<EditarPerfil
-							user={currentUser}
-							onUpdated={(updated) => {
-								setCurrentUser(updated);
-								setIsEditDialogOpen(false);
-							}}
-						/>
-					</div>
-				</DialogContent>
-			</Dialog>
-
-				<Dialog open={isFollowingDialogOpen} onOpenChange={setIsFollowingDialogOpen}>
-					<DialogContent className="w-[90vw] max-w-5xl max-h-[90vh] overflow-y-auto">
-						<DialogHeader>
-							<DialogTitle>{t("followersAndFollowing")}</DialogTitle>
-							<DialogDescription>
-								{t("followersDescription")}
-							</DialogDescription>
-						</DialogHeader>
-						<div className="mt-6">
-							<SeguidosySeguidores
-								user={currentUser}
-								defaultTab={followingDialogTab}
-								onUserSelect={() => setIsFollowingDialogOpen(false)}
-								viewerUser={currentUser}
-							/>
-						</div>
-					</DialogContent>
-				</Dialog>
-				</div>
-			);
-		}
-
-export default function AccountPage() {
-	return (
-		<Suspense fallback={<div className="container mx-auto px-4 py-10" />}>
-			<AccountPageContent />
-		</Suspense>
-	);
+  return (
+    <div className="px-4 pb-4">
+      <h2 className="flex items-center gap-2 text-base font-bold text-gray-800 mb-3">
+        <Star size={18} className="fill-yellow-400 text-yellow-400" />
+        Mis Recetas Top
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {topRecipes.map((recipe) => (
+          <Link key={recipe.id} href={`/recetas/${recipe.id}`}>
+            <div className="flex items-center gap-3 rounded-xl border border-gray-100 bg-white p-3 hover:border-[#2d6a4f] hover:bg-[#f0faf5] transition-colors cursor-pointer shadow-sm">
+              <div className="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                {recipe.images[0] ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={recipe.images[0]} alt={recipe.title} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-gray-200" />
+                )}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-gray-800 line-clamp-1">{recipe.title}</p>
+                <p className="flex items-center gap-0.5 text-xs text-yellow-500 font-semibold mt-0.5">
+                  <Star size={11} className="fill-yellow-400 text-yellow-400" />
+                  {recipe.avg.toFixed(1)}
+                </p>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 }
 
+// ─── Main page ────────────────────────────────────────────────────────────────
+function AccountPageContent() {
+  const t = useTranslations("Account");
+  const router = useRouter();
+  const [currentUser, setCurrentUser] = useState<AppUser | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isFollowingDialogOpen, setIsFollowingDialogOpen] = useState(false);
+  const [followingDialogTab, setFollowingDialogTab] = useState<"followers" | "following">("followers");
+  const searchParams = useSearchParams();
+
+  const defaultTab = useMemo((): Tab => {
+    const tab = searchParams.get("tab") as Tab | null;
+    if (tab && ["favoritos", "recetas", "historial", "info"].includes(tab)) return tab;
+    return "favoritos";
+  }, [searchParams]);
+
+  const [activeTab, setActiveTab] = useState<Tab>(defaultTab);
+
+  useEffect(() => {
+    setCurrentUser(getCurrentUser());
+  }, []);
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/login");
+  };
+
+  if (!currentUser) {
+    return (
+      <div className="container mx-auto px-4 py-16 flex items-center justify-center">
+        <Card className="w-full max-w-md text-center">
+          <CardContent className="pt-8 pb-6 space-y-4">
+            <p className="text-lg font-semibold text-gray-800">{t("notLoggedIn")}</p>
+            <p className="text-sm text-gray-500">{t("loginRequired")}</p>
+            <Button onClick={() => router.push("/login")} className="bg-[#2d6a4f] hover:bg-[#1b4332] text-white">
+              {t("goToLogin")}
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#faf8f5]">
+      <div className="max-w-2xl mx-auto px-4 py-6 space-y-4">
+
+        {/* ── User Header Card ── */}
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <div className="flex items-center gap-4">
+            {/* Avatar */}
+            <div className="relative flex-shrink-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={currentUser.avatar || "https://i.pravatar.cc/150?img=3"}
+                alt={currentUser.fullName}
+                className="w-16 h-16 rounded-full object-cover border-2 border-gray-100"
+              />
+            </div>
+
+            {/* Name + email */}
+            <div className="flex-1 min-w-0">
+              <h1 className="text-lg font-bold text-gray-900 truncate">{currentUser.fullName}</h1>
+              <p className="text-sm text-gray-400 truncate">{currentUser.email}</p>
+            </div>
+          </div>
+
+          {/* Buttons row */}
+          <div className="flex items-center gap-3 mt-4">
+            <Button
+              onClick={() => setIsEditDialogOpen(true)}
+              className="bg-[#2d6a4f] hover:bg-[#1b4332] text-white rounded-full px-5 text-sm font-semibold"
+            >
+              <Pencil size={14} className="mr-1.5" />
+              Editar perfil
+            </Button>
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="rounded-full px-5 text-sm font-semibold text-red-500 border-red-200 hover:bg-red-50"
+            >
+              <LogOut size={14} className="mr-1.5" />
+              Salir
+            </Button>
+          </div>
+        </div>
+
+        {/* ── Top Recipes ── */}
+        <div className="bg-white rounded-2xl py-4 shadow-sm border border-gray-100">
+          <TopRecipes user={currentUser} />
+        </div>
+
+        {/* ── Tabs ── */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          {/* Tab headers */}
+          <div className="flex border-b border-gray-100">
+            {TABS.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex-1 flex flex-col items-center gap-1 py-3 text-xs font-medium transition-colors border-b-2 -mb-px ${
+                  activeTab === tab.id
+                    ? "border-[#e07b39] text-[#e07b39]"
+                    : "border-transparent text-gray-400 hover:text-gray-600"
+                }`}
+              >
+                {tab.icon}
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Tab content */}
+          <div className="p-4">
+            {activeTab === "favoritos" && <Favoritos />}
+            {activeTab === "historial" && <Historial />}
+            {activeTab === "recetas"   && <RecetasCreadas />}
+            {activeTab === "info"      && (
+              <Informacion
+                user={currentUser}
+                onFollowersClick={() => {
+                  setFollowingDialogTab("followers");
+                  setIsFollowingDialogOpen(true);
+                }}
+                onFollowingClick={() => {
+                  setFollowingDialogTab("following");
+                  setIsFollowingDialogOpen(true);
+                }}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Edit profile dialog ── */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader className="sticky top-0 bg-background z-10">
+            <DialogTitle className="text-2xl">{t("editProfile")}</DialogTitle>
+            <DialogDescription>{t("editDescription")}</DialogDescription>
+          </DialogHeader>
+          <div className="mt-6 pr-4">
+            <EditarPerfil
+              user={currentUser}
+              onUpdated={(updated) => {
+                setCurrentUser(updated);
+                setIsEditDialogOpen(false);
+              }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* ── Followers / following dialog ── */}
+      <Dialog open={isFollowingDialogOpen} onOpenChange={setIsFollowingDialogOpen}>
+        <DialogContent className="w-[90vw] max-w-5xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{t("followersAndFollowing")}</DialogTitle>
+            <DialogDescription>{t("followersDescription")}</DialogDescription>
+          </DialogHeader>
+          <div className="mt-6">
+            <SeguidosySeguidores
+              user={currentUser}
+              defaultTab={followingDialogTab}
+              onUserSelect={() => setIsFollowingDialogOpen(false)}
+              viewerUser={currentUser}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+export default function AccountPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#faf8f5]" />}>
+      <AccountPageContent />
+    </Suspense>
+  );
+}

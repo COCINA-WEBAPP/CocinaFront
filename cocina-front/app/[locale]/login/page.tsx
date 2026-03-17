@@ -1,68 +1,75 @@
-/**
- * Página de Login/Registro
- * 
- * Permite a los usuarios iniciar sesión o crear una cuenta nueva
- * Usa tabs para alternar entre Login y Registro
- */
-
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoginForm } from "./components/Login";
 import { RegisterForm } from "./components/Register";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 function LoginPageContent() {
-	const t = useTranslations("Login");
-	const [activeTab, setActiveTab] = useState("login");
-	const searchParams = useSearchParams();
+  const t = useTranslations("Login");
+  const [activeTab, setActiveTab] = useState("login");
+  const searchParams = useSearchParams();
 
-	useEffect(() => {
-		const tab = searchParams.get("tab");
-		if (tab === "register" || tab === "login") {
-			setActiveTab(tab);
-		}
-	}, [searchParams]);
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab === "register" || tab === "login") {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
 
-	return (
-		<div className="container mx-auto px-4 py-12 flex items-center justify-center min-h-[calc(100vh-200px)]">
-			<Card className="w-full max-w-md">
-				<CardHeader>
-					<CardTitle className="text-2xl font-bold text-center">
-						{t("welcome")}
-					</CardTitle>
-					<CardDescription className="text-center">
-						{t("subtitle")}
-					</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<Tabs value={activeTab} onValueChange={setActiveTab}>
-						<TabsList className="grid w-full grid-cols-2 mb-6">
-							<TabsTrigger value="login">{t("loginTab")}</TabsTrigger>
-							<TabsTrigger value="register">{t("registerTab")}</TabsTrigger>
-						</TabsList>
+  return (
+    <div className="container mx-auto px-4 py-12 flex items-center justify-center min-h-[calc(100vh-200px)]">
+      <div className="w-full max-w-md rounded-2xl overflow-hidden shadow-2xl bg-white">
 
-						<TabsContent value="login">
-							<LoginForm />
-						</TabsContent>
+        {/* ── Header naranja degradado ── */}
+        <div className="bg-gradient-to-br from-[#f97316] via-[#fb923c] to-[#fdba74] px-7 pt-6 pb-5">
+          <h1 className="text-2xl font-bold text-white">
+            {activeTab === "login" ? "Iniciar Sesión" : "Crear Cuenta"}
+          </h1>
+        </div>
 
-						<TabsContent value="register">
-							<RegisterForm onSuccess={() => setActiveTab("login")} />
-						</TabsContent>
-					</Tabs>
-				</CardContent>
-			</Card>
-		</div>
-	);
+        {/* ── Tabs ── */}
+        <div className="flex border-b border-gray-100 bg-white px-7 pt-4">
+          <button
+            onClick={() => setActiveTab("login")}
+            className={`flex-1 pb-3 text-sm font-semibold border-b-2 transition-colors ${
+              activeTab === "login"
+                ? "border-[#f97316] text-[#f97316]"
+                : "border-transparent text-gray-400 hover:text-gray-600"
+            }`}
+          >
+            {t("loginTab")}
+          </button>
+          <button
+            onClick={() => setActiveTab("register")}
+            className={`flex-1 pb-3 text-sm font-semibold border-b-2 transition-colors ${
+              activeTab === "register"
+                ? "border-[#f97316] text-[#f97316]"
+                : "border-transparent text-gray-400 hover:text-gray-600"
+            }`}
+          >
+            {t("registerTab")}
+          </button>
+        </div>
+
+        {/* ── Contenido del tab ── */}
+        <div className="px-7 py-6">
+          {activeTab === "login" ? (
+            <LoginForm />
+          ) : (
+            <RegisterForm onSuccess={() => setActiveTab("login")} />
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function LoginPage() {
-	return (
-		<Suspense fallback={<div className="container mx-auto px-4 py-12 min-h-[calc(100vh-200px)]" />}>
-			<LoginPageContent />
-		</Suspense>
-	);
+  return (
+    <Suspense fallback={<div className="container mx-auto px-4 py-12 min-h-[calc(100vh-200px)]" />}>
+      <LoginPageContent />
+    </Suspense>
+  );
 }

@@ -41,6 +41,7 @@ export const MOCK_USERS: User[] = [
       instagram: "@maria_user",
       twitter: "@mariauser",
     },
+    cookingHistory: [],
   },
   {
     // Usuario 2: Usuario regular
@@ -64,6 +65,7 @@ export const MOCK_USERS: User[] = [
     recipes: ["4", "5", "17", "18", "19"],
     tagInventory: ["Aperitivo", "Bebida", "Café alternativo", "Especias", "Frito", "Gourmet", "Mediterránea", "Medio Oriente", "Parrilla", "Proteína", "Saludable", "Vegano", "Vegetariano"],
     location: "Barcelona, España",
+    cookingHistory: [],
   },
   {
     // Usuario 3: Repostera profesional
@@ -92,6 +94,7 @@ export const MOCK_USERS: User[] = [
       instagram: "@ana_reposteria",
       facebook: "AnaReposteriaOficial",
     },
+    cookingHistory: [],
   },
   {
     // Usuario 4: Usuario enfocado en cocina vegana
@@ -118,6 +121,7 @@ export const MOCK_USERS: User[] = [
     socialMedia: {
       instagram: "@pedro_vegano",
     },
+    cookingHistory: [],
   },
   {
     // Usuario 5: user de cocina fusión
@@ -142,6 +146,7 @@ export const MOCK_USERS: User[] = [
     tagInventory: ["Americana", "Carne", "Chocolate", "Clásico", "Confort", "Entradas", "Italiana", "Ligero", "Reconfortante", "Saludable", "Sin Gluten", "Vegano", "Vegetariano"],
     location: "Bilbao, España",
     website: "https://lucia-fusion.com",
+    cookingHistory: [],
   },
 
   {
@@ -164,6 +169,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -186,6 +192,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -208,6 +215,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -230,6 +238,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -252,6 +261,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -274,6 +284,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -296,6 +307,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -318,6 +330,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -340,6 +353,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -362,6 +376,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -384,6 +399,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -406,6 +422,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -428,6 +445,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -450,6 +468,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -472,6 +491,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -494,6 +514,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -516,6 +537,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -538,6 +560,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -560,6 +583,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -582,6 +606,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -604,6 +629,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -626,6 +652,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -648,6 +675,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -670,6 +698,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -692,6 +721,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -714,6 +744,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -736,6 +767,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -758,6 +790,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -780,6 +813,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -802,6 +836,7 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [],
   },
 
   {
@@ -824,5 +859,6 @@ export const MOCK_USERS: User[] = [
     followers: [],
     recipes: [],
     tagInventory: [],
+    cookingHistory: [], 
   },
 ];

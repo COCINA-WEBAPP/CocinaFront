@@ -1,4 +1,4 @@
-// lib/services/recipes.ts
+// lib/services/recipe.ts
 import { MOCK_RECIPES } from "@/lib/data/recipes";
 import { Recipe, CreateRecipeData, UpdateRecipeData } from "lib/types/recipes";
 import { getCurrentUser } from "@/lib/services/user";
@@ -9,13 +9,13 @@ import { MOCK_USERS } from "@/lib/data/users";
 // ========================================
 
 export function getAllRecipes(): Recipe[] {
-  // En el futuro haz esto async y fetch a tu API/Supabase
   return MOCK_RECIPES;
 }
 
 export function getRecipeBySlug(slug: string): Recipe | undefined {
   return MOCK_RECIPES.find((r) => r.slug === slug);
 }
+
 export function getRecipeById(id: string): Recipe | undefined {
   return MOCK_RECIPES.find((r) => r.id === id);
 }
@@ -38,19 +38,11 @@ function generateSlug(title: string): string {
     .replace(/\s+/g, "-");
 }
 
-/**
- * Crea una nueva receta
- *
- * MOCK: Agrega la receta a MOCK_RECIPES y actualiza el usuario
- * PRODUCCIÓN: POST /api/recipes
- */
 export async function createRecipe(data: CreateRecipeData): Promise<Recipe> {
   await new Promise((resolve) => setTimeout(resolve, 800));
 
   const user = getCurrentUser();
-  if (!user) {
-    throw new Error("Debes iniciar sesión para crear una receta");
-  }
+  if (!user) throw new Error("Debes iniciar sesión para crear una receta");
 
   const newId = String(Date.now());
   const slug = generateSlug(data.title);
@@ -65,11 +57,13 @@ export async function createRecipe(data: CreateRecipeData): Promise<Recipe> {
     category: data.category,
     cookTime: data.cookTime,
     calories: data.calories,
+    protein: data.protein ?? 0,   // ← nuevo
     servings: data.servings,
     difficulty: data.difficulty,
     rating: 0,
     tags: data.tags,
     ingredients: data.ingredients,
+    steps: data.steps ?? [],
     reviews: [],
     comments: [],
     isNew: true,
@@ -78,13 +72,10 @@ export async function createRecipe(data: CreateRecipeData): Promise<Recipe> {
 
   MOCK_RECIPES.unshift(newRecipe);
 
-  // Actualizar las recetas del usuario
   const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
   if (userIndex !== -1) {
     MOCK_USERS[userIndex].recipes.push(newId);
     MOCK_USERS[userIndex].stats.recipesCount++;
-
-    // Agregar etiquetas nuevas al inventario del usuario
     for (const tag of data.tags) {
       if (!MOCK_USERS[userIndex].tagInventory.includes(tag)) {
         MOCK_USERS[userIndex].tagInventory.push(tag);
@@ -99,56 +90,45 @@ export async function createRecipe(data: CreateRecipeData): Promise<Recipe> {
 // SECCIÓN 3: ACTUALIZACIÓN (UPDATE)
 // ========================================
 
-/**
- * Actualiza una receta existente
- *
- * MOCK: Modifica la receta en MOCK_RECIPES
- * PRODUCCIÓN: PATCH /api/recipes/:id
- */
 export async function updateRecipe(id: string, data: UpdateRecipeData): Promise<Recipe> {
   await new Promise((resolve) => setTimeout(resolve, 800));
 
   const user = getCurrentUser();
-  if (!user) {
-    throw new Error("Debes iniciar sesión para editar una receta");
-  }
+  if (!user) throw new Error("Debes iniciar sesión para editar una receta");
 
   const recipeIndex = MOCK_RECIPES.findIndex((r) => r.id === id);
-  if (recipeIndex === -1) {
-    throw new Error("Receta no encontrada");
-  }
+  if (recipeIndex === -1) throw new Error("Receta no encontrada");
 
   const recipe = MOCK_RECIPES[recipeIndex];
-  if (recipe.author.username !== user.username) {
+  if (recipe.author.username !== user.username)
     throw new Error("No tienes permiso para editar esta receta");
-  }
 
   const updatedRecipe: Recipe = {
     ...recipe,
     ...data,
-    // Regenerar slug si cambió el título
     slug: data.title ? generateSlug(data.title) : recipe.slug,
+    steps: data.steps ?? recipe.steps ?? [],
+    protein: data.protein ?? recipe.protein ?? 0,  // ← nuevo
   };
 
   MOCK_RECIPES[recipeIndex] = updatedRecipe;
 
-  // Actualizar inventario de etiquetas del usuario
   const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
   if (userIndex !== -1 && data.tags) {
-    // Agregar etiquetas nuevas al inventario
     for (const tag of data.tags) {
       if (!MOCK_USERS[userIndex].tagInventory.includes(tag)) {
         MOCK_USERS[userIndex].tagInventory.push(tag);
       }
     }
-    // Eliminar del inventario las etiquetas que ya no usa en ninguna receta
     const oldTags = recipe.tags.filter((t) => !data.tags!.includes(t));
     for (const tag of oldTags) {
       const stillUsed = MOCK_RECIPES.some(
         (r) => r.author.username === user.username && r.tags.includes(tag)
       );
       if (!stillUsed) {
-        MOCK_USERS[userIndex].tagInventory = MOCK_USERS[userIndex].tagInventory.filter((t) => t !== tag);
+        MOCK_USERS[userIndex].tagInventory = MOCK_USERS[userIndex].tagInventory.filter(
+          (t) => t !== tag
+        );
       }
     }
   }
@@ -160,34 +140,22 @@ export async function updateRecipe(id: string, data: UpdateRecipeData): Promise<
 // SECCIÓN 4: ELIMINACIÓN (DELETE)
 // ========================================
 
-/**
- * Elimina una receta
- *
- * MOCK: Elimina de MOCK_RECIPES y actualiza el usuario
- * PRODUCCIÓN: DELETE /api/recipes/:id
- */
 export async function deleteRecipe(id: string): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   const user = getCurrentUser();
-  if (!user) {
-    throw new Error("Debes iniciar sesión para eliminar una receta");
-  }
+  if (!user) throw new Error("Debes iniciar sesión para eliminar una receta");
 
   const recipeIndex = MOCK_RECIPES.findIndex((r) => r.id === id);
-  if (recipeIndex === -1) {
-    throw new Error("Receta no encontrada");
-  }
+  if (recipeIndex === -1) throw new Error("Receta no encontrada");
 
   const recipe = MOCK_RECIPES[recipeIndex];
-  if (recipe.author.username !== user.username) {
+  if (recipe.author.username !== user.username)
     throw new Error("No tienes permiso para eliminar esta receta");
-  }
 
   const deletedTags = [...recipe.tags];
   MOCK_RECIPES.splice(recipeIndex, 1);
 
-  // Limpiar inventario de etiquetas: eliminar las que ya no usa el usuario
   const userIndex2 = MOCK_USERS.findIndex((u) => u.id === user.id);
   if (userIndex2 !== -1) {
     for (const tag of deletedTags) {
@@ -195,19 +163,22 @@ export async function deleteRecipe(id: string): Promise<void> {
         (r) => r.author.username === user.username && r.tags.includes(tag)
       );
       if (!stillUsed) {
-        MOCK_USERS[userIndex2].tagInventory = MOCK_USERS[userIndex2].tagInventory.filter((t) => t !== tag);
+        MOCK_USERS[userIndex2].tagInventory = MOCK_USERS[userIndex2].tagInventory.filter(
+          (t) => t !== tag
+        );
       }
     }
   }
 
-  // Actualizar las recetas del usuario
   const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
   if (userIndex !== -1) {
     MOCK_USERS[userIndex].recipes = MOCK_USERS[userIndex].recipes.filter((rId) => rId !== id);
-    MOCK_USERS[userIndex].stats.recipesCount = Math.max(0, MOCK_USERS[userIndex].stats.recipesCount - 1);
+    MOCK_USERS[userIndex].stats.recipesCount = Math.max(
+      0,
+      MOCK_USERS[userIndex].stats.recipesCount - 1
+    );
   }
 
-  // Eliminar de savedRecipes de todos los usuarios
   for (const u of MOCK_USERS) {
     if (u.savedRecipes.includes(id)) {
       u.savedRecipes = u.savedRecipes.filter((rId) => rId !== id);
@@ -220,22 +191,14 @@ export async function deleteRecipe(id: string): Promise<void> {
 // SECCIÓN 5: ETIQUETAS (TAGS)
 // ========================================
 
-/**
- * Obtiene todas las etiquetas únicas existentes en las recetas
- */
 export function getAllTags(): string[] {
   const tagSet = new Set<string>();
   for (const recipe of MOCK_RECIPES) {
-    for (const tag of recipe.tags) {
-      tagSet.add(tag);
-    }
+    for (const tag of recipe.tags) tagSet.add(tag);
   }
   return Array.from(tagSet).sort();
 }
 
-/**
- * Obtiene el inventario de etiquetas del usuario autenticado
- */
 export function getUserTags(): string[] {
   const user = getCurrentUser();
   if (!user) return [];
@@ -244,38 +207,20 @@ export function getUserTags(): string[] {
   return [...MOCK_USERS[userIndex].tagInventory].sort();
 }
 
-/**
- * Añade una etiqueta existente a una receta
- *
- * Valida que:
- * - El usuario esté autenticado
- * - La receta exista
- * - La receta pertenezca al usuario
- * - La etiqueta no esté ya en la receta (bloquea duplicados)
- */
 export async function addTagToRecipe(recipeId: string, tag: string): Promise<Recipe> {
   const user = getCurrentUser();
-  if (!user) {
-    throw new Error("Debes iniciar sesión para modificar una receta");
-  }
+  if (!user) throw new Error("Debes iniciar sesión para modificar una receta");
 
   const recipeIndex = MOCK_RECIPES.findIndex((r) => r.id === recipeId);
-  if (recipeIndex === -1) {
-    throw new Error("Receta no encontrada");
-  }
+  if (recipeIndex === -1) throw new Error("Receta no encontrada");
 
   const recipe = MOCK_RECIPES[recipeIndex];
-  if (recipe.author.username !== user.username) {
+  if (recipe.author.username !== user.username)
     throw new Error("No tienes permiso para modificar esta receta");
-  }
-
-  if (recipe.tags.includes(tag)) {
-    throw new Error("La receta ya tiene esta etiqueta");
-  }
+  if (recipe.tags.includes(tag)) throw new Error("La receta ya tiene esta etiqueta");
 
   recipe.tags.push(tag);
 
-  // Agregar al inventario del usuario si no existe
   const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
   if (userIndex !== -1 && !MOCK_USERS[userIndex].tagInventory.includes(tag)) {
     MOCK_USERS[userIndex].tagInventory.push(tag);
@@ -284,48 +229,97 @@ export async function addTagToRecipe(recipeId: string, tag: string): Promise<Rec
   return recipe;
 }
 
-/**
- * Elimina una etiqueta de una receta
- *
- * Valida que:
- * - El usuario esté autenticado
- * - La receta exista
- * - La receta pertenezca al usuario
- * - La etiqueta exista en la receta
- */
 export async function removeTagFromRecipe(recipeId: string, tag: string): Promise<Recipe> {
   const user = getCurrentUser();
-  if (!user) {
-    throw new Error("Debes iniciar sesión para modificar una receta");
-  }
+  if (!user) throw new Error("Debes iniciar sesión para modificar una receta");
 
   const recipeIndex = MOCK_RECIPES.findIndex((r) => r.id === recipeId);
-  if (recipeIndex === -1) {
-    throw new Error("Receta no encontrada");
-  }
+  if (recipeIndex === -1) throw new Error("Receta no encontrada");
 
   const recipe = MOCK_RECIPES[recipeIndex];
-  if (recipe.author.username !== user.username) {
+  if (recipe.author.username !== user.username)
     throw new Error("No tienes permiso para modificar esta receta");
-  }
 
   const tagIndex = recipe.tags.indexOf(tag);
-  if (tagIndex === -1) {
-    throw new Error("La receta no tiene esta etiqueta");
-  }
+  if (tagIndex === -1) throw new Error("La receta no tiene esta etiqueta");
 
   recipe.tags.splice(tagIndex, 1);
 
-  // Si la etiqueta ya no está en ninguna receta del usuario, eliminarla del inventario
   const userStillUsesTag = MOCK_RECIPES.some(
     (r) => r.author.username === user.username && r.tags.includes(tag)
   );
   if (!userStillUsesTag) {
     const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
     if (userIndex !== -1) {
-      MOCK_USERS[userIndex].tagInventory = MOCK_USERS[userIndex].tagInventory.filter((t) => t !== tag);
+      MOCK_USERS[userIndex].tagInventory = MOCK_USERS[userIndex].tagInventory.filter(
+        (t) => t !== tag
+      );
     }
   }
 
   return recipe;
+}
+
+// ========================================
+// SECCIÓN 6: RESEÑAS PERSISTENTES
+// ========================================
+
+const REVIEWS_KEY = "recipeshare_reviews";
+
+function getReviewsFromStorage(recipeId: string): Recipe["reviews"] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(`${REVIEWS_KEY}_${recipeId}`);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveReviewsToStorage(recipeId: string, reviews: Recipe["reviews"]): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(`${REVIEWS_KEY}_${recipeId}`, JSON.stringify(reviews));
+}
+
+function reviewKey(r: Recipe["reviews"][number]): string {
+  return `${JSON.stringify(r.user)}::${r.comment}`;
+}
+
+export function getRecipeReviews(recipeId: string): Recipe["reviews"] {
+  const recipe = MOCK_RECIPES.find((r) => r.id === recipeId || r.slug === recipeId);
+  const stored = getReviewsFromStorage(recipeId);
+  const initial = recipe?.reviews ?? [];
+
+  if (stored.length === 0) return initial;
+
+  const storedKeys = new Set(stored.map(reviewKey));
+  return [
+    ...stored,
+    ...initial.filter((r) => !storedKeys.has(reviewKey(r))),
+  ];
+}
+
+export function saveRecipeReview(
+  recipeId: string,
+  review: Recipe["reviews"][number]
+): Recipe["reviews"] {
+  const stored = getReviewsFromStorage(recipeId);
+  const recipe = MOCK_RECIPES.find((r) => r.id === recipeId || r.slug === recipeId);
+  const initial = recipe?.reviews ?? [];
+
+  const storedKeys = new Set(stored.map(reviewKey));
+  const base = [
+    ...stored,
+    ...initial.filter((r) => !storedKeys.has(reviewKey(r))),
+  ];
+
+  const updated = [review, ...base];
+  saveReviewsToStorage(recipeId, updated);
+
+  const recipeIndex = MOCK_RECIPES.findIndex((r) => r.id === recipeId || r.slug === recipeId);
+  if (recipeIndex !== -1) {
+    MOCK_RECIPES[recipeIndex].reviews = updated;
+  }
+
+  return updated;
 }

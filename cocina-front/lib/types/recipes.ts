@@ -10,12 +10,15 @@ export type Recipe = {
   author: Pick<User, "username" | "fullName">;
   category: string;
   cookTime: number;
+  protein: number;
   calories: number;
   servings: number;
   difficulty: "Fácil" | "Intermedio" | "Difícil";
   rating: number;
   tags: string[];
   ingredients: string[];
+  /** Pasos de preparación ordenados */
+  steps: string[];
   reviews: RecipeReview[];
   comments: RecipeComment[];
   isNew: boolean;
@@ -28,11 +31,14 @@ export type CreateRecipeData = {
   images: string[];
   category: string;
   cookTime: number;
+  protein: number;
   calories: number;
   servings: number;
   difficulty: "Fácil" | "Intermedio" | "Difícil";
   tags: string[];
   ingredients: string[];
+  /** Pasos de preparación ordenados */
+  steps: string[];
 };
 
 export type UpdateRecipeData = Partial<CreateRecipeData>;

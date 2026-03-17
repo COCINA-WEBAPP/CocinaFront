@@ -10,7 +10,8 @@ export const MOCK_RECIPES: Recipe[] = [
     title: "Pancakes Esponjosos con Miel",
     description: "Pancakes perfectos para empezar el día, esponjosos y servidos con miel.",
     images: [
-      "https://images.unsplash.com/photo-1619592982310-7b7d51e4207f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080","https://mojo.generalmills.com/api/public/content/X9po4cWU8UaTyRR3YCsdjg_gmi_hi_res_jpeg.jpeg?v=217e4d28&t=16e3ce250f244648bef28c5949fb99ff"
+      "https://images.unsplash.com/photo-1619592982310-7b7d51e4207f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+      "https://mojo.generalmills.com/api/public/content/X9po4cWU8UaTyRR3YCsdjg_gmi_hi_res_jpeg.jpeg?v=217e4d28&t=16e3ce250f244648bef28c5949fb99ff",
     ],
     author: { username: "maria_user", fullName: "María García" },
     category: "Desayuno",
@@ -19,6 +20,7 @@ export const MOCK_RECIPES: Recipe[] = [
     servings: 4,
     difficulty: "Fácil",
     rating: 4.8,
+    protein: 8,
     tags: ["Dulce", "Rápido", "Clásico"],
     ingredients: [
       "2 tazas de harina",
@@ -29,6 +31,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "2 cucharadas de mantequilla derretida",
       "1 pizca de sal",
       "Miel al gusto",
+    ],
+    steps: [
+      "Mezcla la harina, el azúcar, el polvo de hornear y la sal en un bowl grande.",
+      "En otro recipiente, bate los huevos junto con la leche y la mantequilla derretida.",
+      "Incorpora los ingredientes líquidos a los secos y mezcla hasta obtener una masa homogénea sin sobre-batir.",
+      "Calienta una sartén antiadherente a fuego medio y vierte porciones de masa.",
+      "Cocina cada pancake hasta que aparezcan burbujas en la superficie, voltea y cocina 1 minuto más.",
+      "Sirve caliente con miel al gusto.",
     ],
     reviews: [
       { user: { username: "ana_reposteria", fullName: "Ana López" }, comment: "Quedaron perfectos, esponjosos.", rating: 5 },
@@ -60,11 +70,12 @@ export const MOCK_RECIPES: Recipe[] = [
     title: "Pasta Carbonara Auténtica",
     description: "Receta tradicional italiana con huevo y panceta para una carbonara cremosa.",
     images: [
-      "https://images.unsplash.com/photo-1655662844229-d2c2a81f09ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1655662844229-d2c2a81f09ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "maria_user", fullName: "María García" },
     category: "Almuerzo",
     cookTime: 25,
+    protein: 20,
     calories: 480,
     servings: 4,
     difficulty: "Intermedio",
@@ -78,6 +89,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Sal y pimienta al gusto",
       "Aceite de oliva",
     ],
+    steps: [
+      "Cocina el spaghetti en agua con sal hasta que esté al dente, reserva 1 taza del agua de cocción.",
+      "Sofríe la panceta en una sartén con un poco de aceite hasta que esté dorada y crujiente.",
+      "Bate los huevos con el queso pecorino rallado y pimienta generosa en un bowl.",
+      "Retira la sartén del fuego, añade la pasta escurrida y mezcla con la panceta.",
+      "Agrega la mezcla de huevo y queso, removiendo rápidamente. Añade agua de cocción poco a poco para lograr una salsa cremosa.",
+      "Sirve de inmediato con más queso y pimienta.",
+    ],
     reviews: [
       { user: { username: "lucia_fusion", fullName: "Lucía Fernández" }, comment: "Sabor auténtico, excelente receta.", rating: 5 },
       { user: { username: "marco_cook", fullName: "Marco" }, comment: "Perfecta textura y sabor.", rating: 5 },
@@ -88,12 +107,13 @@ export const MOCK_RECIPES: Recipe[] = [
   {
     id: "3",
     isNew: true,
+    protein: 6,
     isFeatured: true,
     slug: "torta-de-chocolate-decadente",
     title: "Torta de Chocolate Decadente",
     description: "Irresistible postre de chocolate para ocasiones especiales.",
     images: [
-      "https://images.unsplash.com/photo-1607257882338-70f7dd2ae344?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1607257882338-70f7dd2ae344?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "maria_user", fullName: "María García" },
     category: "Postre",
@@ -117,6 +137,15 @@ export const MOCK_RECIPES: Recipe[] = [
       "Azúcar glas",
       "Leche (si se requiere ajustar la textura)",
     ],
+    steps: [
+      "Precalienta el horno a 180 °C y engrasa un molde redondo de 22 cm.",
+      "Derrite el chocolate con la mantequilla a baño maría o en microondas en intervalos de 30 segundos.",
+      "Bate el azúcar con los huevos hasta obtener una mezcla pálida y espumosa.",
+      "Incorpora el chocolate derretido y el extracto de vainilla a la mezcla de huevo.",
+      "Agrega la harina tamizada y la sal, mezcla con movimientos envolventes.",
+      "Vierte en el molde y hornea 30-35 minutos. El centro debe quedar ligeramente húmedo.",
+      "Deja enfriar completamente antes de desmoldar. Decora con cacao en polvo, crema y frutas.",
+    ],
     reviews: [{ user: { username: "carlos_cocina", fullName: "Carlos Rodríguez" }, comment: "La mejor torta que probé.", rating: 5 }],
     comments: [],
   },
@@ -125,11 +154,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "4",
     isNew: false,
     isFeatured: false,
+    protein: 5,
     slug: "ensalada-mediterranea-fresca",
     title: "Ensalada Mediterránea Fresca",
     description: "Saludable y deliciosa ensalada con ingredientes frescos y aderezo cítrico.",
     images: [
-      "https://images.unsplash.com/photo-1677653805080-59c57727c84e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1677653805080-59c57727c84e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "carlos_cocina", fullName: "Carlos Rodríguez" },
     category: "Ensalada",
@@ -151,6 +181,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Sal y pimienta",
       "Cebolla roja",
     ],
+    steps: [
+      "Lava y seca bien todos los vegetales.",
+      "Corta la lechuga en trozos, el pepino en rodajas, los tomates cherry a la mitad y la cebolla en aros finos.",
+      "Coloca todos los vegetales en una ensaladera grande.",
+      "Añade el queso feta desmenuzado y las aceitunas negras.",
+      "Prepara el aderezo mezclando aceite de oliva, jugo de limón, orégano, sal y pimienta.",
+      "Vierte el aderezo sobre la ensalada justo antes de servir.",
+    ],
     reviews: [{ user: { username: "elena_cook", fullName: "Elena" }, comment: "Muy fresca y sabrosa.", rating: 5 }],
     comments: [],
   },
@@ -159,11 +197,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "5",
     isNew: true,
     isFeatured: true,
+    protein: 30,
     slug: "pollo-a-la-parrilla-con-hierbas",
     title: "Pollo a la Parrilla con Hierbas",
     description: "Pollo jugoso marinado con hierbas aromáticas y cocinado a la parrilla.",
     images: [
-      "https://images.unsplash.com/photo-1496074620649-6b1b02e5c1c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1496074620649-6b1b02e5c1c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "carlos_cocina", fullName: "Carlos Rodríguez" },
     category: "Cena",
@@ -184,6 +223,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Pimienta negra",
       "Miel (opcional para glaseado)",
     ],
+    steps: [
+      "Mezcla el aceite de oliva, el zumo de limón, el ajo picado, el romero, el tomillo, la sal y la pimienta.",
+      "Marina el pollo en esta mezcla durante al menos 1 hora (mejor toda la noche en la nevera).",
+      "Precalienta la parrilla a fuego medio-alto.",
+      "Cocina el pollo unos 20-25 minutos por lado, dependiendo del grosor, hasta que esté bien cocido.",
+      "Opcional: pincela con miel los últimos 5 minutos para un glaseado caramelizado.",
+      "Deja reposar 5 minutos antes de servir.",
+    ],
     reviews: [{ user: { username: "jorge_cook", fullName: "Jorge" }, comment: "Quedó jugoso y con buen sabor.", rating: 5 }],
     comments: [],
   },
@@ -192,11 +239,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "6",
     isNew: false,
     isFeatured: false,
+    protein: 4,
     slug: "bowl-de-smoothie-tropical",
     title: "Bowl de Smoothie Tropical",
     description: "Energizante bowl de frutas tropicales perfecto para el desayuno o merienda.",
     images: [
-      "https://images.unsplash.com/photo-1640126219893-6c869dbe9bd0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1640126219893-6c869dbe9bd0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "ana_reposteria", fullName: "Ana López" },
     category: "Desayuno",
@@ -215,6 +263,13 @@ export const MOCK_RECIPES: Recipe[] = [
       "Granola",
       "Frutas frescas para topping",
     ],
+    steps: [
+      "Coloca la banana congelada, el mango, la piña y la leche vegetal en la licuadora.",
+      "Procesa hasta obtener una mezcla espesa y cremosa. Si es necesario, añade más leche vegetal.",
+      "Vierte la mezcla en un bowl.",
+      "Decora con granola, semillas de chía y las frutas frescas al gusto.",
+      "Sirve de inmediato.",
+    ],
     reviews: [{ user: { username: "paula_cook", fullName: "Paula" }, comment: "Refrescante y nutritivo.", rating: 5 }],
     comments: [],
   },
@@ -223,11 +278,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "7",
     isNew: true,
     isFeatured: true,
+    protein: 4,
     slug: "tacos-de-carne-asada",
     title: "Tacos de Carne Asada",
     description: "Auténticos tacos mexicanos con carne marinada, cebolla y cilantro.",
     images: [
-      "https://images.unsplash.com/photo-1599488400918-5f5f96b3f463?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1599488400918-5f5f96b3f463?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "ana_reposteria", fullName: "Ana López" },
     category: "Cena",
@@ -254,6 +310,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aderezo",
       "Queso fresco",
     ],
+    steps: [
+      "Marina la carne con salsa de soja, ajo, comino, sal, pimienta y aceite durante 30 minutos.",
+      "Calienta una sartén o parrilla a fuego alto y cocina la carne 3-4 minutos por lado.",
+      "Deja reposar la carne 5 minutos y luego córtala en tiras o cubos pequeños.",
+      "Calienta las tortillas en una sartén seca 30 segundos por lado.",
+      "Arma los tacos con la carne, cebolla y cilantro picados, y un chorrito de limón.",
+      "Acompaña con queso fresco y chiles al gusto.",
+    ],
     reviews: [
       { user: { username: "ricardo_cook", fullName: "Ricardo" }, comment: "Sabor intenso, muy mexicanos.", rating: 5 },
       { user: { username: "luz_cook", fullName: "Luz" }, comment: "La carne quedó perfecta.", rating: 4 },
@@ -265,11 +329,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "8",
     isNew: false,
     isFeatured: false,
+    protein: 25,
     slug: "sushi-rolls-caseros",
     title: "Sushi Rolls Caseros",
     description: "Aprende a hacer sushi en casa con esta receta detallada paso a paso.",
     images: [
-      "https://images.unsplash.com/photo-1712183718471-dab51f0748ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1712183718471-dab51f0748ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "ana_reposteria", fullName: "Ana López" },
     category: "Almuerzo",
@@ -292,6 +357,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Semillas de sésamo",
       "Esterilla para enrollar",
     ],
+    steps: [
+      "Cocina el arroz para sushi y sazónalo con vinagre de arroz, azúcar y sal. Deja enfriar.",
+      "Coloca una lámina de alga nori sobre la esterilla.",
+      "Extiende una capa fina de arroz sobre el alga, dejando 2 cm libres en el borde superior.",
+      "Coloca los rellenos (salmón, pepino, aguacate) en el centro.",
+      "Enrolla con ayuda de la esterilla, presionando firmemente.",
+      "Corta el rollo en 8 piezas con un cuchillo mojado en agua. Sirve con salsa de soja, wasabi y jengibre.",
+    ],
     reviews: [{ user: { username: "hiro_cook", fullName: "Hiro" }, comment: "Excelente guía para principiantes.", rating: 5 }],
     comments: [],
   },
@@ -300,11 +373,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "9",
     isNew: true,
     isFeatured: true,
+    protein: 4,
     slug: "pizza-margherita-clasica",
     title: "Pizza Margherita Clásica",
     description: "Pizza italiana simple y deliciosa con albahaca fresca y mozzarella.",
     images: [
-      "https://images.unsplash.com/photo-1573821663912-6df460f9c684?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1573821663912-6df460f9c684?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "pedro_vegano", fullName: "Pedro Martínez" },
     category: "Cena",
@@ -324,6 +398,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Harina para estirar la masa",
       "Orégano",
     ],
+    steps: [
+      "Precalienta el horno a 250 °C con la bandeja dentro.",
+      "Estira la masa sobre una superficie enharinada hasta obtener un círculo fino.",
+      "Extiende la salsa de tomate dejando 1 cm de borde libre.",
+      "Distribuye la mozzarella en trozos irregulares sobre la salsa.",
+      "Hornea 8-10 minutos hasta que los bordes estén dorados y el queso burbujeante.",
+      "Saca del horno, añade hojas de albahaca fresca, un hilo de aceite de oliva y sirve.",
+    ],
     reviews: [{ user: { username: "paolo_cook", fullName: "Paolo" }, comment: "Auténtica, buen balance de sabores.", rating: 5 }],
     comments: [],
   },
@@ -332,11 +414,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "10",
     isNew: false,
     isFeatured: false,
+    protein: 17,
     slug: "tiramisu-tradicional",
     title: "Tiramisú Tradicional",
     description: "Clásico postre italiano a base de café y mascarpone.",
     images: [
-      "https://images.unsplash.com/photo-1714385905983-6f8e06fffae1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1714385905983-6f8e06fffae1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "pedro_vegano", fullName: "Pedro Martínez" },
     category: "Postre",
@@ -355,6 +438,15 @@ export const MOCK_RECIPES: Recipe[] = [
       "Cacao en polvo",
       "Licor (opcional)",
     ],
+    steps: [
+      "Separa las yemas de las claras. Bate las yemas con el azúcar hasta obtener una crema pálida.",
+      "Incorpora el mascarpone a las yemas y mezcla hasta integrar.",
+      "Monta las claras a punto de nieve e incorpóralas con movimientos envolventes.",
+      "Prepara el café y añade el licor si se desea. Deja enfriar.",
+      "Moja brevemente cada bizcocho en el café y coloca una capa en el molde.",
+      "Extiende una capa de crema de mascarpone. Repite las capas y termina con crema.",
+      "Refrigera mínimo 4 horas. Espolvorea cacao en polvo justo antes de servir.",
+    ],
     reviews: [{ user: { username: "giulia_cook", fullName: "Giulia" }, comment: "Perfecto equilibrio de texturas.", rating: 5 }],
     comments: [],
   },
@@ -363,11 +455,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "11",
     isNew: true,
     isFeatured: true,
+    protein: 9,
     slug: "sopa-de-verduras-casera",
     title: "Sopa de Verduras Casera",
     description: "Reconfortante sopa llena de verduras frescas y sabor casero.",
     images: [
-      "https://images.unsplash.com/photo-1701109876066-7fc0c08da447?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1701109876066-7fc0c08da447?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "lucia_fusion", fullName: "Lucía Fernández" },
     category: "Sopa",
@@ -391,6 +484,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite de oliva",
       "Especias al gusto",
     ],
+    steps: [
+      "Pela y corta todas las verduras en trozos medianos.",
+      "Sofríe la cebolla y el ajo en una olla con aceite de oliva a fuego medio hasta que estén transparentes.",
+      "Agrega la zanahoria, el apio y las papas. Sofríe 3 minutos más.",
+      "Añade el tomate, el calabacín y el caldo de verduras.",
+      "Lleva a hervor, reduce el fuego y cocina 20 minutos hasta que todas las verduras estén tiernas.",
+      "Ajusta sal, pimienta y especias. Sirve con perejil fresco picado.",
+    ],
     reviews: [{ user: { username: "marta_cook", fullName: "Marta" }, comment: "Sabor casero, muy reconfortante.", rating: 5 }],
     comments: [],
   },
@@ -399,11 +500,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "12",
     isNew: false,
     isFeatured: false,
+    protein: 77,
     slug: "hamburguesa-gourmet-completa",
     title: "Hamburguesa Gourmet Completa",
     description: "Hamburguesa jugosa con todos los acompañamientos clásicos y gourmet.",
     images: [
-      "https://images.unsplash.com/photo-1643234567681-b28137fb1c33?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1643234567681-b28137fb1c33?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "lucia_fusion", fullName: "Lucía Fernández" },
     category: "Almuerzo",
@@ -429,18 +531,28 @@ export const MOCK_RECIPES: Recipe[] = [
       "Mostaza",
       "Bacon (opcional)",
     ],
+    steps: [
+      "Forma 4 medallones de carne de unos 180 g cada uno. Sazona con sal y pimienta.",
+      "Cocina el bacon en una sartén hasta que esté crujiente. Reserva.",
+      "En la misma sartén a fuego alto, cocina los medallones 3-4 minutos por lado.",
+      "Añade el queso cheddar en el último minuto y tapa para que se derrita.",
+      "Tuesta los panes brioche en la sartén con un poco de mantequilla.",
+      "Monta la hamburguesa: pan, salsa especial, lechuga, tomate, medallón con queso, cebolla caramelizada, bacon y pepinillos.",
+    ],
     reviews: [{ user: { username: "oliver_cook", fullName: "Oliver" }, comment: "Muy sabrosa y bien armada.", rating: 5 }],
     comments: [],
   },
+
   {
     id: "13",
     isNew: true,
     isFeatured: false,
+    protein: 45,
     slug: "crepes-de-espinaca-y-ricotta",
     title: "Crepes de Espinaca y Ricotta",
     description: "Delicados crepes rellenos de espinaca salteada y queso ricotta, ideales como entrada.",
     images: [
-      "https://images.unsplash.com/photo-1506084868230-bb9d95c24759?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1506084868230-bb9d95c24759?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "lucia_fusion", fullName: "Lucía Fernández" },
     category: "Entrada",
@@ -460,8 +572,16 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite de oliva",
       "Sal y pimienta",
     ],
+    steps: [
+      "Mezcla la harina, los huevos y la leche hasta obtener una masa lisa. Reposa 15 minutos.",
+      "Sofríe el ajo picado en aceite de oliva. Añade las espinacas y saltea hasta que se marchiten.",
+      "Mezcla las espinacas con la ricotta, sal y pimienta al gusto.",
+      "Cocina los crepes en una sartén antiadherente ligeramente engrasada, 1-2 minutos por lado.",
+      "Rellena cada crepe con la mezcla de espinaca y ricotta y dobla en cuartos o enrolla.",
+      "Sirve caliente, opcionalmente con salsa de tomate o gratinado al horno.",
+    ],
     reviews: [
-      { user: { username: "natalia_cook", fullName: "Natalia" }, comment: "Excelente combinación, muy suaves.", rating: 5 }
+      { user: { username: "natalia_cook", fullName: "Natalia" }, comment: "Excelente combinación, muy suaves.", rating: 5 },
     ],
     comments: [
       {
@@ -471,9 +591,9 @@ export const MOCK_RECIPES: Recipe[] = [
         dislikeCount: 0,
         date: "2025-11-02",
         answers: [
-          { user: { username: "isabel_cook", fullName: "Isabel" }, comment: "Mejor congelar la masa sin rellenar y rellenar al descongelar.", date: "2025-11-03" }
-        ]
-      }
+          { user: { username: "isabel_cook", fullName: "Isabel" }, comment: "Mejor congelar la masa sin rellenar y rellenar al descongelar.", date: "2025-11-03" },
+        ],
+      },
     ],
   },
 
@@ -481,11 +601,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "14",
     isNew: false,
     isFeatured: true,
+    protein: 30,
     slug: "gulash-hungaro-tradicional",
     title: "Goulash Húngaro Tradicional",
     description: "Estofado robusto de carne con pimentón y verduras, reconfortante y lleno de sabor.",
     images: [
-      "https://images.unsplash.com/photo-1534939561126-855b8675edd7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1534939561126-855b8675edd7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "maria_user", fullName: "María García" },
     category: "Almuerzo",
@@ -506,9 +627,17 @@ export const MOCK_RECIPES: Recipe[] = [
       "Sal y pimienta",
       "Aceite",
     ],
+    steps: [
+      "Sella la carne en una olla con aceite caliente hasta dorar por todos los lados. Retira y reserva.",
+      "En la misma olla, sofríe la cebolla y los pimientos hasta que estén blandos.",
+      "Añade el pimentón dulce y mezcla 1 minuto con cuidado de no quemarlo.",
+      "Incorpora la carne, las zanahorias, los tomates troceados y el caldo hasta cubrir.",
+      "Lleva a hervor, tapa y cocina a fuego lento durante 1 hora y 30 minutos.",
+      "Ajusta sal y pimienta. Sirve acompañado de pan o pasta.",
+    ],
     reviews: [
       { user: { username: "pablo_cook", fullName: "Pablo" }, comment: "Me transportó a Europa central.", rating: 5 },
-      { user: { username: "sonia_cook", fullName: "Sonia" }, comment: "Sabores profundos, requiere tiempo.", rating: 4 }
+      { user: { username: "sonia_cook", fullName: "Sonia" }, comment: "Sabores profundos, requiere tiempo.", rating: 4 },
     ],
     comments: [],
   },
@@ -517,11 +646,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "15",
     isNew: true,
     isFeatured: true,
+    protein: 10,
     slug: "arepas-rellenas-de-queso-y-aguacate",
     title: "Arepas Rellenas de Queso y Aguacate",
     description: "Arepas crujientes por fuera y suaves por dentro, rellenas con queso fundido y aguacate.",
     images: [
-      "https://images.unsplash.com/photo-1644753787071-8933b5daed2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1644753787071-8933b5daed2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "maria_user", fullName: "María García" },
     category: "Desayuno",
@@ -539,8 +669,16 @@ export const MOCK_RECIPES: Recipe[] = [
       "1 aguacate",
       "Mantequilla para freír",
     ],
+    steps: [
+      "Mezcla la harina de maíz con el agua tibia y sal hasta obtener una masa manejable. Reposa 5 minutos.",
+      "Forma bolas medianas y aplánalas hasta obtener discos de 1,5 cm de grosor.",
+      "Cocina en una sartén con mantequilla a fuego medio 5-6 minutos por lado hasta que estén doradas.",
+      "Abre cada arepa por la mitad con cuidado.",
+      "Rellena con queso blanco rallado y rodajas de aguacate.",
+      "Sirve de inmediato mientras el queso aún está derretido.",
+    ],
     reviews: [
-      { user: { username: "diego_cook", fullName: "Diego" }, comment: "Mejor que en la arepera.", rating: 5 }
+      { user: { username: "diego_cook", fullName: "Diego" }, comment: "Mejor que en la arepera.", rating: 5 },
     ],
     comments: [
       {
@@ -549,8 +687,8 @@ export const MOCK_RECIPES: Recipe[] = [
         likeCount: 7,
         dislikeCount: 0,
         date: "2026-01-10",
-        answers: [{ user: { username: "carolina_cook", fullName: "Carolina" }, comment: "Queso mozzarella o queso fresco funcionan bien.", date: "2026-01-10" }]
-      }
+        answers: [{ user: { username: "carolina_cook", fullName: "Carolina" }, comment: "Queso mozzarella o queso fresco funcionan bien.", date: "2026-01-10" }],
+      },
     ],
   },
 
@@ -558,11 +696,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "16",
     isNew: false,
     isFeatured: false,
+    protein: 10,
     slug: "crema-de-calabaza-con-jengibre",
     title: "Crema de Calabaza con Jengibre",
     description: "Sopa cremosa y aromática con un toque de jengibre fresco.",
     images: [
-      "https://images.unsplash.com/photo-1525351484163-7529414344d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1525351484163-7529414344d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "maria_user", fullName: "María García" },
     category: "Sopa",
@@ -581,6 +720,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite de oliva",
       "Sal y pimienta",
     ],
+    steps: [
+      "Pela la calabaza, retira las semillas y córtala en cubos.",
+      "Sofríe la cebolla y el jengibre rallado en aceite de oliva hasta que estén tiernos.",
+      "Agrega la calabaza y el caldo de verduras hasta cubrir.",
+      "Cocina a fuego medio 20 minutos hasta que la calabaza esté muy blanda.",
+      "Licúa hasta obtener una crema suave. Ajusta la consistencia con más caldo si es necesario.",
+      "Incorpora la crema de leche si se desea. Ajusta sal y pimienta y sirve caliente.",
+    ],
     reviews: [{ user: { username: "ana_reposteria", fullName: "Ana López" }, comment: "Perfecta para días fríos.", rating: 5 }],
     comments: [],
   },
@@ -589,11 +736,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "17",
     isNew: true,
     isFeatured: false,
+    protein: 54,
     slug: "milhojas-de-berenjena-y-queso-de-cabra",
     title: "Milhojas de Berenjena y Queso de Cabra",
     description: "Capas de berenjena asada y queso de cabra con reducción balsámica.",
     images: [
-      "https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "carlos_cocina", fullName: "Carlos Rodríguez" },
     category: "Cena",
@@ -612,6 +760,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite de oliva",
       "Sal y pimienta",
     ],
+    steps: [
+      "Corta las berenjenas en rodajas de 1 cm. Sala y deja reposar 15 minutos para que suelten el amargor.",
+      "Seca las rodajas y ásalas en una plancha con aceite de oliva hasta que estén doradas por ambos lados.",
+      "Reduce el vinagre balsámico en un cazo a fuego lento hasta obtener una textura de jarabe.",
+      "Monta los milhojas alternando rodajas de berenjena y láminas de queso de cabra.",
+      "Riega con la reducción balsámica y un hilo de miel.",
+      "Espolvorea tomillo fresco y sirve templado.",
+    ],
     reviews: [{ user: { username: "marcos_cook", fullName: "Marcos" }, comment: "Elegante y sabroso.", rating: 4 }],
     comments: [],
   },
@@ -620,11 +776,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "18",
     isNew: false,
     isFeatured: false,
+    protein: 5,
     slug: "chai-latte-especiado",
     title: "Chai Latte Especiado",
     description: "Bebida caliente con té negro y mezcla de especias — ideal para las mañanas frías.",
     images: [
-      "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "carlos_cocina", fullName: "Carlos Rodríguez" },
     category: "Bebida",
@@ -643,6 +800,13 @@ export const MOCK_RECIPES: Recipe[] = [
       "2 clavos de olor",
       "Azúcar o miel al gusto",
     ],
+    steps: [
+      "Hierve el agua con la canela, el cardamomo aplastado y los clavos durante 3 minutos.",
+      "Añade las bolsitas de té y deja reposar 2 minutos. Retira las bolsitas.",
+      "Incorpora la leche y calienta sin dejar hervir.",
+      "Endulza con azúcar o miel al gusto.",
+      "Cuela la bebida y sirve en tazas calientes.",
+    ],
     reviews: [{ user: { username: "sara_cook", fullName: "Sara" }, comment: "Aroma maravilloso.", rating: 4 }],
     comments: [],
   },
@@ -651,11 +815,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "19",
     isNew: true,
     isFeatured: false,
+    protein: 2,
     slug: "falafel-crujiente-con-salsa-de-yogurt",
     title: "Falafel Crujiente con Salsa de Yogurt",
     description: "Bolas de garbanzo especiadas, crujientes por fuera y tiernas por dentro, servidas con yogurt.",
     images: [
-      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "carlos_cocina", fullName: "Carlos Rodríguez" },
     category: "Snack",
@@ -676,6 +841,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite para freír",
       "Yogurt natural para la salsa",
     ],
+    steps: [
+      "Escurre los garbanzos remojados (no cocidos) y procésalos en una picadora con la cebolla, el ajo, el cilantro, comino y cúrcuma.",
+      "La mezcla debe quedar granulosa pero cohesiva. Añade harina si es necesario para ligar.",
+      "Refrigera la masa 30 minutos. Forma bolitas del tamaño de una nuez.",
+      "Fríe en aceite caliente a 175 °C durante 3-4 minutos hasta que estén dorados.",
+      "Escurre sobre papel absorbente.",
+      "Sirve con yogurt natural sazonado con ajo, limón y hierbas.",
+    ],
     reviews: [{ user: { username: "karim_cook", fullName: "Karim" }, comment: "Auténtico y crocante.", rating: 5 }],
     comments: [],
   },
@@ -684,11 +857,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "20",
     isNew: false,
     isFeatured: true,
+    protein: 0,
     slug: "paella-de-mariscos-clasica",
     title: "Paella de Mariscos Clásica",
     description: "Paella tradicional con arroz suelto, mariscos frescos y azafrán.",
     images: [
-      "https://images.unsplash.com/photo-1623961990059-28356e226a77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1623961990059-28356e226a77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "ana_reposteria", fullName: "Ana López" },
     category: "Almuerzo",
@@ -710,8 +884,16 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite de oliva",
       "Sal",
     ],
+    steps: [
+      "Calienta el caldo y disuelve el azafrán dentro. Mantén caliente.",
+      "Sofríe la cebolla y el pimiento en aceite en la paellera a fuego medio.",
+      "Añade los calamares y saltea 2 minutos. Incorpora el arroz y mezcla bien.",
+      "Vierte el caldo caliente, distribuye los camarones y mejillones sobre el arroz.",
+      "Cocina a fuego medio-alto 10 minutos, luego reduce a fuego bajo 8 minutos más sin remover.",
+      "Retira del fuego y cubre con un paño limpio 5 minutos antes de servir.",
+    ],
     reviews: [
-      { user: { username: "ines_cook", fullName: "Inés" }, comment: "Sabor impresionante, muy bien hecha.", rating: 5 }
+      { user: { username: "ines_cook", fullName: "Inés" }, comment: "Sabor impresionante, muy bien hecha.", rating: 5 },
     ],
     comments: [],
   },
@@ -720,11 +902,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "21",
     isNew: true,
     isFeatured: false,
+    protein: 0,
     slug: "muffins-de-arandanos-integrales",
     title: "Muffins de Arándanos Integrales",
     description: "Muffins suaves con harina integral y arándanos frescos — opción más sana para el desayuno.",
     images: [
-      "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "ana_reposteria", fullName: "Ana López" },
     category: "Panadería",
@@ -744,6 +927,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "1 taza de arándanos",
       "1 pizca de sal",
     ],
+    steps: [
+      "Precalienta el horno a 190 °C y coloca cápsulas en un molde para muffins.",
+      "Mezcla en un bowl la harina, el azúcar, el polvo de hornear y la sal.",
+      "En otro recipiente, bate los huevos con la leche y el aceite.",
+      "Une los ingredientes húmedos con los secos, mezclando solo hasta integrar (no sobre-batir).",
+      "Incorpora los arándanos con movimientos envolventes.",
+      "Llena los moldes 3/4 partes y hornea 20-22 minutos hasta que un palillo salga limpio.",
+    ],
     reviews: [{ user: { username: "lina_cook", fullName: "Lina" }, comment: "Textura perfecta.", rating: 4 }],
     comments: [],
   },
@@ -752,11 +943,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "22",
     isNew: false,
     isFeatured: false,
+    protein: 0,
     slug: "ceviche-de-camaron-con-limon-y-aji",
     title: "Ceviche de Camarón con Limón y Ají",
     description: "Ceviche fresco y ácido, con camarones marinados y toque picante de ají.",
     images: [
-      "https://images.unsplash.com/photo-1553621042-f6e147245754?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1553621042-f6e147245754?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "ana_reposteria", fullName: "Ana López" },
     category: "Entrante",
@@ -775,6 +967,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Sal",
       "Maíz cancha (opc.)",
     ],
+    steps: [
+      "Corta los camarones en trozos medianos si son grandes.",
+      "Mezcla los camarones con el jugo de limón recién exprimido y deja marinar 10 minutos.",
+      "Corta la cebolla morada en juliana fina y enjuágala en agua fría para suavizar el sabor.",
+      "Mezcla la cebolla, el ají picado y el cilantro con los camarones marinados.",
+      "Ajusta sal al gusto.",
+      "Sirve de inmediato con maíz cancha si se desea.",
+    ],
     reviews: [{ user: { username: "andres_cook", fullName: "Andrés" }, comment: "Muy fresco y equilibrado.", rating: 5 }],
     comments: [],
   },
@@ -783,11 +983,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "23",
     isNew: true,
     isFeatured: false,
+    protein: 8,
     slug: "risotto-de-setas-silvestres",
     title: "Risotto de Setas Silvestres",
     description: "Risotto cremoso con mezcla de setas, parmesano y vino blanco.",
     images: [
-      "https://images.unsplash.com/photo-1525755662778-989d0524087e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1525755662778-989d0524087e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "pedro_vegano", fullName: "Pedro Martínez" },
     category: "Almuerzo",
@@ -808,6 +1009,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Aceite de oliva",
       "Sal y pimienta",
     ],
+    steps: [
+      "Sofríe la cebolla picada en aceite y la mitad de la mantequilla a fuego medio hasta transparente.",
+      "Añade el arroz arborio y tuesta 2 minutos removiendo constantemente.",
+      "Vierte el vino blanco y mezcla hasta que se evapore.",
+      "Agrega el caldo caliente cucharón a cucharón, esperando que se absorba antes de añadir más.",
+      "Mientras, saltea las setas en una sartén aparte con aceite, sal y pimienta.",
+      "Cuando el arroz esté cremoso y al dente, apaga el fuego. Incorpora la mantequilla restante, el parmesano y las setas. Ajusta sal.",
+    ],
     reviews: [{ user: { username: "giulia_cook", fullName: "Giulia" }, comment: "Cremoso y profundo.", rating: 5 }],
     comments: [],
   },
@@ -816,11 +1025,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "24",
     isNew: false,
     isFeatured: false,
+    protein: 0,
     slug: "bao-de-pulled-pork-con-salsa-hoisin",
     title: "Bao de Pulled Pork con Salsa Hoisin",
     description: "Panecillos al vapor rellenos de cerdo desmenuzado y salsa hoisin, street food asiático.",
     images: [
-      "https://images.unsplash.com/photo-1602143249253-9805c88841ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1602143249253-9805c88841ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "pedro_vegano", fullName: "Pedro Martínez" },
     category: "Cena",
@@ -840,6 +1050,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Jengibre",
       "Salsa de soja",
     ],
+    steps: [
+      "Marina el lomo de cerdo con salsa de soja, ajo y jengibre rallado durante 1 hora.",
+      "Cocina la carne en una olla a presión 45 minutos o al horno a 160 °C durante 2 horas.",
+      "Desmenuza la carne con dos tenedores cuando esté tierna.",
+      "Mezcla la carne desmenuzada con salsa hoisin al gusto.",
+      "Calienta los panes bao al vapor durante 5 minutos.",
+      "Rellena cada bao con el pulled pork, tiras de pepino y cebolleta. Sirve caliente.",
+    ],
     reviews: [{ user: { username: "luis_cook", fullName: "Luis" }, comment: "Impresionante combinación.", rating: 5 }],
     comments: [],
   },
@@ -848,11 +1066,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "25",
     isNew: true,
     isFeatured: true,
+    protein: 0,
     slug: "brownie-vegan-sin-gluten",
     title: "Brownie Vegano Sin Gluten",
     description: "Brownies intensos en chocolate, 100% veganos y sin gluten, densos y húmedos.",
     images: [
-      "https://images.unsplash.com/photo-1515037893149-de7f840978e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1515037893149-de7f840978e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "lucia_fusion", fullName: "Lucía Fernández" },
     category: "Postre",
@@ -872,8 +1091,16 @@ export const MOCK_RECIPES: Recipe[] = [
       "1 pizca de sal",
       "Chips de chocolate vegano",
     ],
+    steps: [
+      "Precalienta el horno a 175 °C y forra un molde cuadrado con papel de hornear.",
+      "Mezcla el aceite de coco derretido con el azúcar de coco y el puré de manzana.",
+      "Agrega la harina de almendra, el cacao, el polvo de hornear y la sal. Mezcla hasta integrar.",
+      "Incorpora los chips de chocolate y vierte la mezcla en el molde.",
+      "Hornea 22-25 minutos. El centro debe quedar ligeramente húmedo.",
+      "Deja enfriar completamente antes de cortar en 9 porciones.",
+    ],
     reviews: [
-      { user: { username: "sofia_cook", fullName: "Sofía" }, comment: "No extrañas nada de lo tradicional.", rating: 5 }
+      { user: { username: "sofia_cook", fullName: "Sofía" }, comment: "No extrañas nada de lo tradicional.", rating: 5 },
     ],
     comments: [
       {
@@ -882,8 +1109,8 @@ export const MOCK_RECIPES: Recipe[] = [
         likeCount: 4,
         dislikeCount: 0,
         date: "2025-08-20",
-        answers: [{ user: { username: "camila_cook", fullName: "Camila" }, comment: "Sí, ajusta la cantidad de líquido si la masa queda muy densa.", date: "2025-08-21" }]
-      }
+        answers: [{ user: { username: "camila_cook", fullName: "Camila" }, comment: "Sí, ajusta la cantidad de líquido si la masa queda muy densa.", date: "2025-08-21" }],
+      },
     ],
   },
 
@@ -891,11 +1118,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "26",
     isNew: false,
     isFeatured: false,
+    protein: 5,
     slug: "ensalada-de-quinoa-con-vegetales-asados",
     title: "Ensalada de Quinoa con Vegetales Asados",
     description: "Ensalada nutritiva de quinoa con berenjena, calabacín y pimiento asado.",
     images: [
-      "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "lucia_fusion", fullName: "Lucía Fernández" },
     category: "Ensalada",
@@ -915,6 +1143,14 @@ export const MOCK_RECIPES: Recipe[] = [
       "Perejil",
       "Sal y pimienta",
     ],
+    steps: [
+      "Cocina la quinoa según las instrucciones del paquete. Deja enfriar.",
+      "Corta la berenjena, el calabacín y el pimiento en cubos. Aliña con aceite, sal y pimienta.",
+      "Asa los vegetales en el horno a 200 °C durante 20 minutos hasta que estén dorados.",
+      "Mezcla la quinoa con los vegetales asados.",
+      "Aliña con aceite de oliva, jugo de limón y perejil picado.",
+      "Sirve a temperatura ambiente o fría.",
+    ],
     reviews: [{ user: { username: "olga_cook", fullName: "Olga" }, comment: "Ideal para llevar al trabajo.", rating: 4 }],
     comments: [],
   },
@@ -923,11 +1159,12 @@ export const MOCK_RECIPES: Recipe[] = [
     id: "27",
     isNew: true,
     isFeatured: false,
+    protein: 9,
     slug: "polenta-cremosa-con-champinones",
     title: "Polenta Cremosa con Champiñones",
     description: "Polenta suave y cremosa servida con champiñones salteados y ajo.",
     images: [
-      "https://images.unsplash.com/photo-1476124369491-e7addf5db371?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+      "https://images.unsplash.com/photo-1476124369491-e7addf5db371?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     ],
     author: { username: "lucia_fusion", fullName: "Lucía Fernández" },
     category: "Cena",
@@ -946,10 +1183,15 @@ export const MOCK_RECIPES: Recipe[] = [
       "Queso parmesano (opcional)",
       "Perejil",
     ],
+    steps: [
+      "Lleva el caldo a ebullición en una olla.",
+      "Añade la polenta en forma de lluvia removiendo constantemente para evitar grumos.",
+      "Cocina a fuego bajo 20 minutos, removiendo frecuentemente hasta que la polenta se despegue de las paredes.",
+      "Incorpora la mantequilla y el parmesano. Ajusta sal.",
+      "Saltea los champiñones laminados con ajo picado en una sartén con aceite hasta que estén dorados.",
+      "Sirve la polenta en platos hondos coronada con los champiñones y perejil picado.",
+    ],
     reviews: [{ user: { username: "rosa_cook", fullName: "Rosa" }, comment: "Textura perfecta y buen sabor.", rating: 5 }],
     comments: [],
   },
-
-
 ];
-
