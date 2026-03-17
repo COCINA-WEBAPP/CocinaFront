@@ -21,7 +21,8 @@ import { getRecipeById, updateRecipe, getUserTags } from "@/lib/services/recipe"
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import type { CreateRecipeData, Recipe } from "@/lib/types/recipes";
+import type { CreateRecipeData, Recipe, RecipeStep } from "@/lib/types/recipes";
+import { normalizeStep } from "@/lib/types/recipes";
 import { X, Upload, Plus, Trash2, LinkIcon, ImageIcon, Tag } from "lucide-react";
 
 // ─── Local types ──────────────────────────────────────────────────────────────
@@ -40,6 +41,7 @@ interface IngredientRow {
 interface StepRow {
   id: string;
   text: string;
+  images: ImageSource[];
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -213,8 +215,9 @@ export default function EditRecipePage() {
     { id: crypto.randomUUID(), name: "", quantity: "", unit: "Otros" },
   ]);
   const [steps, setSteps] = useState<StepRow[]>([
-    { id: crypto.randomUUID(), text: "" },
+    { id: crypto.randomUUID(), text: "", images: [] },
   ]);
+  const [stepImageModalId, setStepImageModalId] = useState<string | null>(null);
 
   // ── Image state ──
   const [mainPhoto, setMainPhoto] = useState<ImageSource | null>(null);
@@ -263,7 +266,10 @@ export default function EditRecipePage() {
     }
 
     if (found.steps?.length) {
-  setSteps(found.steps.map((text) => ({ id: crypto.randomUUID(), text })));
+  setSteps(found.steps.map((s) => {
+    const ns = normalizeStep(s);
+    return { id: crypto.randomUUID(), text: ns.text, images: ns.images.map((url) => ({ type: "url" as const, value: url })) };
+  }));
 }
 
 // Etiquetas de la receta que no están en PRESET_TAGS ni userTags → customTags
@@ -359,7 +365,11 @@ if (recipCustomTags.length > 0) {
   const removeStep = (id: string) =>
     setSteps((prev) => prev.filter((s) => s.id !== id));
   const addStep = () =>
-    setSteps((prev) => [...prev, { id: crypto.randomUUID(), text: "" }]);
+    setSteps((prev) => [...prev, { id: crypto.randomUUID(), text: "", images: [] }]);
+  const addStepImage = (stepId: string, img: ImageSource) =>
+    setSteps((prev) => prev.map((s) => s.id === stepId ? { ...s, images: [...s.images, img] } : s));
+  const removeStepImage = (stepId: string, imgIdx: number) =>
+    setSteps((prev) => prev.map((s) => s.id === stepId ? { ...s, images: s.images.filter((_, i) => i !== imgIdx) } : s));
 
   // ── Submit ────────────────────────────────────────────────────────────────────
 
@@ -380,7 +390,9 @@ if (recipCustomTags.length > 0) {
         difficulty,
         tags: selectedTags,
         ingredients: serializeIngredients(),
-        steps: steps.map((s) => s.text).filter((s) => s.trim() !== ""),
+        steps: steps
+          .filter((s) => s.text.trim() !== "")
+          .map((s) => ({ text: s.text, images: s.images.map(resolveUrl) })),
       };
       await updateRecipe(recipeId, data);
       toast.success(t("recipeUpdated"));
@@ -411,6 +423,12 @@ if (recipCustomTags.length > 0) {
           <ImageInputModal
             onAdd={(s) => setGallery((prev) => [...prev, s])}
             onClose={() => setShowGalleryModal(false)}
+          />
+        )}
+        {stepImageModalId && (
+          <ImageInputModal
+            onAdd={(s) => addStepImage(stepImageModalId, s)}
+            onClose={() => setStepImageModalId(null)}
           />
         )}
 
@@ -564,15 +582,29 @@ if (recipCustomTags.length > 0) {
                 title="Pasos de preparación"
                 action={{ label: "Agregar paso", onClick: addStep }}
               />
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {steps.map((step, idx) => (
                   <div key={step.id} className="flex items-start gap-3">
                     <span className="mt-2.5 flex-shrink-0 w-6 h-6 rounded-full bg-[#2d6a4f] text-white text-xs flex items-center justify-center font-semibold">
                       {idx + 1}
                     </span>
-                    <Textarea placeholder={`Describe el paso ${idx + 1}...`} value={step.text}
-                      onChange={(e) => updateStep(step.id, e.target.value)}
-                      rows={2} className={`flex-1 ${inputCls} resize-none text-sm`} />
+                    <div className="flex-1 space-y-2">
+                      <Textarea placeholder={`Describe el paso ${idx + 1}...`} value={step.text}
+                        onChange={(e) => updateStep(step.id, e.target.value)}
+                        rows={2} className={`${inputCls} resize-none text-sm`} />
+                      {/* Step images */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        {step.images.map((img, imgIdx) => (
+                          <ImageThumb key={imgIdx} src={img}
+                            onRemove={() => removeStepImage(step.id, imgIdx)} />
+                        ))}
+                        <button type="button" onClick={() => setStepImageModalId(step.id)}
+                          className="w-20 h-20 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-1 text-gray-400 hover:border-[#2d6a4f] hover:text-[#2d6a4f] hover:bg-[#f0faf5] transition-colors">
+                          <ImageIcon size={16} />
+                          <span className="text-[10px] font-medium">Foto</span>
+                        </button>
+                      </div>
+                    </div>
                     <button onClick={() => removeStep(step.id)}
                       className="mt-2.5 text-red-300 hover:text-red-500 transition-colors flex-shrink-0">
                       <Trash2 size={17} />

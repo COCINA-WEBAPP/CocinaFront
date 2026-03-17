@@ -1,6 +1,18 @@
 import type { User } from "@/lib/types/users";
 import type { RecipeComment, RecipeReview } from "@/lib/types/recipe-interactions";
 
+/** Paso de receta con texto e imágenes opcionales */
+export type RecipeStep = {
+  text: string;
+  images: string[];
+};
+
+/** Convierte un paso (string legado o RecipeStep) a RecipeStep normalizado */
+export function normalizeStep(step: string | RecipeStep): RecipeStep {
+  if (typeof step === "string") return { text: step, images: [] };
+  return { text: step.text, images: step.images ?? [] };
+}
+
 export type Recipe = {
   id: string;
   slug: string;
@@ -17,8 +29,8 @@ export type Recipe = {
   rating: number;
   tags: string[];
   ingredients: string[];
-  /** Pasos de preparación ordenados */
-  steps: string[];
+  /** Pasos de preparación ordenados (string legado o RecipeStep) */
+  steps: (string | RecipeStep)[];
   reviews: RecipeReview[];
   comments: RecipeComment[];
   isNew: boolean;
@@ -38,7 +50,7 @@ export type CreateRecipeData = {
   tags: string[];
   ingredients: string[];
   /** Pasos de preparación ordenados */
-  steps: string[];
+  steps: RecipeStep[];
 };
 
 export type UpdateRecipeData = Partial<CreateRecipeData>;

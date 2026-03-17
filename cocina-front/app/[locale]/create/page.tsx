@@ -36,6 +36,7 @@ interface IngredientRow {
 interface StepRow {
   id: string;
   text: string;
+  images: ImageSource[];
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -207,8 +208,9 @@ export default function CreateRecipePage() {
 
   // ── Steps ──
   const [steps, setSteps] = useState<StepRow[]>([
-    { id: crypto.randomUUID(), text: "" },
+    { id: crypto.randomUUID(), text: "", images: [] },
   ]);
+  const [stepImageModalId, setStepImageModalId] = useState<string | null>(null);
 
   // ── Tags ──
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -286,7 +288,11 @@ export default function CreateRecipePage() {
   const removeStep = (id: string) =>
     setSteps((prev) => prev.filter((s) => s.id !== id));
   const addStep = () =>
-    setSteps((prev) => [...prev, { id: crypto.randomUUID(), text: "" }]);
+    setSteps((prev) => [...prev, { id: crypto.randomUUID(), text: "", images: [] }]);
+  const addStepImage = (stepId: string, img: ImageSource) =>
+    setSteps((prev) => prev.map((s) => s.id === stepId ? { ...s, images: [...s.images, img] } : s));
+  const removeStepImage = (stepId: string, imgIdx: number) =>
+    setSteps((prev) => prev.map((s) => s.id === stepId ? { ...s, images: s.images.filter((_, i) => i !== imgIdx) } : s));
 
   // ── Submit ────────────────────────────────────────────────────────────────────
 
@@ -310,7 +316,7 @@ export default function CreateRecipePage() {
             difficulty,
             tags: selectedTags,
             ingredients: serializeIngredients(),
-            steps: steps.map((s) => s.text).filter((s) => s.trim() !== ""), // ← añade esto
+            steps: steps.filter((s) => s.text.trim() !== "").map((s) => ({ text: s.text, images: s.images.map(resolveUrl) })),
           };
       const recipe = await createRecipe(data);
       toast.success(t("recipeCreated"));
@@ -337,6 +343,12 @@ export default function CreateRecipePage() {
         <ImageInputModal
           onAdd={(s) => setGallery((prev) => [...prev, s])}
           onClose={() => setShowGalleryModal(false)}
+        />
+      )}
+      {stepImageModalId && (
+        <ImageInputModal
+          onAdd={(s) => addStepImage(stepImageModalId, s)}
+          onClose={() => setStepImageModalId(null)}
         />
       )}
 
@@ -517,20 +529,33 @@ export default function CreateRecipePage() {
               title="Pasos de preparación"
               action={{ label: "Agregar paso", onClick: addStep }}
             />
-            <div className="space-y-3">
+            <div className="space-y-4">
               {steps.map((step, idx) => (
                 <div key={step.id} className="flex items-start gap-3">
-                  {/* Step number badge */}
                   <span className="mt-2.5 flex-shrink-0 w-6 h-6 rounded-full bg-[#2d6a4f] text-white text-xs flex items-center justify-center font-semibold">
                     {idx + 1}
                   </span>
-                  <Textarea
-                    placeholder={`Describe el paso ${idx + 1}...`}
-                    value={step.text}
-                    onChange={(e) => updateStep(step.id, e.target.value)}
-                    rows={2}
-                    className={`flex-1 ${inputCls} resize-none text-sm`}
-                  />
+                  <div className="flex-1 space-y-2">
+                    <Textarea
+                      placeholder={`Describe el paso ${idx + 1}...`}
+                      value={step.text}
+                      onChange={(e) => updateStep(step.id, e.target.value)}
+                      rows={2}
+                      className={`${inputCls} resize-none text-sm`}
+                    />
+                    {/* Step images */}
+                    <div className="flex flex-wrap items-center gap-2">
+                      {step.images.map((img, imgIdx) => (
+                        <ImageThumb key={imgIdx} src={img}
+                          onRemove={() => removeStepImage(step.id, imgIdx)} />
+                      ))}
+                      <button type="button" onClick={() => setStepImageModalId(step.id)}
+                        className="w-20 h-20 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-1 text-gray-400 hover:border-[#2d6a4f] hover:text-[#2d6a4f] hover:bg-[#f0faf5] transition-colors">
+                        <ImageIcon size={16} />
+                        <span className="text-[10px] font-medium">Foto</span>
+                      </button>
+                    </div>
+                  </div>
                   <button
                     onClick={() => removeStep(step.id)}
                     className="mt-2.5 text-red-300 hover:text-red-500 transition-colors flex-shrink-0"

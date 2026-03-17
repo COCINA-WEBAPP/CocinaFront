@@ -20,6 +20,7 @@ import { ImageCarousel } from "./components/ImageCarousel";
 import { Comments } from "./components/Comments";
 import { Reseñas } from "./components/Reseñas";
 import type { Recipe } from "@/lib/types/recipes";
+import { normalizeStep } from "@/lib/types/recipes";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import {
@@ -178,7 +179,8 @@ export default function RecipePage() {
     ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount
     : recipe.rating;
 
-  const steps = recipe.steps ?? [];
+  const rawSteps = recipe.steps ?? [];
+  const steps = rawSteps.map(normalizeStep);
   const hasSteps = steps.length > 0;
   const hasGallery = recipe.images.length > 1;
   const protein = recipe.protein ?? 0;
@@ -436,8 +438,19 @@ export default function RecipePage() {
                         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#e07b39] text-white flex items-center justify-center font-bold text-sm mt-0.5">
                           {idx + 1}
                         </div>
-                        <div className="flex-1">
-                          <p className="text-gray-800 leading-relaxed">{step}</p>
+                        <div className="flex-1 space-y-3">
+                          <p className="text-gray-800 leading-relaxed">{step.text}</p>
+                          {step.images.length > 0 && (
+                            <div className="flex flex-wrap gap-2">
+                              {step.images.map((img, imgIdx) => (
+                                <div key={imgIdx} className="w-28 h-28 rounded-lg overflow-hidden border border-gray-200">
+                                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                                  <img src={img} alt={`Paso ${idx + 1} - imagen ${imgIdx + 1}`}
+                                    className="w-full h-full object-cover" />
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </li>
                     ))}

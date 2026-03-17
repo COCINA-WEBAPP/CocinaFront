@@ -168,7 +168,7 @@ describe("createRecipe", () => {
         difficulty: "Fácil",
         tags: [],
         ingredients: ["sal"],
-        steps: ["Paso 1"],
+        steps: [{ text: "Paso 1", images: [] }],
       })
     ).rejects.toThrow("Debes iniciar sesión");
   });
