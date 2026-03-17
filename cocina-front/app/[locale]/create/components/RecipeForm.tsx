@@ -179,6 +179,7 @@ export function RecipeForm({
   const [category, setCategory] = useState(initialData?.category ?? "");
   const [cookTime, setCookTime] = useState(initialData?.cookTime ?? 0);
   const [calories, setCalories] = useState(initialData?.calories ?? 0);
+  const [protein, setProtein] = useState(initialData?.protein ?? 0);
   const [servings, setServings] = useState(initialData?.servings ?? 1);
   const [difficulty, setDifficulty] = useState<CreateRecipeData["difficulty"]>(
     initialData?.difficulty ?? "Fácil"
@@ -278,6 +279,7 @@ export function RecipeForm({
       images: allImages(),
       category: category.trim() || "General",
       cookTime,
+      protein,
       calories,
       servings,
       difficulty,
