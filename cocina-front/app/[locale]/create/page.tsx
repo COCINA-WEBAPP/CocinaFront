@@ -18,7 +18,7 @@ import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import type { CreateRecipeData } from "@/lib/types/recipes";
-import { X, Upload, Plus, Trash2, LinkIcon, ImageIcon, Tag } from "lucide-react";
+import { X, Upload, Plus, Trash2, LinkIcon, ImageIcon } from "lucide-react";
 
 // ─── Local types ──────────────────────────────────────────────────────────────
 
@@ -548,55 +548,44 @@ export default function CreateRecipePage() {
           <div>
             <h2 className="text-base font-bold text-gray-800 mb-3">Etiquetas</h2>
 
-            <div className="flex flex-wrap gap-2 mb-4">
-              {allTags.map((tag) => {
-                const active = selectedTags.includes(tag);
-                return (
-                  <button
-                    key={tag}
-                    type="button"
-                    onClick={() => toggleTag(tag)}
-                    className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${
-                      active
-                        ? "bg-[#2d6a4f] text-white border-[#2d6a4f] shadow-sm"
-                        : "bg-white text-gray-600 border-gray-300 hover:border-[#2d6a4f] hover:text-[#2d6a4f]"
-                    }`}
-                  >
-                    {active && <span className="mr-1">✓</span>}
+            {/* Selected tags as removable badges */}
+            {selectedTags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-3">
+                {selectedTags.map((tag) => (
+                  <span key={tag}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium bg-[#e07b39] text-white">
                     {tag}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Create new tag */}
-            <div className="flex items-center gap-2">
-              <div className="relative flex-1">
-                <Tag size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                <Input
-                  placeholder="Crear nueva etiqueta..."
-                  value={newTagInput}
-                  onChange={(e) => setNewTagInput(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleAddNewTag(); } }}
-                  className={`pl-8 ${inputCls} text-sm`}
-                />
+                    <button type="button" onClick={() => toggleTag(tag)}
+                      className="ml-0.5 hover:bg-white/20 rounded-full p-0.5 transition-colors">
+                      <X size={14} />
+                    </button>
+                  </span>
+                ))}
               </div>
-              <Button
-                type="button"
-                onClick={handleAddNewTag}
-                disabled={!newTagInput.trim()}
-                variant="outline"
-                className="border-[#2d6a4f] text-[#2d6a4f] hover:bg-[#f0faf5] disabled:opacity-40 text-sm whitespace-nowrap"
+            )}
+
+            {/* Add existing + create new */}
+            <div className="flex items-center gap-2">
+              <select
+                value=""
+                onChange={(e) => { if (e.target.value) toggleTag(e.target.value); }}
+                className={`w-48 flex-shrink-0 ${selectCls} text-sm`}
               >
-                <Plus size={14} className="mr-1" /> Crear
+                <option value="" disabled>Añadir existente...</option>
+                {allTags.filter((t) => !selectedTags.includes(t)).map((tag) => (
+                  <option key={tag} value={tag}>{tag}</option>
+                ))}
+              </select>
+              <Input placeholder="Nueva etiqueta" value={newTagInput}
+                onChange={(e) => setNewTagInput(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleAddNewTag(); } }}
+                className={`flex-1 ${inputCls} text-sm`} />
+              <Button type="button" onClick={handleAddNewTag} disabled={!newTagInput.trim()}
+                variant="outline"
+                className="border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-40 text-sm whitespace-nowrap">
+                Crear
               </Button>
             </div>
-
-            {selectedTags.length > 0 && (
-              <p className="text-xs text-gray-400 mt-2">
-                Seleccionadas: {selectedTags.join(", ")}
-              </p>
-            )}
           </div>
 
           {/* ── Error ── */}
