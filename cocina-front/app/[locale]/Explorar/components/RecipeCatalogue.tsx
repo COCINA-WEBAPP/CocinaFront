@@ -14,10 +14,11 @@ import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 const DEFAULT_FILTERS: RecipeFilters = {
+  tag: null,
   categories: [],
   cookTime:  [0, 180],
   calories:  [0, 800],
-  protein:   [0, 100],   // ← nuevo
+  protein:   [0, 100],
   difficulty: [],
   rating: 0,
   servings: [1, 12],
@@ -40,6 +41,15 @@ export function RecipeCatalogue() {
   // Use service so newly created recipes appear immediately
   const allRecipes = getAllRecipes();
 
+  // Collect unique tags across all recipes
+  const allTags = useMemo(() => {
+    const tagSet = new Set<string>();
+    for (const r of allRecipes) {
+      for (const tag of r.tags) tagSet.add(tag);
+    }
+    return Array.from(tagSet).sort();
+  }, [allRecipes]);
+
   const filteredRecipes = useMemo(() => {
     return allRecipes.filter((recipe) => {
       // Search
@@ -52,6 +62,9 @@ export function RecipeCatalogue() {
           recipe.category.toLowerCase().includes(query);
         if (!matchesSearch) return false;
       }
+
+      // Tag filter (from tag pills in filter panel)
+      if (filters.tag && !recipe.tags.includes(filters.tag)) return false;
 
       // Category
       if (filters.categories.length > 0 && !filters.categories.includes(recipe.category))
@@ -171,7 +184,7 @@ export function RecipeCatalogue() {
       <div className="flex flex-col gap-8 lg:flex-row">
         {/* Desktop Filter Panel */}
         <aside className="hidden lg:block lg:w-80 lg:flex-shrink-0">
-          <RecipeFilterPanel filters={filters} onFiltersChange={setFilters} onReset={handleResetFilters} />
+          <RecipeFilterPanel filters={filters} onFiltersChange={setFilters} onReset={handleResetFilters} availableTags={allTags} />
         </aside>
 
         <div className="flex-1">
@@ -186,7 +199,7 @@ export function RecipeCatalogue() {
               <SheetContent side="left" className="w-80 overflow-y-auto">
                 <SheetHeader><SheetTitle>{t("filters")}</SheetTitle></SheetHeader>
                 <div className="mt-6">
-                  <RecipeFilterPanel filters={filters} onFiltersChange={setFilters} onReset={handleResetFilters} />
+                  <RecipeFilterPanel filters={filters} onFiltersChange={setFilters} onReset={handleResetFilters} availableTags={allTags} />
                 </div>
               </SheetContent>
             </Sheet>

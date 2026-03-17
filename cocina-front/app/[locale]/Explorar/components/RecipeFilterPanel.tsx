@@ -17,10 +17,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 
 export interface RecipeFilters {
+  tag: string | null;
   categories: string[];
   cookTime: [number, number];
   calories: [number, number];
-  protein: [number, number];   // ← nuevo
+  protein: [number, number];
   difficulty: string[];
   rating: number;
   servings: [number, number];
@@ -30,6 +31,7 @@ interface RecipeFilterPanelProps {
   filters: RecipeFilters;
   onFiltersChange: (filters: RecipeFilters) => void;
   onReset: () => void;
+  availableTags?: string[];
 }
 
 const CATEGORIES = [
@@ -55,6 +57,7 @@ export function RecipeFilterPanel({
   filters,
   onFiltersChange,
   onReset,
+  availableTags = [],
 }: RecipeFilterPanelProps) {
   const t = useTranslations("Filters");
 
@@ -74,6 +77,7 @@ export function RecipeFilterPanel({
 
   const getActiveFiltersCount = () => {
     let count = 0;
+    if (filters.tag) count += 1;
     if (filters.categories.length > 0) count += filters.categories.length;
     if (filters.difficulty.length > 0) count += filters.difficulty.length;
     if (filters.rating > 0) count += 1;
@@ -114,6 +118,44 @@ export function RecipeFilterPanel({
       </div>
 
       <Accordion type="multiple" defaultValue={[]} className="w-full">
+
+        {/* Tags */}
+        {availableTags.length > 0 && (
+          <AccordionItem value="tags">
+            <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
+              Etiquetas
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="flex flex-wrap gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => onFiltersChange({ ...filters, tag: null })}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                    filters.tag === null
+                      ? "bg-[#2d6a4f] text-white border-[#2d6a4f]"
+                      : "bg-white text-gray-600 border-gray-300 hover:border-[#2d6a4f] hover:text-[#2d6a4f]"
+                  }`}
+                >
+                  Todas
+                </button>
+                {availableTags.map((tag) => (
+                  <button
+                    key={tag}
+                    type="button"
+                    onClick={() => onFiltersChange({ ...filters, tag: filters.tag === tag ? null : tag })}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                      filters.tag === tag
+                        ? "bg-[#2d6a4f] text-white border-[#2d6a4f]"
+                        : "bg-white text-gray-600 border-gray-300 hover:border-[#2d6a4f] hover:text-[#2d6a4f]"
+                    }`}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        )}
 
         {/* Categories */}
         <AccordionItem value="categories">
@@ -271,6 +313,11 @@ export function RecipeFilterPanel({
           >
             <p className="text-sm font-medium">{t("activeFilters")}</p>
             <div className="flex flex-wrap gap-2">
+              {filters.tag && (
+                <Badge variant="secondary" className="text-xs">
+                  Etiqueta: {filters.tag}
+                </Badge>
+              )}
               {filters.categories.map((cat) => {
                 const catObj = CATEGORIES.find((c) => c.value === cat);
                 return (
