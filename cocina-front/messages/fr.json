@@ -391,5 +391,24 @@
   },
   "Accessibility": {
     "skipToContent": "Aller au contenu principal"
+  },
+  "Hero": {
+    "badge": "Cuisinez chez vous, inspirez-vous aujourd'hui",
+    "headingLine1": "Découvrez",
+    "headingLine2": "des Recettes",
+    "headingAccent": "Incroyables",
+    "description": "Explorez des recettes partagées par des cuisiniers du monde entier. De la cuisine maison à la haute gastronomie.",
+    "searchPlaceholder": "Que souhaitez-vous cuisiner aujourd'hui ?",
+    "searchButton": "Rechercher",
+    "trendingLabel": "Tendances :"
+  },
+  "CTA": {
+    "badge": "Rejoignez notre communauté",
+    "headingLine1": "Prêt à Commencer votre",
+    "headingLine2": "Aventure Culinaire ?",
+    "description": "Créez un compte gratuit et accédez à des milliers de recettes, sauvegardez vos préférées et partagez vos propres créations avec le monde.",
+    "buttonStart": "Commencer Gratuitement",
+    "buttonExplore": "Voir Plus de Recettes",
+    "footnote": "Aucune carte de crédit requise • Accès instantané"
   }
 }

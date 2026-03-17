@@ -391,5 +391,24 @@
   },
   "Accessibility": {
     "skipToContent": "Vai al contenuto principale"
+  },
+  "Hero": {
+    "badge": "Cucina da casa, lasciati ispirare oggi",
+    "headingLine1": "Scopri",
+    "headingLine2": "Ricette",
+    "headingAccent": "Incredibili",
+    "description": "Esplora ricette condivise da cuochi di tutto il mondo. Dalla cucina casalinga all'alta cucina.",
+    "searchPlaceholder": "Cosa vorresti cucinare oggi?",
+    "searchButton": "Cerca",
+    "trendingLabel": "Di tendenza:"
+  },
+  "CTA": {
+    "badge": "Unisciti alla nostra comunità",
+    "headingLine1": "Pronto a Iniziare la tua",
+    "headingLine2": "Avventura Culinaria?",
+    "description": "Crea un account gratuito e accedi a migliaia di ricette, salva le tue preferite e condividi le tue creazioni con il mondo.",
+    "buttonStart": "Inizia Gratis",
+    "buttonExplore": "Vedi Più Ricette",
+    "footnote": "Nessuna carta di credito richiesta • Accesso immediato"
   }
 }

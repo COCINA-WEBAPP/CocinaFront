@@ -391,5 +391,24 @@
   },
   "Accessibility": {
     "skipToContent": "Skip to main content"
+  },
+  "Hero": {
+    "badge": "Cook from home, get inspired today",
+    "headingLine1": "Discover",
+    "headingLine2": "Incredible",
+    "headingAccent": "Recipes",
+    "description": "Explore recipes shared by cooks from around the world. From home cooking to fine dining.",
+    "searchPlaceholder": "What would you like to cook today?",
+    "searchButton": "Search",
+    "trendingLabel": "Trending:"
+  },
+  "CTA": {
+    "badge": "Join our community",
+    "headingLine1": "Ready to Start Your",
+    "headingLine2": "Culinary Adventure?",
+    "description": "Create a free account and access thousands of recipes, save your favorites and share your own creations with the world.",
+    "buttonStart": "Get Started Free",
+    "buttonExplore": "Browse Recipes",
+    "footnote": "No credit card required • Instant access"
   }
 }

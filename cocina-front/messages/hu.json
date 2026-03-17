@@ -391,5 +391,24 @@
   },
   "Accessibility": {
     "skipToContent": "Ugrás a fő tartalomhoz"
+  },
+  "Hero": {
+    "badge": "Főzz otthon, inspirálódj ma",
+    "headingLine1": "Fedezz fel",
+    "headingLine2": "Recepteket",
+    "headingAccent": "Hihetetlen",
+    "description": "Fedezz fel recepteket, amelyeket a világ minden tájáról érkező szakácsok osztottak meg. Az otthoni főzéstől a fine diningig.",
+    "searchPlaceholder": "Mit szeretnél ma főzni?",
+    "searchButton": "Keresés",
+    "trendingLabel": "Népszerű:"
+  },
+  "CTA": {
+    "badge": "Csatlakozz a közösségünkhöz",
+    "headingLine1": "Készen állsz elkezdeni a",
+    "headingLine2": "Kulináris Kalandot?",
+    "description": "Hozz létre egy ingyenes fiókot és férj hozzá több ezer recepthez, mentsd el a kedvenceidet és oszd meg saját alkotásaidat a világgal.",
+    "buttonStart": "Kezdés Ingyen",
+    "buttonExplore": "Több Recept Megtekintése",
+    "footnote": "Nem szükséges hitelkártya • Azonnali hozzáférés"
   }
 }

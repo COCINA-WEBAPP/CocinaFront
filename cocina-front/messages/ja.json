@@ -391,5 +391,24 @@
   },
   "Accessibility": {
     "skipToContent": "メインコンテンツへスキップ"
+  },
+  "Hero": {
+    "badge": "自宅で料理、今日はインスピレーションを",
+    "headingLine1": "発見しよう",
+    "headingLine2": "レシピを",
+    "headingAccent": "素晴らしい",
+    "description": "世界中の料理人が共有したレシピを探索しましょう。家庭料理から本格的な料理まで。",
+    "searchPlaceholder": "今日は何を作りたいですか？",
+    "searchButton": "検索",
+    "trendingLabel": "人気："
+  },
+  "CTA": {
+    "badge": "コミュニティに参加しよう",
+    "headingLine1": "料理の冒険を",
+    "headingLine2": "始める準備はできていますか？",
+    "description": "無料アカウントを作成して、何千ものレシピにアクセスし、お気に入りを保存して、自分の作品を世界と共有しましょう。",
+    "buttonStart": "無料で始める",
+    "buttonExplore": "レシピをもっと見る",
+    "footnote": "クレジットカード不要 • すぐにアクセス可能"
   }
 }

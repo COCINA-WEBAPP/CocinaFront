@@ -391,5 +391,24 @@
   },
   "Accessibility": {
     "skipToContent": "Přeskočit na hlavní obsah"
+  },
+  "Hero": {
+    "badge": "Vařte doma, nechte se inspirovat",
+    "headingLine1": "Objevte",
+    "headingLine2": "Recepty",
+    "headingAccent": "Úžasné",
+    "description": "Prozkoumejte recepty sdílené kuchaři z celého světa. Od domácí kuchyně po haute cuisine.",
+    "searchPlaceholder": "Co byste si dnes chtěli uvařit?",
+    "searchButton": "Hledat",
+    "trendingLabel": "Trendy:"
+  },
+  "CTA": {
+    "badge": "Připojte se k naší komunitě",
+    "headingLine1": "Připraveni Začít svůj",
+    "headingLine2": "Kulinářský Dobrodružství?",
+    "description": "Vytvořte si bezplatný účet a získejte přístup k tisícům receptů, ukládejte své oblíbené a sdílejte své vlastní výtvory se světem.",
+    "buttonStart": "Začít Zdarma",
+    "buttonExplore": "Zobrazit Více Receptů",
+    "footnote": "Bez kreditní karty • Okamžitý přístup"
   }
 }
