@@ -7,9 +7,10 @@ import { RecipeFilterPanel, RecipeFilters } from "./RecipeFilterPanel";
 import { RecipeSortDropdown, SortOption } from "./RecipeSortDropdown";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { ChevronLeft, ChevronRight, Filter } from "lucide-react";
+import { ChevronLeft, ChevronRight, Filter, Search, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { getAllRecipes } from "@/lib/services/recipe";
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 const DEFAULT_FILTERS: RecipeFilters = {
@@ -24,8 +25,11 @@ const DEFAULT_FILTERS: RecipeFilters = {
 
 export function RecipeCatalogue() {
   const t = useTranslations("Explore");
+  const tHeader = useTranslations("Header");
+  const router = useRouter();
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
+  const [mobileSearch, setMobileSearch] = useState(searchQuery);
 
   const [filters, setFilters] = useState<RecipeFilters>(DEFAULT_FILTERS);
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
@@ -110,6 +114,7 @@ export function RecipeCatalogue() {
 
   const handleResetFilters = () => setFilters(DEFAULT_FILTERS);
 
+  useEffect(() => { setMobileSearch(searchQuery); }, [searchQuery]);
   useEffect(() => { setCurrentPage(1); }, [filters, searchQuery, sortBy]);
 
   const totalPages = Math.max(1, Math.ceil(sortedRecipes.length / pageSize));
@@ -141,6 +146,27 @@ export function RecipeCatalogue() {
         <h1 className="mb-4 text-4xl font-bold md:text-5xl">{t("title")}</h1>
         <p className="text-lg text-muted-foreground">{t("subtitle")}</p>
       </motion.div>
+
+      {/* Mobile search bar — visible only when the desktop Header is hidden */}
+      <form
+        onSubmit={(e) => { e.preventDefault(); router.push(`/Explorar?search=${encodeURIComponent(mobileSearch)}`); }}
+        className="md:hidden mb-6 relative flex items-center gap-2 rounded-xl border border-[#e07b39]/30 bg-white shadow-sm px-3 py-1.5"
+      >
+        <Search className="h-5 w-5 text-[#e07b39] flex-shrink-0" />
+        <input
+          type="text"
+          placeholder={tHeader("searchPlaceholder")}
+          className="flex-1 bg-transparent text-sm outline-none placeholder:text-gray-400 py-2"
+          value={mobileSearch}
+          onChange={(e) => setMobileSearch(e.target.value)}
+        />
+        {mobileSearch && (
+          <button type="button" onClick={() => { setMobileSearch(""); router.push("/Explorar"); }}
+            className="text-gray-400 hover:text-gray-600 flex-shrink-0">
+            <X className="h-4 w-4" />
+          </button>
+        )}
+      </form>
 
       <div className="flex flex-col gap-8 lg:flex-row">
         {/* Desktop Filter Panel */}
