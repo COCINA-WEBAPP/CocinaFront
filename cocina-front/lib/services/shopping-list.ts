@@ -1,6 +1,6 @@
 import type { ShoppingListState } from "@/lib/types/shopping-list";
 
-const STORAGE_KEY = "recipeshare_shopping_list";
+const STORAGE_KEY_PREFIX = "recipeshare_shopping_list";
 
 const EMPTY_STATE: ShoppingListState = {
   entries: [],
@@ -8,22 +8,42 @@ const EMPTY_STATE: ShoppingListState = {
 };
 
 let shoppingListState: ShoppingListState | null = null;
+let currentStorageKey: string = STORAGE_KEY_PREFIX;
 
 // ========================================
 // Helpers de persistencia (patrón user.ts)
 // ========================================
 
+/**
+ * Devuelve la clave de localStorage para el usuario actual.
+ * Si hay un usuario logueado, usa su ID para aislar la lista.
+ */
+function resolveStorageKey(): string {
+  if (typeof window === "undefined") return STORAGE_KEY_PREFIX;
+  try {
+    const raw = localStorage.getItem("recipeshare_session");
+    if (raw) {
+      const user = JSON.parse(raw);
+      if (user?.id) return `${STORAGE_KEY_PREFIX}_${user.id}`;
+    }
+  } catch {
+    // sesión corrupta, usar clave global
+  }
+  return STORAGE_KEY_PREFIX;
+}
+
 function persistShoppingList(state: ShoppingListState): void {
   shoppingListState = state;
   if (typeof window !== "undefined") {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    localStorage.setItem(currentStorageKey, JSON.stringify(state));
   }
 }
 
 function restoreShoppingList(): ShoppingListState {
   if (typeof window === "undefined") return { ...EMPTY_STATE };
+  currentStorageKey = resolveStorageKey();
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(currentStorageKey);
     if (raw) {
       const parsed = JSON.parse(raw) as ShoppingListState;
       if (parsed.entries && Array.isArray(parsed.entries)) {
@@ -39,6 +59,16 @@ function restoreShoppingList(): ShoppingListState {
 // ========================================
 // API pública
 // ========================================
+
+/**
+ * Resetea el caché en memoria para que la próxima lectura
+ * recargue desde localStorage con la clave del usuario actual.
+ * Llamar después de login / logout / register.
+ */
+export function resetShoppingListCache(): void {
+  shoppingListState = null;
+  currentStorageKey = resolveStorageKey();
+}
 
 /**
  * Obtiene el estado actual de la lista de compras.

@@ -7,6 +7,7 @@
 
 import { MOCK_USERS } from "@/lib/data/users";
 import { User, LoginCredentials, RegisterData, UpdateUserProfile, CookingHistoryEntry } from "@/lib/types/users";
+import { resetShoppingListCache } from "@/lib/services/shopping-list";
 
 // ========================================
 // VARIABLE GLOBAL: Usuario Actual
@@ -173,6 +174,7 @@ export async function login(credentials: LoginCredentials): Promise<User> {
 
   currentUser = user;
   persistSession(user);
+  resetShoppingListCache();
   return user;
 }
 
@@ -214,6 +216,7 @@ export async function register(data: RegisterData): Promise<User> {
 
   currentUser = newUser;
   persistSession(newUser);
+  resetShoppingListCache();
   return newUser;
 }
 
@@ -221,6 +224,7 @@ export async function logout(): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 500));
   currentUser = null;
   persistSession(null);
+  resetShoppingListCache();
 }
 
 export function getCurrentUser(): User | null {
