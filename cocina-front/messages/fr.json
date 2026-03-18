@@ -98,6 +98,11 @@
   "Filters": {
     "title": "Filtres",
     "clear": "Effacer",
+    "tags": "Étiquettes",
+    "allTags": "Toutes",
+    "tagLabel": "Étiquette",
+    "protein": "Protéines (g)",
+    "proteinLabel": "Protéines",
     "categories": "Catégories",
     "cookTime": "Temps de Cuisson",
     "calories": "Calories",
@@ -281,7 +286,14 @@
     "editProfile": "Modifier le Profil",
     "editDescription": "Mettez à jour vos informations personnelles et vos réseaux sociaux",
     "followersAndFollowing": "Abonnés et Abonnements",
-    "followersDescription": "Voir vos abonnés et les personnes que vous suivez"
+    "followersDescription": "Voir vos abonnés et les personnes que vous suivez",
+    "editProfileBtn": "Modifier le profil",
+    "logoutBtn": "Se déconnecter",
+    "tabFavorites": "Favoris",
+    "tabHistory": "Historique",
+    "tabMyRecipes": "Mes Recettes",
+    "tabInfo": "Informations",
+    "topRecipesTitle": "Mes Meilleures Recettes"
   },
   "EditProfile": {
     "basicInfo": "Informations de Base",

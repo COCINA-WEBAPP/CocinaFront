@@ -21,15 +21,16 @@ import { Heart, Clock, UtensilsCrossed, LogOut, Star, ChefHat, Pencil } from "lu
 // ─── Tab type ─────────────────────────────────────────────────────────────────
 type Tab = "favoritos" | "historial" | "recetas" | "info";
 
-const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
-  { id: "favoritos",  label: "Favoritos",   icon: <Heart size={16} /> },
-  { id: "historial",  label: "Historial",   icon: <Clock size={16} /> },
-  { id: "recetas",    label: "Mis Recetas", icon: <UtensilsCrossed size={16} /> },
-  { id: "info",       label: "Información", icon: <ChefHat size={16} /> },
+const TAB_KEYS: { id: Tab; labelKey: string; icon: React.ReactNode }[] = [
+  { id: "favoritos",  labelKey: "tabFavorites",  icon: <Heart size={16} /> },
+  { id: "historial",  labelKey: "tabHistory",    icon: <Clock size={16} /> },
+  { id: "recetas",    labelKey: "tabMyRecipes",  icon: <UtensilsCrossed size={16} /> },
+  { id: "info",       labelKey: "tabInfo",       icon: <ChefHat size={16} /> },
 ];
 
 // ─── Top Recipes mini component ───────────────────────────────────────────────
 function TopRecipes({ user }: { user: AppUser }) {
+  const t = useTranslations("Account");
   const topRecipes = useMemo(() => {
     return getAllRecipes()
       .filter((r) => r.author.username === user.username)
@@ -50,7 +51,7 @@ function TopRecipes({ user }: { user: AppUser }) {
     <div className="px-4 pb-4">
       <h2 className="flex items-center gap-2 text-base font-bold text-gray-800 mb-3">
         <Star size={18} className="fill-yellow-400 text-yellow-400" />
-        Mis Recetas Top
+        {t("topRecipesTitle")}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {topRecipes.map((recipe) => (
@@ -153,7 +154,7 @@ function AccountPageContent() {
               className="bg-[#2d6a4f] hover:bg-[#1b4332] text-white rounded-full px-5 text-sm font-semibold"
             >
               <Pencil size={14} className="mr-1.5" />
-              Editar perfil
+              {t("editProfileBtn")}
             </Button>
             <Button
               onClick={handleLogout}
@@ -161,7 +162,7 @@ function AccountPageContent() {
               className="rounded-full px-5 text-sm font-semibold text-red-500 border-red-200 hover:bg-red-50"
             >
               <LogOut size={14} className="mr-1.5" />
-              Salir
+              {t("logoutBtn")}
             </Button>
           </div>
         </div>
@@ -175,7 +176,7 @@ function AccountPageContent() {
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           {/* Tab headers */}
           <div className="flex border-b border-gray-100">
-            {TABS.map((tab) => (
+            {TAB_KEYS.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
@@ -186,7 +187,7 @@ function AccountPageContent() {
                 }`}
               >
                 {tab.icon}
-                {tab.label}
+                {t(tab.labelKey)}
               </button>
             ))}
           </div>

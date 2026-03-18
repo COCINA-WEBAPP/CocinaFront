@@ -123,7 +123,7 @@ export function RecipeFilterPanel({
         {availableTags.length > 0 && (
           <AccordionItem value="tags">
             <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
-              Etiquetas
+              {t("tags")}
             </AccordionTrigger>
             <AccordionContent>
               <div className="flex flex-wrap gap-2 pt-2">
@@ -136,7 +136,7 @@ export function RecipeFilterPanel({
                       : "bg-white text-gray-600 border-gray-300 hover:border-[#2d6a4f] hover:text-[#2d6a4f]"
                   }`}
                 >
-                  Todas
+                  {t("allTags")}
                 </button>
                 {availableTags.map((tag) => (
                   <button
@@ -223,7 +223,7 @@ export function RecipeFilterPanel({
         {/* Protein ← nuevo */}
         <AccordionItem value="protein">
           <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
-            Proteína (g)
+            {t("protein")}
           </AccordionTrigger>
           <AccordionContent>
             <div className="space-y-4 pt-2">
@@ -315,7 +315,7 @@ export function RecipeFilterPanel({
             <div className="flex flex-wrap gap-2">
               {filters.tag && (
                 <Badge variant="secondary" className="text-xs">
-                  Etiqueta: {filters.tag}
+                  {t("tagLabel")}: {filters.tag}
                 </Badge>
               )}
               {filters.categories.map((cat) => {
@@ -336,7 +336,7 @@ export function RecipeFilterPanel({
               })}
               {(filters.protein[0] !== 0 || filters.protein[1] !== 100) && (
                 <Badge variant="secondary" className="text-xs">
-                  Proteína: {filters.protein[0]}–{filters.protein[1]}g
+                  {t("proteinLabel")}: {filters.protein[0]}–{filters.protein[1]}g
                 </Badge>
               )}
             </div>

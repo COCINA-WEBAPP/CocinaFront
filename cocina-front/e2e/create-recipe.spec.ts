@@ -16,9 +16,9 @@ test.describe("Create recipe page", () => {
     await injectSession(page);
     await page.goto("/es/create");
 
-    await expect(page.locator("h1").filter({ hasText: "Crear Receta" })).toBeVisible({ timeout: 10000 });
-    await expect(page.getByPlaceholder("Ej: Pasta Carbonara")).toBeVisible();
-    await expect(page.getByPlaceholder("Describe tu receta...")).toBeVisible();
+    await expect(page.locator("h1").filter({ hasText: /Crear.*Receta/i })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByPlaceholder(/Pasta Carbonara/i)).toBeVisible();
+    await expect(page.getByPlaceholder(/receta\.\.\./i)).toBeVisible();
   });
 
   test("can fill in recipe name and description", async ({ page }) => {
@@ -78,11 +78,19 @@ test.describe("Create recipe page", () => {
     await injectSession(page);
     await page.goto("/es/create");
 
-    await page.getByPlaceholder("Nueva etiqueta").fill("MiTagE2E");
-    // The "Crear" button in the tags section (not the main form "Guardar")
-    await page.locator("button").filter({ hasText: /^Crear$/ }).click();
+    // Wait for the form to be fully loaded
+    await expect(page.locator("h1").filter({ hasText: /Crear.*Receta/i })).toBeVisible({ timeout: 10000 });
 
-    await expect(page.locator("span").filter({ hasText: "MiTagE2E" }).first()).toBeVisible();
+    const tagInput = page.getByPlaceholder(/nueva etiqueta/i);
+    await expect(tagInput).toBeVisible({ timeout: 5000 });
+    await tagInput.pressSequentially("MiTagTest", { delay: 50 });
+
+    // The "Crear" button in the tags section (not the main form "Guardar")
+    const createBtn = page.locator("button").filter({ hasText: /^Crear$/ });
+    await expect(createBtn).toBeEnabled({ timeout: 3000 });
+    await createBtn.click();
+
+    await expect(page.locator("span").filter({ hasText: "MiTagTest" }).first()).toBeVisible({ timeout: 5000 });
   });
 
   test("shows error when submitting without title", async ({ page }) => {

@@ -98,6 +98,11 @@
   "Filters": {
     "title": "Filters",
     "clear": "Clear",
+    "tags": "Tags",
+    "allTags": "All",
+    "tagLabel": "Tag",
+    "protein": "Protein (g)",
+    "proteinLabel": "Protein",
     "categories": "Categories",
     "cookTime": "Cook Time",
     "calories": "Calories",
@@ -281,7 +286,14 @@
     "editProfile": "Edit Profile",
     "editDescription": "Update your personal information and social media",
     "followersAndFollowing": "Followers and Following",
-    "followersDescription": "See your followers and who you follow"
+    "followersDescription": "See your followers and who you follow",
+    "editProfileBtn": "Edit profile",
+    "logoutBtn": "Log out",
+    "tabFavorites": "Favorites",
+    "tabHistory": "History",
+    "tabMyRecipes": "My Recipes",
+    "tabInfo": "Information",
+    "topRecipesTitle": "My Top Recipes"
   },
   "EditProfile": {
     "basicInfo": "Basic Information",
