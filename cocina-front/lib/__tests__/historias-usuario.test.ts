@@ -1,13 +1,7 @@
-/**
- * PRUEBAS UNITARIAS COMPLETAS — HISTORIAS DE USUARIO (HU 1–25)
- *
- * Archivo único que agrupa las pruebas por historia de usuario.
- * Cada `describe` de nivel superior corresponde a una HU.
- */
 
 import { describe, it, expect, beforeEach } from "vitest";
 
-// ── Servicios ──
+
 import {
   getShoppingList,
   addRecipeToShoppingList,
@@ -55,7 +49,6 @@ import {
   clearCookingHistory,
 } from "@/lib/services/user";
 
-// ── Datos ──
 import {
   categorizeIngredient,
   groupIngredientsByCategory,
@@ -65,7 +58,6 @@ import {
 import { MOCK_RECIPES } from "@/lib/data/recipes";
 import { MOCK_USERS } from "@/lib/data/users";
 
-// ── ChefBot ──
 import {
   getChefBotResponse,
   INGREDIENT_SUBSTITUTIONS,
@@ -75,42 +67,31 @@ import {
   FOOD_SAFETY_TIPS,
 } from "@/components/ChefBot/chefBotResponses";
 
-// ── Tipos ──
 import type { Recipe, CreateRecipeData } from "@/lib/types/recipes";
 
-// ═══════════════════════════════════════════════════════════════════════
-// Helpers
-// ═══════════════════════════════════════════════════════════════════════
 
-/** Limpia completamente la sesión (in-memory + localStorage). */
 async function clearSession() {
   try { await logout(); } catch { /* noop */ }
   localStorage.clear();
   resetShoppingListCache();
 }
 
-/** Simula una sesión activa: primero limpia la anterior, luego escribe en localStorage. */
+
 async function simulateSessionClean(user: { id: string; username: string; email: string; fullName: string }) {
   await clearSession();
   localStorage.setItem("recipeshare_session", JSON.stringify(user));
   resetShoppingListCache();
 }
 
-/** Simula sesión sin async (para uso en beforeEach sync — solo localStorage). */
 function simulateSession(user: { id: string; username: string; email: string; fullName: string }) {
   localStorage.setItem("recipeshare_session", JSON.stringify(user));
 }
 
-/** Datos de sesión del primer usuario del mock (María). */
+
 const MARIA = { id: "1", username: "maria_user", email: "maria@example.com", fullName: "María García" };
 
-// ═══════════════════════════════════════════════════════════════════════
-// LISTA DE COMPRAS — HU 1, 2 y 3
-// ═══════════════════════════════════════════════════════════════════════
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 1 — Generar lista de compras a partir de una receta
-// ───────────────────────────────────────────────────────────────────────
+
 describe("HU 1 — Generar lista de compras a partir de una receta", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -180,9 +161,7 @@ describe("HU 1 — Generar lista de compras a partir de una receta", () => {
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 2 — Marcar ingredientes como "ya tengo en casa"
-// ───────────────────────────────────────────────────────────────────────
+
 describe("HU 2 — Marcar ingredientes como 'ya tengo en casa'", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -229,9 +208,7 @@ describe("HU 2 — Marcar ingredientes como 'ya tengo en casa'", () => {
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 3 — Agrupar ingredientes por categoría
-// ───────────────────────────────────────────────────────────────────────
+
 describe("HU 3 — Agrupar ingredientes por categoría", () => {
   it("clasifica ingredientes lácteos correctamente", () => {
     expect(categorizeIngredient("1 taza de leche")).toBe("dairy");
@@ -295,13 +272,6 @@ describe("HU 3 — Agrupar ingredientes por categoría", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════════════════════
-// GESTIÓN DE FOTOS — HU 4, 5, 6 y 7
-// ═══════════════════════════════════════════════════════════════════════
-
-// ───────────────────────────────────────────────────────────────────────
-// HU 4 — Subir foto principal de una receta
-// ───────────────────────────────────────────────────────────────────────
 describe("HU 4 — Subir foto principal de una receta", () => {
   it("una receta tiene un array de imágenes con al menos la foto principal", () => {
     const recipe = MOCK_RECIPES.find((r) => r.images.length > 0);
@@ -342,14 +312,12 @@ describe("HU 4 — Subir foto principal de una receta", () => {
     expect(created.images).toHaveLength(1);
     expect(created.images[0]).toBe("https://example.com/foto.jpg");
 
-    // Cleanup
+
     await deleteRecipe(created.id);
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 5 — Añadir múltiples fotos del proceso
-// ───────────────────────────────────────────────────────────────────────
+
 describe("HU 5 — Añadir múltiples fotos del proceso de preparación", () => {
   it("una receta puede tener múltiples imágenes", () => {
     const recipe = MOCK_RECIPES.find((r) => r.images.length > 1);
@@ -400,9 +368,7 @@ describe("HU 5 — Añadir múltiples fotos del proceso de preparación", () => 
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 6 — Eliminar fotos de una receta
-// ───────────────────────────────────────────────────────────────────────
+
 describe("HU 6 — Eliminar fotos de una receta", () => {
   it("el creador puede actualizar (eliminar) fotos de su receta", async () => {
     simulateSession(MARIA);
@@ -451,9 +417,7 @@ describe("HU 6 — Eliminar fotos de una receta", () => {
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 7 — Visualizar fotos de una receta
-// ───────────────────────────────────────────────────────────────────────
+
 describe("HU 7 — Visualizar fotos de una receta", () => {
   it("las recetas existentes contienen un array de imágenes", () => {
     const recipe = MOCK_RECIPES[0];
@@ -474,13 +438,6 @@ describe("HU 7 — Visualizar fotos de una receta", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════════════════════
-// INTERACCIÓN SOCIAL — HU 8, 9 y 10
-// ═══════════════════════════════════════════════════════════════════════
-
-// ───────────────────────────────────────────────────────────────────────
-// HU 8 — Calificar recetas con estrellas (1–5)
-// ───────────────────────────────────────────────────────────────────────
 describe("HU 8 — Calificar recetas con estrellas (1–5)", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -501,8 +458,7 @@ describe("HU 8 — Calificar recetas con estrellas (1–5)", () => {
   });
 
   it("la calificación debe estar entre 1 y 5 — validación del rango", () => {
-    // La lógica de validación del rango 1-5 se hace en el componente UI,
-    // pero verificamos que el sistema almacena ratings numéricos.
+    
     const recipe = MOCK_RECIPES[0];
     const review = {
       user: { username: "testuser", fullName: "Test" },
@@ -547,9 +503,6 @@ describe("HU 8 — Calificar recetas con estrellas (1–5)", () => {
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 9 — Marcar recetas como favoritas
-// ───────────────────────────────────────────────────────────────────────
 describe("HU 9 — Marcar recetas como favoritas", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -606,9 +559,6 @@ describe("HU 9 — Marcar recetas como favoritas", () => {
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 10 — Añadir comentarios a una receta
-// ───────────────────────────────────────────────────────────────────────
 describe("HU 10 — Añadir comentarios a una receta", () => {
   it("las recetas tienen un array de comentarios", () => {
     const recipe = MOCK_RECIPES[0];
@@ -661,13 +611,6 @@ describe("HU 10 — Añadir comentarios a una receta", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════════════════════
-// CRUD DE RECETAS — HU 11, 12, 13 y 14
-// ═══════════════════════════════════════════════════════════════════════
-
-// ───────────────────────────────────────────────────────────────────────
-// HU 11 — Crear una nueva receta
-// ───────────────────────────────────────────────────────────────────────
 describe("HU 11 — Crear una nueva receta", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -786,8 +729,7 @@ describe("HU 11 — Crear una nueva receta", () => {
     simulateSession(MARIA);
     resetShoppingListCache();
 
-    // La receta creada con ingredientes vacíos se guardaría, pero
-    // validamos que la estructura de datos siempre tenga ingredientes.
+    
     const created = await createRecipe({
       title: "Con ingredientes",
       description: "x",
@@ -809,9 +751,7 @@ describe("HU 11 — Crear una nueva receta", () => {
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 12 — Editar recetas existentes
-// ───────────────────────────────────────────────────────────────────────
+
 describe("HU 12 — Editar recetas existentes", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -893,8 +833,7 @@ describe("HU 12 — Editar recetas existentes", () => {
       steps: [{ text: "Paso", images: [] }],
     });
 
-    // La validación de ingredientes vacíos se maneja en el UI/form,
-    // pero verificamos que la receta siempre mantiene ingredientes.
+
     const updated = await updateRecipe(created.id, {
       ingredients: ["nuevo ingrediente"],
     });
@@ -904,9 +843,7 @@ describe("HU 12 — Editar recetas existentes", () => {
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 13 — Eliminar recetas
-// ───────────────────────────────────────────────────────────────────────
+
 describe("HU 13 — Eliminar recetas", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -983,9 +920,7 @@ describe("HU 13 — Eliminar recetas", () => {
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 14 — Listar todas las recetas del usuario
-// ───────────────────────────────────────────────────────────────────────
+
 describe("HU 14 — Listar recetas propias del usuario", () => {
   it("getAllRecipes devuelve un array no vacío", () => {
     const recipes = getAllRecipes();
@@ -1046,13 +981,7 @@ describe("HU 14 — Listar recetas propias del usuario", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════════════════════
-// FILTRAR POR RANGO CALÓRICO / PROTEICO — HU 15
-// ═══════════════════════════════════════════════════════════════════════
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 15 — Filtrar recetas por rango calórico o proteico
-// ───────────────────────────────────────────────────────────────────────
 describe("HU 15 — Filtrar recetas por rango calórico o proteico", () => {
   const allRecipes = getAllRecipes();
 
@@ -1110,13 +1039,7 @@ describe("HU 15 — Filtrar recetas por rango calórico o proteico", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════════════════════
-// HISTORIAL DE RECETAS PREPARADAS — HU 16
-// ═══════════════════════════════════════════════════════════════════════
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 16 — Consultar historial de recetas preparadas
-// ───────────────────────────────────────────────────────────────────────
 describe("HU 16 — Consultar historial de recetas preparadas", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -1151,7 +1074,7 @@ describe("HU 16 — Consultar historial de recetas preparadas", () => {
     await addToCookingHistory("1", "Receta", undefined);
     const history = getCookingHistory();
     expect(history[0].cookedAt).toBeTruthy();
-    // Verifica que es un ISO date string válido
+    
     expect(new Date(history[0].cookedAt).getTime()).not.toBeNaN();
   });
 
@@ -1195,13 +1118,7 @@ describe("HU 16 — Consultar historial de recetas preparadas", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════════════════════
-// CREACIÓN Y AUTENTICACIÓN DE PERFIL — HU 17 y 18
-// ═══════════════════════════════════════════════════════════════════════
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 17 — Crear un perfil (registro)
-// ───────────────────────────────────────────────────────────────────────
 describe("HU 17 — Crear un perfil (registro de usuario)", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -1221,13 +1138,13 @@ describe("HU 17 — Crear un perfil (registro de usuario)", () => {
     expect(user.email).toBe("nuevo_test@example.com");
     expect(user.fullName).toBe("Nuevo Usuario Test");
 
-    // Cleanup: remove from MOCK_USERS
+
     const idx = MOCK_USERS.findIndex((u) => u.id === user.id);
     if (idx !== -1) MOCK_USERS.splice(idx, 1);
   });
 
   it("no permite registrar un email duplicado", async () => {
-    // maria@example.com ya existe en MOCK_USERS
+
     await expect(
       register({
         username: "otro_username",
@@ -1239,8 +1156,7 @@ describe("HU 17 — Crear un perfil (registro de usuario)", () => {
   });
 
   it("la contraseña debe tener mínimo 8 caracteres (validación en UI/form)", () => {
-    // La validación de longitud mínima se hace en el formulario con Zod,
-    // pero verificamos la estructura de RegisterData.
+
     const validPassword = "12345678";
     const invalidPassword = "1234567";
     expect(validPassword.length).toBeGreaterThanOrEqual(8);
@@ -1259,7 +1175,6 @@ describe("HU 17 — Crear un perfil (registro de usuario)", () => {
     expect(current).toBeDefined();
     expect(current!.id).toBe(user.id);
 
-    // Cleanup
     const idx = MOCK_USERS.findIndex((u) => u.id === user.id);
     if (idx !== -1) MOCK_USERS.splice(idx, 1);
   });
@@ -1277,15 +1192,12 @@ describe("HU 17 — Crear un perfil (registro de usuario)", () => {
     expect(user.stats.followingCount).toBe(0);
     expect(user.stats.savedRecipesCount).toBe(0);
 
-    // Cleanup
     const idx = MOCK_USERS.findIndex((u) => u.id === user.id);
     if (idx !== -1) MOCK_USERS.splice(idx, 1);
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 18 — Inicio de sesión (login)
-// ───────────────────────────────────────────────────────────────────────
+
 describe("HU 18 — Inicio de sesión (login)", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -1305,7 +1217,7 @@ describe("HU 18 — Inicio de sesión (login)", () => {
   });
 
   it("lanza error con contraseña incorrecta para usuario registrado", async () => {
-    // Primero registramos un usuario con contraseña conocida
+
     const user = await register({
       username: "login_pwd_test",
       email: "pwd_test@example.com",
@@ -1315,12 +1227,12 @@ describe("HU 18 — Inicio de sesión (login)", () => {
 
     await logout();
 
-    // Intentamos login con contraseña incorrecta
+
     await expect(
       login({ email: "pwd_test@example.com", password: "wrongpassword" })
     ).rejects.toThrow("Contraseña incorrecta");
 
-    // Cleanup
+
     const idx = MOCK_USERS.findIndex((u) => u.id === user.id);
     if (idx !== -1) MOCK_USERS.splice(idx, 1);
   });
@@ -1342,23 +1254,16 @@ describe("HU 18 — Inicio de sesión (login)", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════════════════════
-// CRUD DE ETIQUETAS — HU 19, 20, 21 y 22
-// ═══════════════════════════════════════════════════════════════════════
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 19 — Crear etiquetas de categorías de alimentos
-// ───────────────────────────────────────────────────────────────────────
 describe("HU 19 — Crear etiquetas de categorías", () => {
   it("getAllTags devuelve un array de etiquetas únicas y ordenadas", () => {
     const tags = getAllTags();
     expect(Array.isArray(tags)).toBe(true);
     expect(tags.length).toBeGreaterThan(0);
 
-    // Verificar unicidad
+
     expect(new Set(tags).size).toBe(tags.length);
 
-    // Verificar orden
     for (let i = 1; i < tags.length; i++) {
       expect(tags[i] >= tags[i - 1]).toBe(true);
     }
@@ -1366,9 +1271,9 @@ describe("HU 19 — Crear etiquetas de categorías", () => {
 
   it("el nombre de las etiquetas no puede contener números (validación)", () => {
     const tags = getAllTags();
-    // Los tags existentes en el mock no tienen números
+
     tags.forEach((tag) => {
-      // Validamos la regla de negocio: sin números
+
       const hasNumbers = /\d/.test(tag);
       expect(hasNumbers).toBe(false);
     });
@@ -1390,9 +1295,6 @@ describe("HU 19 — Crear etiquetas de categorías", () => {
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 20 — Ver recetas de una etiqueta específica
-// ───────────────────────────────────────────────────────────────────────
 describe("HU 20 — Ver recetas por etiqueta", () => {
   it("filtra recetas por una etiqueta existente", () => {
     const tags = getAllTags();
@@ -1423,9 +1325,6 @@ describe("HU 20 — Ver recetas por etiqueta", () => {
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 21 — Añadir etiquetas a una receta
-// ───────────────────────────────────────────────────────────────────────
 describe("HU 21 — Añadir etiquetas a una receta", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -1503,9 +1402,7 @@ describe("HU 21 — Añadir etiquetas a una receta", () => {
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 22 — Eliminar etiquetas de una receta
-// ───────────────────────────────────────────────────────────────────────
+
 describe("HU 22 — Eliminar etiquetas de una receta", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -1586,13 +1483,7 @@ describe("HU 22 — Eliminar etiquetas de una receta", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════════════════════
-// ASISTENTE DE COCINA (CHATBOT) — HU 23 y 24
-// ═══════════════════════════════════════════════════════════════════════
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 23 — Preguntar al asistente IA cómo sustituir un ingrediente
-// ───────────────────────────────────────────────────────────────────────
 describe("HU 23 — Sustitución de ingredientes con ChefBot", () => {
   it("sugiere un sustituto coherente para un ingrediente conocido", () => {
     const response = getChefBotResponse("¿Con qué puedo reemplazar el huevo?");
@@ -1643,9 +1534,7 @@ describe("HU 23 — Sustitución de ingredientes con ChefBot", () => {
   });
 });
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 24 — Explicar términos culinarios
-// ───────────────────────────────────────────────────────────────────────
+
 describe("HU 24 — Explicación de términos culinarios con ChefBot", () => {
   it("explica un término culinario conocido", () => {
     const response = getChefBotResponse("¿Qué es blanquear?");
@@ -1714,13 +1603,7 @@ describe("HU 24 — Explicación de términos culinarios con ChefBot", () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════════════════════
-// RECETAS MEJOR VALORADAS — HU 25
-// ═══════════════════════════════════════════════════════════════════════
 
-// ───────────────────────────────────────────────────────────────────────
-// HU 25 — Listar recetas mejor valoradas
-// ───────────────────────────────────────────────────────────────────────
 describe("HU 25 — Listar recetas mejor valoradas", () => {
   it("las recetas tienen un campo rating numérico", () => {
     const recipes = getAllRecipes();
@@ -1769,7 +1652,6 @@ describe("HU 25 — Listar recetas mejor valoradas", () => {
     const end = performance.now();
 
     expect(sorted.length).toBeGreaterThan(0);
-    // Debe completarse en menos de 1 segundo (criterio de aceptación)
     expect(end - start).toBeLessThan(1000);
   });
 });

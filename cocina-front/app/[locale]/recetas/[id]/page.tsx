@@ -113,12 +113,12 @@ export default function RecipePage() {
     setIsCooking(true);
     try {
       await addToCookingHistory(recipeId, recipe.title, recipe.images[0]);
-      toast.success("¡Receta añadida a tu historial! 🍳", {
-        description: "Puedes verla en tu perfil → Historial",
+      toast.success(t("cookHistorySuccess"), {
+        description: t("cookHistoryDesc"),
       });
       setActiveTab("pasos");
     } catch {
-      toast.error("No se pudo registrar la preparación");
+      toast.error(t("cookHistoryError"));
     } finally {
       setIsCooking(false);
     }
@@ -185,10 +185,11 @@ export default function RecipePage() {
   const hasGallery = recipe.images.length > 1;
   const protein = recipe.protein ?? 0;
 
+  // ── Tabs con labels traducidos ──
   const TABS: { id: Tab; label: string }[] = [
     { id: "ingredientes", label: t("ingredients") },
-    { id: "pasos",        label: "Pasos" },
-    { id: "galeria",      label: "Galería" },
+    { id: "pasos",        label: t("stepsTab") },
+    { id: "galeria",      label: t("galleryTab") },
   ];
 
   return (
@@ -238,7 +239,7 @@ export default function RecipePage() {
                 </span>
                 {protein > 0 && (
                   <span className="flex items-center gap-1">
-                    <Dumbbell size={14} className="opacity-80" />{protein}g prot.
+                    <Dumbbell size={14} className="opacity-80" />{protein}g {t("protein").toLowerCase()}.
                   </span>
                 )}
                 <span className="flex items-center gap-1">
@@ -259,13 +260,13 @@ export default function RecipePage() {
             <button onClick={handleCook} disabled={isCooking}
               className="flex flex-col items-center gap-1 text-xs font-medium text-[#2d6a4f] hover:text-[#1b4332] transition-colors disabled:opacity-50">
               <UtensilsCrossed size={22} />
-              Preparar
+              {t("prepare")}
             </button>
 
             <button onClick={handleAddToShoppingList}
               className={`flex flex-col items-center gap-1 text-xs font-medium transition-colors ${inShoppingList ? "text-[#2d6a4f]" : "text-gray-500 hover:text-gray-800"}`}>
               <ShoppingCart size={22} />
-              {inShoppingList ? "En lista" : "Agregar a lista"}
+              {inShoppingList ? t("inList") : t("addToList")}
             </button>
 
             <button onClick={handleShare}
@@ -310,12 +311,12 @@ export default function RecipePage() {
             {activeTab === "ingredientes" && (
               <div className="space-y-8">
 
-                {/* Stats grid — ahora con proteína al lado de calorías */}
+                {/* Stats grid */}
                 <div className={`grid gap-3 ${protein > 0 ? "grid-cols-2 sm:grid-cols-5" : "grid-cols-2 sm:grid-cols-4"}`}>
                   {[
                     { icon: <Clock size={20} className="text-[#2d6a4f]" />,    label: t("time"),       value: `${recipe.cookTime} min` },
                     { icon: <Flame size={20} className="text-[#e07b39]" />,    label: t("calories"),   value: `${recipe.calories} kcal` },
-                    ...(protein > 0 ? [{ icon: <Dumbbell size={20} className="text-[#2d6a4f]" />, label: "Proteína", value: `${protein}g` }] : []),
+                    ...(protein > 0 ? [{ icon: <Dumbbell size={20} className="text-[#2d6a4f]" />, label: t("protein"), value: `${protein}g` }] : []),
                     { icon: <Users size={20} className="text-[#2d6a4f]" />,    label: t("servings"),   value: recipe.servings },
                     { icon: <ChefHat size={20} className="text-[#2d6a4f]" />,  label: t("difficulty"), value: recipe.difficulty },
                   ].map((stat, i) => (
@@ -430,7 +431,7 @@ export default function RecipePage() {
             {activeTab === "pasos" && (
               <div>
                 {!hasSteps ? (
-                  <p className="text-gray-400 italic text-sm">Esta receta no tiene pasos registrados.</p>
+                  <p className="text-gray-400 italic text-sm">{t("noSteps")}</p>
                 ) : (
                   <ol className="space-y-8">
                     {steps.map((step, idx) => (
@@ -445,7 +446,7 @@ export default function RecipePage() {
                               {step.images.map((img, imgIdx) => (
                                 <div key={imgIdx} className="w-28 h-28 rounded-lg overflow-hidden border border-gray-200">
                                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                                  <img src={img} alt={`Paso ${idx + 1} - imagen ${imgIdx + 1}`}
+                                  <img src={img} alt={`${t("stepsTab")} ${idx + 1} - ${imgIdx + 1}`}
                                     className="w-full h-full object-cover" />
                                 </div>
                               ))}
@@ -463,7 +464,7 @@ export default function RecipePage() {
             {activeTab === "galeria" && (
               <div>
                 {!hasGallery ? (
-                  <p className="text-gray-400 italic text-sm">Esta receta no tiene imágenes adicionales en la galería.</p>
+                  <p className="text-gray-400 italic text-sm">{t("noGallery")}</p>
                 ) : (
                   <>
                     <ImageCarousel images={recipe.images} height="h-[360px]" />

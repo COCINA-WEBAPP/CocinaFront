@@ -8,6 +8,7 @@ import type { CookingHistoryEntry } from "@/lib/types/users";
 import { Link } from "@/i18n/navigation";
 import { Clock, Trash2, ChefHat } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,6 +33,7 @@ function formatDate(iso: string): string {
 }
 
 export function Historial() {
+  const t = useTranslations("Historial");
   const [history, setHistory] = useState<CookingHistoryEntry[]>([]);
 
   useEffect(() => {
@@ -41,13 +43,13 @@ export function Historial() {
   const handleRemove = async (index: number) => {
     await removeFromCookingHistory(index);
     setHistory(getCookingHistory());
-    toast.success("Entrada eliminada del historial");
+    toast.success(t("entryRemoved"));
   };
 
   const handleClear = async () => {
     await clearCookingHistory();
     setHistory([]);
-    toast.success("Historial limpiado");
+    toast.success(t("historyCleared"));
   };
 
   return (
@@ -57,26 +59,26 @@ export function Historial() {
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">
               <ChefHat size={20} className="text-[#2d6a4f]" />
-              Historial de recetas preparadas ({history.length})
+              {t("title", { count: history.length })}
             </CardTitle>
             {history.length > 0 && (
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="outline" size="sm" className="text-red-500 border-red-200 hover:bg-red-50">
-                    <Trash2 size={14} className="mr-1" /> Limpiar todo
+                    <Trash2 size={14} className="mr-1" /> {t("clearAll")}
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>¿Limpiar historial?</AlertDialogTitle>
+                    <AlertDialogTitle>{t("clearConfirmTitle")}</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Se eliminarán todas las entradas del historial. Esta acción no se puede deshacer.
+                      {t("clearConfirmDesc")}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                    <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
                     <AlertDialogAction onClick={handleClear} className="bg-red-500 hover:bg-red-600">
-                      Limpiar
+                      {t("clearBtn")}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
@@ -88,10 +90,8 @@ export function Historial() {
           {history.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <ChefHat size={48} className="text-gray-200 mb-4" />
-              <p className="text-sm font-medium text-gray-500">Aún no has preparado ninguna receta</p>
-              <p className="text-xs text-gray-400 mt-1">
-                Cuando prepares una receta, aparecerá aquí para que puedas volver a hacerla fácilmente.
-              </p>
+              <p className="text-sm font-medium text-gray-500">{t("empty")}</p>
+              <p className="text-xs text-gray-400 mt-1">{t("emptyHint")}</p>
             </div>
           ) : (
             <ul className="divide-y divide-gray-100">
@@ -132,13 +132,13 @@ export function Historial() {
                     <Link href={`/recetas/${entry.recipeId}`}>
                       <Button size="sm" variant="outline"
                         className="text-[#2d6a4f] border-[#2d6a4f] hover:bg-[#f0faf5] text-xs h-8">
-                        Ver receta
+                        {t("viewRecipe")}
                       </Button>
                     </Link>
                     <button
                       onClick={() => handleRemove(idx)}
                       className="text-gray-300 hover:text-red-400 transition-colors p-1"
-                      title="Eliminar del historial"
+                      title={t("removeEntry")}
                     >
                       <Trash2 size={15} />
                     </button>

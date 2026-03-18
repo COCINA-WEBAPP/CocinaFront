@@ -46,13 +46,21 @@ interface StepRow {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const UNIT_OPTIONS = [
-  "Otros", "g", "kg", "ml", "l", "tsp", "tbsp", "taza", "oz", "lb",
-  "unidad", "pizca", "al gusto",
-];
+const FIXED_UNITS = ["g", "kg", "ml", "l", "tsp", "tbsp", "oz", "lb"];
+const DIFFICULTY_VALUES: CreateRecipeData["difficulty"][] = ["Fácil", "Intermedio", "Difícil"];
 
-const PRESET_TAGS = ["Italiana", "Mexicana", "Desayuno", "Cena", "Saludable", "Postre"];
-const DIFFICULTY_OPTIONS: CreateRecipeData["difficulty"][] = ["Fácil", "Intermedio", "Difícil"];
+// ─── Validation helpers ───────────────────────────────────────────────────────
+
+/** Devuelve true si el string contiene algún dígito */
+const hasNumbers = (str: string) => /\d/.test(str);
+
+/** Devuelve true si la cantidad es válida: vacía, o número entero 0–999 */
+const isValidQuantity = (val: string) => {
+  if (val === "") return true;
+  if (!/^\d+$/.test(val)) return false;
+  const n = Number(val);
+  return n >= 0 && n <= 999;
+};
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -62,7 +70,7 @@ const DIFFICULTY_OPTIONS: CreateRecipeData["difficulty"][] = ["Fácil", "Interme
  */
 function parseIngredientString(raw: string): IngredientRow {
   const parts = raw.trim().split(/\s+/);
-  const knownUnits = UNIT_OPTIONS.filter((u) => u !== "Otros");
+  const knownUnits = FIXED_UNITS;
 
   if (parts.length >= 3 && knownUnits.includes(parts[1])) {
     return { id: crypto.randomUUID(), quantity: parts[0], unit: parts[1], name: parts.slice(2).join(" ") };
@@ -196,6 +204,22 @@ export default function EditRecipePage() {
   const params = useParams();
   const recipeId = (params as { id: string }).id;
 
+  // ── Constantes traducidas (dentro del componente para reaccionar al locale) ──
+  const UNIT_OPTIONS = [
+    t("unitOther"), ...FIXED_UNITS, t("unitCup"), t("unitUnit"), t("unitPinch"), t("unitTaste"),
+  ];
+
+  const DIFFICULTY_LABELS: Record<CreateRecipeData["difficulty"], string> = {
+    "Fácil":      t("difficultyEasy"),
+    "Intermedio": t("difficultyMedium"),
+    "Difícil":    t("difficultyHard"),
+  };
+
+  const PRESET_TAGS = [
+    t("tagItalian"), t("tagMexican"), t("tagBreakfast"),
+    t("tagDinner"),  t("tagHealthy"), t("tagDessert"),
+  ];
+
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -208,8 +232,8 @@ export default function EditRecipePage() {
   const [category, setCategory] = useState("");
   const [cookTime, setCookTime] = useState(0);
   const [calories, setCalories] = useState(0);
-  const [protein, setProtein] = useState(0); // ← FIX: estado propio para proteína
-  const [servings, setServings] = useState(1); // ← servings queda separado
+  const [protein, setProtein] = useState(0);
+  const [servings, setServings] = useState(1);
   const [difficulty, setDifficulty] = useState<CreateRecipeData["difficulty"]>("Fácil");
   const [ingredients, setIngredients] = useState<IngredientRow[]>([
     { id: crypto.randomUUID(), name: "", quantity: "", unit: "Otros" },
@@ -249,8 +273,8 @@ export default function EditRecipePage() {
     setCategory(found.category);
     setCookTime(found.cookTime);
     setCalories(found.calories);
-    setProtein(found.protein ?? 0); // ← FIX: prefill proteína correctamente
-    setServings(found.servings);    // ← FIX: prefill porciones correctamente
+    setProtein(found.protein ?? 0);
+    setServings(found.servings);
     setDifficulty(found.difficulty);
     setSelectedTags(found.tags ?? []);
 
@@ -266,19 +290,19 @@ export default function EditRecipePage() {
     }
 
     if (found.steps?.length) {
-  setSteps(found.steps.map((s) => {
-    const ns = normalizeStep(s);
-    return { id: crypto.randomUUID(), text: ns.text, images: ns.images.map((url) => ({ type: "url" as const, value: url })) };
-  }));
-}
+      setSteps(found.steps.map((s) => {
+        const ns = normalizeStep(s);
+        return { id: crypto.randomUUID(), text: ns.text, images: ns.images.map((url) => ({ type: "url" as const, value: url })) };
+      }));
+    }
 
-// Etiquetas de la receta que no están en PRESET_TAGS ni userTags → customTags
-const knownTags = new Set([...PRESET_TAGS, ...getUserTags()]);
-const recipCustomTags = (found.tags ?? []).filter((t) => !knownTags.has(t));
-if (recipCustomTags.length > 0) {
-  setCustomTags(recipCustomTags);
-}
-
+    // Etiquetas de la receta que no están en PRESET_TAGS ni userTags → customTags
+    const knownTags = new Set([...PRESET_TAGS, ...getUserTags()]);
+    const recipeCustomTags = (found.tags ?? []).filter((tg) => !knownTags.has(tg));
+    if (recipeCustomTags.length > 0) {
+      setCustomTags(recipeCustomTags);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recipeId]);
 
   // ── Auth/loading guards ──────────────────────────────────────────────────────
@@ -334,7 +358,7 @@ if (recipCustomTags.length > 0) {
     ingredients
       .filter((r) => r.name.trim())
       .map((r) => {
-        const parts = [r.quantity.trim(), r.unit !== "Otros" ? r.unit : "", r.name.trim()].filter(Boolean);
+        const parts = [r.quantity.trim(), r.unit !== t("unitOther") ? r.unit : "", r.name.trim()].filter(Boolean);
         return parts.join(" ");
       });
 
@@ -342,15 +366,20 @@ if (recipCustomTags.length > 0) {
 
   const toggleTag = (tag: string) =>
     setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+      prev.includes(tag) ? prev.filter((tg) => tg !== tag) : [...prev, tag]
     );
 
   const handleAddNewTag = () => {
     const tag = newTagInput.trim();
     if (!tag) return;
+    if (hasNumbers(tag)) {
+      setError(t("newTagNoNumbers"));
+      return;
+    }
     if (!allTags.includes(tag)) setCustomTags((prev) => [...prev, tag]);
     if (!selectedTags.includes(tag)) setSelectedTags((prev) => [...prev, tag]);
     setNewTagInput("");
+    setError("");
   };
 
   const updateIngredient = (id: string, field: keyof IngredientRow, val: string) =>
@@ -358,7 +387,7 @@ if (recipCustomTags.length > 0) {
   const removeIngredient = (id: string) =>
     setIngredients((prev) => prev.filter((r) => r.id !== id));
   const addIngredient = () =>
-    setIngredients((prev) => [...prev, { id: crypto.randomUUID(), name: "", quantity: "", unit: "Otros" }]);
+    setIngredients((prev) => [...prev, { id: crypto.randomUUID(), name: "", quantity: "", unit: t("unitOther") }]);
 
   const updateStep = (id: string, val: string) =>
     setSteps((prev) => prev.map((s) => (s.id === id ? { ...s, text: val } : s)));
@@ -375,7 +404,35 @@ if (recipCustomTags.length > 0) {
 
   const handleSubmit = async () => {
     setError("");
-    if (!title.trim()) { setError("El nombre de la receta es obligatorio."); return; }
+    if (!title.trim()) { setError(t("titleRequired")); return; }
+
+    if (category.trim() && hasNumbers(category)) {
+      setError(t("categoryNoNumbers"));
+      return;
+    }
+
+    const invalidIngredient = ingredients.find(
+      (r) => r.name.trim() && hasNumbers(r.name)
+    );
+    if (invalidIngredient) {
+      setError(t("ingredientNoNumbers", { name: invalidIngredient.name }));
+      return;
+    }
+
+    const invalidQuantity = ingredients.find(
+      (r) => r.name.trim() && r.quantity.trim() !== "" && !isValidQuantity(r.quantity.trim())
+    );
+    if (invalidQuantity) {
+      setError(t("quantityInvalid", { name: invalidQuantity.name }));
+      return;
+    }
+
+    const invalidTag = selectedTags.find(hasNumbers);
+    if (invalidTag) {
+      setError(t("tagNoNumbers", { tag: invalidTag }));
+      return;
+    }
+
     setIsLoading(true);
     try {
       const data: CreateRecipeData = {
@@ -385,8 +442,8 @@ if (recipCustomTags.length > 0) {
         category: category.trim() || "General",
         cookTime,
         calories,
-        protein,  // ← FIX: proteína correcta
-        servings, // ← FIX: porciones correctas
+        protein,
+        servings,
         difficulty,
         tags: selectedTags,
         ingredients: serializeIngredients(),
@@ -436,7 +493,7 @@ if (recipCustomTags.length > 0) {
 
           {/* ── Header ── */}
           <div className="flex items-center justify-between mb-8">
-            <h1 className="text-2xl font-bold text-[#2d6a4f]">Editar Receta</h1>
+            <h1 className="text-2xl font-bold text-[#2d6a4f]">{t("editTitle")}</h1>
             <button onClick={() => router.back()}
               className="text-gray-400 hover:text-gray-600 transition-colors">
               <X size={22} />
@@ -451,14 +508,14 @@ if (recipCustomTags.length > 0) {
               {/* Left */}
               <div className="space-y-4">
                 <div>
-                  <Label className="text-sm font-medium text-gray-700 mb-1 block">Nombre de la receta</Label>
-                  <Input placeholder="Ej: Pasta Carbonara" value={title}
+                  <Label className="text-sm font-medium text-gray-700 mb-1 block">{t("recipeName")}</Label>
+                  <Input placeholder={t("recipeNamePlaceholder")} value={title}
                     onChange={(e) => setTitle(e.target.value)} className={inputCls} />
                 </div>
 
                 <div>
-                  <Label className="text-sm font-medium text-gray-700 mb-1 block">Descripción</Label>
-                  <Textarea placeholder="Describe tu receta..." value={description}
+                  <Label className="text-sm font-medium text-gray-700 mb-1 block">{t("recipeDescription")}</Label>
+                  <Textarea placeholder={t("recipeDescriptionPlaceholder")} value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={4} className={`${inputCls} resize-none`} />
                 </div>
@@ -466,19 +523,18 @@ if (recipCustomTags.length > 0) {
                 <div className="grid grid-cols-3 gap-3">
                   <div>
                     <Label className="text-xs font-medium text-gray-600 mb-1 block leading-tight">
-                      Tiempo de cocción (min)
+                      {t("cookTimeMins")}
                     </Label>
                     <Input type="number" min={0} value={cookTime}
                       onChange={(e) => setCookTime(Number(e.target.value))} className={inputCls} />
                   </div>
                   <div>
-                    <Label className="text-xs font-medium text-gray-600 mb-1 block">Calorías</Label>
+                    <Label className="text-xs font-medium text-gray-600 mb-1 block">{t("calories")}</Label>
                     <Input type="number" min={0} value={calories}
                       onChange={(e) => setCalories(Number(e.target.value))} className={inputCls} />
                   </div>
                   <div>
-                    <Label className="text-xs font-medium text-gray-600 mb-1 block">Proteína (g)</Label>
-                    {/* ← FIX: usa protein, no servings */}
+                    <Label className="text-xs font-medium text-gray-600 mb-1 block">{t("proteinG")}</Label>
                     <Input type="number" min={0} value={protein}
                       onChange={(e) => setProtein(Number(e.target.value))} className={inputCls} />
                   </div>
@@ -486,16 +542,25 @@ if (recipCustomTags.length > 0) {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Label className="text-xs font-medium text-gray-600 mb-1 block">Categoría</Label>
-                    <Input placeholder="Ej: Italiana" value={category}
-                      onChange={(e) => setCategory(e.target.value)} className={inputCls} />
+                    <Label className="text-xs font-medium text-gray-600 mb-1 block">{t("categoryLabel")}</Label>
+                    <Input
+                      placeholder={t("categoryPlaceholder")}
+                      value={category}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (!hasNumbers(val)) setCategory(val);
+                      }}
+                      className={inputCls}
+                    />
                   </div>
                   <div>
-                    <Label className="text-xs font-medium text-gray-600 mb-1 block">Dificultad</Label>
+                    <Label className="text-xs font-medium text-gray-600 mb-1 block">{t("difficultyLabel")}</Label>
                     <select value={difficulty}
                       onChange={(e) => setDifficulty(e.target.value as CreateRecipeData["difficulty"])}
                       className={`w-full ${selectCls}`}>
-                      {DIFFICULTY_OPTIONS.map((d) => <option key={d} value={d}>{d}</option>)}
+                      {DIFFICULTY_VALUES.map((d) => (
+                        <option key={d} value={d}>{DIFFICULTY_LABELS[d]}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -512,14 +577,14 @@ if (recipCustomTags.length > 0) {
                   ) : (
                     <>
                       <Upload size={28} className="text-gray-400" />
-                      <span className="text-sm text-gray-500 font-medium">Subir Foto Principal</span>
+                      <span className="text-sm text-gray-500 font-medium">{t("mainPhoto")}</span>
                     </>
                   )}
                 </button>
                 {mainPhoto && (
                   <button onClick={() => setMainPhoto(null)}
                     className="text-xs text-red-400 hover:text-red-600 flex items-center gap-1 self-start transition-colors">
-                    <Trash2 size={12} /> Quitar foto
+                    <Trash2 size={12} /> {t("removePhoto")}
                   </button>
                 )}
               </div>
@@ -528,11 +593,11 @@ if (recipCustomTags.length > 0) {
             {/* ── Gallery ── */}
             <div>
               <SectionHeader
-                title="Galería de imágenes"
-                action={{ label: "Agregar imagen a galería", onClick: () => setShowGalleryModal(true) }}
+                title={t("galleryTitle")}
+                action={{ label: t("addGalleryImage"), onClick: () => setShowGalleryModal(true) }}
               />
               {gallery.length === 0 ? (
-                <p className="text-sm text-gray-400 italic">No hay fotos adicionales</p>
+                <p className="text-sm text-gray-400 italic">{t("noGallery")}</p>
               ) : (
                 <div className="flex flex-wrap gap-3">
                   {gallery.map((img, idx) => (
@@ -548,18 +613,31 @@ if (recipCustomTags.length > 0) {
             {/* ── Ingredients ── */}
             <div>
               <SectionHeader
-                title="Lista de ingredientes"
-                action={{ label: "Agregar ingrediente", onClick: addIngredient }}
+                title={t("ingredientsList")}
+                action={{ label: t("addIngredientBtn"), onClick: addIngredient }}
               />
               <div className="space-y-2">
                 {ingredients.map((row) => (
                   <div key={row.id} className="flex items-center gap-2">
-                    <Input placeholder="Nombre del ingrediente" value={row.name}
-                      onChange={(e) => updateIngredient(row.id, "name", e.target.value)}
-                      className={`flex-1 ${inputCls} text-sm`} />
-                    <Input placeholder="Cantidad" value={row.quantity}
-                      onChange={(e) => updateIngredient(row.id, "quantity", e.target.value)}
-                      className={`w-24 ${inputCls} text-sm`} />
+                    <Input
+                      placeholder={t("ingredientName")}
+                      value={row.name}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (!hasNumbers(val)) updateIngredient(row.id, "name", val);
+                      }}
+                      className={`flex-1 ${inputCls} text-sm`}
+                    />
+                    <Input
+                      placeholder={t("quantityPlaceholder")}
+                      value={row.quantity}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (isValidQuantity(val)) updateIngredient(row.id, "quantity", val);
+                      }}
+                      className={`w-24 ${inputCls} text-sm`}
+                      inputMode="numeric"
+                    />
                     <select value={row.unit}
                       onChange={(e) => updateIngredient(row.id, "unit", e.target.value)}
                       className={`w-28 ${selectCls} text-sm`}>
@@ -579,8 +657,8 @@ if (recipCustomTags.length > 0) {
             {/* ── Steps ── */}
             <div>
               <SectionHeader
-                title="Pasos de preparación"
-                action={{ label: "Agregar paso", onClick: addStep }}
+                title={t("stepsTitle")}
+                action={{ label: t("addStepBtn"), onClick: addStep }}
               />
               <div className="space-y-4">
                 {steps.map((step, idx) => (
@@ -589,7 +667,7 @@ if (recipCustomTags.length > 0) {
                       {idx + 1}
                     </span>
                     <div className="flex-1 space-y-2">
-                      <Textarea placeholder={`Describe el paso ${idx + 1}...`} value={step.text}
+                      <Textarea placeholder={t("stepPlaceholder", { num: idx + 1 })} value={step.text}
                         onChange={(e) => updateStep(step.id, e.target.value)}
                         rows={2} className={`${inputCls} resize-none text-sm`} />
                       {/* Step images */}
@@ -601,7 +679,7 @@ if (recipCustomTags.length > 0) {
                         <button type="button" onClick={() => setStepImageModalId(step.id)}
                           className="w-20 h-20 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-1 text-gray-400 hover:border-[#2d6a4f] hover:text-[#2d6a4f] hover:bg-[#f0faf5] transition-colors">
                           <ImageIcon size={16} />
-                          <span className="text-[10px] font-medium">Foto</span>
+                          <span className="text-[10px] font-medium">{t("stepPhotoBtn")}</span>
                         </button>
                       </div>
                     </div>
@@ -618,7 +696,7 @@ if (recipCustomTags.length > 0) {
 
             {/* ── Tags ── */}
             <div>
-              <h2 className="text-base font-bold text-gray-800 mb-3">Etiquetas</h2>
+              <h2 className="text-base font-bold text-gray-800 mb-3">{t("tagsTitle")}</h2>
 
               <div className="flex flex-wrap gap-2 mb-4">
                 {allTags.map((tag) => {
@@ -640,21 +718,27 @@ if (recipCustomTags.length > 0) {
               <div className="flex items-center gap-2">
                 <div className="relative flex-1">
                   <Tag size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                  <Input placeholder="Crear nueva etiqueta..." value={newTagInput}
-                    onChange={(e) => setNewTagInput(e.target.value)}
+                  <Input
+                    placeholder={t("newTagPlaceholderEdit")}
+                    value={newTagInput}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (!hasNumbers(val)) setNewTagInput(val);
+                    }}
                     onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleAddNewTag(); } }}
-                    className={`pl-8 ${inputCls} text-sm`} />
+                    className={`pl-8 ${inputCls} text-sm`}
+                  />
                 </div>
                 <Button type="button" onClick={handleAddNewTag} disabled={!newTagInput.trim()}
                   variant="outline"
                   className="border-[#2d6a4f] text-[#2d6a4f] hover:bg-[#f0faf5] disabled:opacity-40 text-sm whitespace-nowrap">
-                  <Plus size={14} className="mr-1" /> Crear
+                  <Plus size={14} className="mr-1" /> {t("createTagBtn")}
                 </Button>
               </div>
 
               {selectedTags.length > 0 && (
                 <p className="text-xs text-gray-400 mt-2">
-                  Seleccionadas: {selectedTags.join(", ")}
+                  {t("selectedTags", { tags: selectedTags.join(", ") })}
                 </p>
               )}
             </div>
@@ -670,12 +754,12 @@ if (recipCustomTags.length > 0) {
             <div className="flex items-center justify-end gap-3 pt-2 pb-6">
               <Button type="button" variant="outline" onClick={() => router.back()}
                 className="border-gray-300 text-gray-600 hover:bg-gray-50">
-                Cancelar
+                {t("cancelBtn")}
               </Button>
               <Button type="button" onClick={handleSubmit}
                 disabled={isLoading || !title.trim()}
                 className="bg-[#2d6a4f] hover:bg-[#1b4332] text-white px-6 disabled:opacity-50">
-                {isLoading ? "Guardando..." : "Guardar cambios"}
+                {isLoading ? t("savingBtn") : t("saveChangesBtn")}
               </Button>
             </div>
 
