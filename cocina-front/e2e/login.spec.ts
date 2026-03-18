@@ -96,4 +96,11 @@ test.describe("Register flow", () => {
 
     await expect(page.locator("[role='alert']").first()).toBeVisible({ timeout: 5000 });
   });
+
+  test("password field is type password (hidden input)", async ({ page }) => {
+    await page.goto("/es/login?tab=register");
+
+    const pwdInput = page.locator("#register-password");
+    await expect(pwdInput).toHaveAttribute("type", "password");
+  });
 });

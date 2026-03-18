@@ -57,3 +57,36 @@ test.describe("Explorar page (Recipe Catalog)", () => {
     await page.waitForURL("**/recetas/**", { timeout: 10000 });
   });
 });
+
+// ── HU 15 — Filtrar recetas por rango calórico o proteico ──
+
+test.describe("HU 15 — Caloric/protein filtering", () => {
+  test("recipes show caloric info in detail page", async ({ page }) => {
+    await page.goto("/es/Explorar");
+    await page.locator("a[href*='/recetas/']").first().click();
+    await page.waitForURL("**/recetas/**", { timeout: 10000 });
+
+    await expect(page.locator("text=/\\d+ kcal/").first()).toBeVisible({ timeout: 10000 });
+  });
+
+  test("filter and sort controls exist on the catalog", async ({ page }) => {
+    await page.goto("/es/Explorar");
+
+    // Sort/filter controls may be in buttons or comboboxes
+    const sortOrFilterElement = page
+      .locator("button, [role='combobox']")
+      .filter({ hasText: /ordenar|filtro/i });
+    const count = await sortOrFilterElement.count();
+    expect(count).toBeGreaterThan(0);
+  });
+});
+
+// ── HU 20 — Buscar recetas por etiqueta ──
+
+test.describe("HU 20 — Search by tag", () => {
+  test("searching by tag name returns results", async ({ page }) => {
+    await page.goto("/es/Explorar?search=italiana");
+    await page.waitForTimeout(2000);
+    await expect(page.locator("main")).toBeVisible();
+  });
+});

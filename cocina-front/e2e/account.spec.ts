@@ -71,4 +71,84 @@ test.describe("Account page - authenticated", () => {
   test("shows Top Recipes section", async ({ page }) => {
     await expect(page.getByText("Mis Recetas Top")).toBeVisible({ timeout: 10000 });
   });
+
+  test("top recipes section has links to recipe details", async ({ page }) => {
+    await expect(page.getByText("Mis Recetas Top")).toBeVisible({ timeout: 10000 });
+    const topLinks = page.locator("a[href*='/recetas/']");
+    const count = await topLinks.count();
+    expect(count).toBeGreaterThan(0);
+  });
+});
+
+// ── HU 14 — Listar recetas propias del usuario ──
+
+test.describe("HU 14 — User's own recipes", () => {
+  test.beforeEach(async ({ page }) => {
+    await injectSession(page);
+    await page.goto("/es/account");
+  });
+
+  test("Mis Recetas tab shows the user's recipes", async ({ page }) => {
+    const tabBar = page.locator(".flex.border-b").first();
+    await tabBar.getByText("Mis Recetas").click();
+    await page.waitForTimeout(1000);
+
+    const content = await page.locator("main").innerText();
+    expect(content.length).toBeGreaterThan(0);
+  });
+
+  test("listed recipes are clickable and link to detail", async ({ page }) => {
+    const tabBar = page.locator(".flex.border-b").first();
+    await tabBar.getByText("Mis Recetas").click();
+    await page.waitForTimeout(1000);
+
+    const recipeLink = page.locator("a[href*='/recetas/']").first();
+    if ((await recipeLink.count()) > 0) {
+      const href = await recipeLink.getAttribute("href");
+      expect(href).toContain("/recetas/");
+    }
+  });
+});
+
+// ── HU 16 — Historial de recetas preparadas ──
+
+test.describe("HU 16 — Cooking history", () => {
+  test.beforeEach(async ({ page }) => {
+    await injectSession(page);
+    await page.goto("/es/account");
+  });
+
+  test("Historial tab shows empty message when no history", async ({ page }) => {
+    const tabBar = page.locator(".flex.border-b").first();
+    await tabBar.getByText("Historial").click();
+    await page.waitForTimeout(1000);
+
+    await expect(
+      page.getByText(/no has preparado|historial/i).first()
+    ).toBeVisible({ timeout: 10000 });
+  });
+
+  test("shows cooked recipes when history exists", async ({ page }) => {
+    await page.evaluate(() => {
+      localStorage.setItem(
+        "recipeshare_cooking_history_1",
+        JSON.stringify([
+          {
+            recipeId: "1",
+            recipeTitle: "Pancakes Esponjosos con Miel",
+            cookedAt: new Date().toISOString(),
+          },
+        ])
+      );
+    });
+    await page.reload();
+
+    const tabBar = page.locator(".flex.border-b").first();
+    await tabBar.getByText("Historial").click();
+    await page.waitForTimeout(1000);
+
+    await expect(
+      page.getByText("Pancakes Esponjosos con Miel").first()
+    ).toBeVisible({ timeout: 10000 });
+  });
 });

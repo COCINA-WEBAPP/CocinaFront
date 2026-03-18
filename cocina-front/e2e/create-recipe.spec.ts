@@ -125,3 +125,15 @@ test.describe("Create recipe page", () => {
     expect(page.url()).not.toContain("/create");
   });
 });
+
+// ── HU 4 — Image upload section in create form ──
+
+test.describe("HU 4 — Image upload on create recipe", () => {
+  test("create recipe form has an image upload section", async ({ page }) => {
+    await injectSession(page);
+    await page.goto("/es/create");
+
+    const imgSection = page.locator("text=/imagen|foto|portada|URL/i").first();
+    await expect(imgSection).toBeVisible({ timeout: 10000 });
+  });
+});

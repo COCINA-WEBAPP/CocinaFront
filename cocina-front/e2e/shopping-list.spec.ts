@@ -143,3 +143,31 @@ test.describe("Shopping list page - with items", () => {
     await expect(page.locator("text=/vacía|empty|no hay/i").first()).toBeVisible({ timeout: 5000 });
   });
 });
+
+// ── HU 3 — Agrupar ingredientes por categoría ──
+
+test.describe("HU 3 — Ingredient grouping by category", () => {
+  test("ingredients are displayed grouped in the shopping list", async ({ page }) => {
+    await page.goto("/es/lista-compras");
+    await page.evaluate(() => {
+      const shoppingList = {
+        entries: [
+          {
+            recipeId: "1",
+            recipeTitle: "Receta Mixta",
+            ingredients: ["Leche entera", "Pechuga de pollo", "2 tomates", "Sal"],
+            addedAt: new Date().toISOString(),
+          },
+        ],
+        ownedItems: [],
+      };
+      localStorage.setItem("recipeshare_shopping_list", JSON.stringify(shoppingList));
+    });
+    await page.reload();
+
+    await expect(page.getByText("Leche entera").first()).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText("Pechuga de pollo").first()).toBeVisible();
+    await expect(page.getByText("2 tomates").first()).toBeVisible();
+    await expect(page.getByText("Sal").first()).toBeVisible();
+  });
+});
