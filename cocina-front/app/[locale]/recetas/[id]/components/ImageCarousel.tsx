@@ -9,7 +9,7 @@ interface ImageCarouselProps {
   images: string[];
   title?: string;
   interval?: number;
-  height?: string; // ej: "h-[400px]"
+  height?: string; 
 }
 
 export const ImageCarousel = ({
@@ -46,7 +46,6 @@ export const ImageCarousel = ({
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [images.length]);
 
   const pause = () => {
@@ -74,7 +73,6 @@ export const ImageCarousel = ({
       onMouseEnter={pause}
       onMouseLeave={resume}
     >
-      {/* Imagen de fondo difuminada */}
       <div className={`absolute inset-0 transition-opacity duration-500 ${fade ? "opacity-100" : "opacity-0"}`}>
         <ImageWithFallback
           src={images[current]}
@@ -83,10 +81,8 @@ export const ImageCarousel = ({
         />
       </div>
 
-      {/* Overlay suave para transición natural */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-      {/* Imagen principal */}
       <div className={`absolute inset-0 transition-opacity duration-500 ${fade ? "opacity-100" : "opacity-0"}`}>
         <ImageWithFallback
           src={images[current]}
@@ -95,10 +91,8 @@ export const ImageCarousel = ({
         />
       </div>
 
-      {/* Overlay oscuro suave */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/5 to-transparent" />
 
-      {/* Título encima */}
       {title && (
         <div className="absolute bottom-4 left-4 right-4 z-20">
           <h1 className="text-3xl md:text-4xl font-extrabold text-white drop-shadow-lg">
@@ -107,7 +101,6 @@ export const ImageCarousel = ({
         </div>
       )}
 
-      {/* Flecha izquierda */}
       {images.length > 1 && (
         <button
           onClick={prev}
@@ -118,7 +111,6 @@ export const ImageCarousel = ({
         </button>
       )}
 
-      {/* Flecha derecha */}
       {images.length > 1 && (
         <button
           onClick={next}
@@ -129,7 +121,6 @@ export const ImageCarousel = ({
         </button>
       )}
 
-      {/* Indicadores */}
       {images.length > 1 && (
         <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-2">
           {images.map((_, i) => (

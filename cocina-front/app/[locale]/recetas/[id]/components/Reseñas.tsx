@@ -53,10 +53,9 @@ export function Reseñas({ recipeId, initialReviews, onChange }: ReseñasProps) 
       rating,
     };
 
-    // Persist to localStorage + sync MOCK_RECIPES, get back full updated list
     const updated = saveRecipeReview(recipeId, newReview);
 
-    // Notify parent so UI updates immediately with full persisted list
+
     onChange(updated);
     setComment("");
     setRating(0);
@@ -73,7 +72,6 @@ export function Reseñas({ recipeId, initialReviews, onChange }: ReseñasProps) 
       </CardHeader>
       <CardContent className="space-y-6">
 
-        {/* Summary */}
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1">
             {[...Array(5)].map((_, i) => (
@@ -88,7 +86,6 @@ export function Reseñas({ recipeId, initialReviews, onChange }: ReseñasProps) 
           </span>
         </div>
 
-        {/* Form */}
         <div className="rounded-lg border p-4 space-y-3">
           <p className="text-sm font-medium">{t("leaveReview")}</p>
           <div className="flex items-center gap-1">
@@ -115,7 +112,6 @@ export function Reseñas({ recipeId, initialReviews, onChange }: ReseñasProps) 
           <Button onClick={handleSubmit}>{t("publishReview")}</Button>
         </div>
 
-        {/* List */}
         <div className="space-y-4">
           {initialReviews.map((review, index) => {
             const resolvedReviewUser = resolveRecipeUser(review.user);

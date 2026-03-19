@@ -97,7 +97,6 @@ export function RecipeFilterPanel({
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Header */}
       <div className="mb-4 -mx-6 -mt-6 flex items-center justify-between rounded-t-lg bg-citrus-accent px-6 py-3 text-white">
         <div className="flex items-center gap-2">
           <h2 className="text-xl font-semibold">{t("title")}</h2>
@@ -119,7 +118,6 @@ export function RecipeFilterPanel({
 
       <Accordion type="multiple" defaultValue={[]} className="w-full">
 
-        {/* Tags */}
         {availableTags.length > 0 && (
           <AccordionItem value="tags">
             <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
@@ -157,7 +155,6 @@ export function RecipeFilterPanel({
           </AccordionItem>
         )}
 
-        {/* Categories */}
         <AccordionItem value="categories">
           <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
             {t("categories")}
@@ -184,7 +181,6 @@ export function RecipeFilterPanel({
           </AccordionContent>
         </AccordionItem>
 
-        {/* Cook Time */}
         <AccordionItem value="cookTime">
           <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
             {t("cookTime")}
@@ -202,7 +198,6 @@ export function RecipeFilterPanel({
           </AccordionContent>
         </AccordionItem>
 
-        {/* Calories */}
         <AccordionItem value="calories">
           <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
             {t("calories")}
@@ -220,7 +215,6 @@ export function RecipeFilterPanel({
           </AccordionContent>
         </AccordionItem>
 
-        {/* Protein ← nuevo */}
         <AccordionItem value="protein">
           <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
             {t("protein")}
@@ -238,7 +232,6 @@ export function RecipeFilterPanel({
           </AccordionContent>
         </AccordionItem>
 
-        {/* Difficulty */}
         <AccordionItem value="difficulty">
           <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
             {t("difficulty")}
@@ -263,7 +256,6 @@ export function RecipeFilterPanel({
           </AccordionContent>
         </AccordionItem>
 
-        {/* Rating */}
         <AccordionItem value="rating">
           <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
             {t("minRating")}
@@ -282,7 +274,6 @@ export function RecipeFilterPanel({
           </AccordionContent>
         </AccordionItem>
 
-        {/* Servings */}
         <AccordionItem value="servings">
           <AccordionTrigger className="rounded-md bg-primary px-3 text-base font-medium text-primary-foreground hover:no-underline">
             {t("servings")}
@@ -302,7 +293,6 @@ export function RecipeFilterPanel({
 
       </Accordion>
 
-      {/* Active Filters Summary */}
       <AnimatePresence>
         {activeFiltersCount > 0 && (
           <motion.div

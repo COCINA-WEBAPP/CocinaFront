@@ -68,7 +68,7 @@ export default function RecipePage() {
       setRecipeTags([...recipe.tags]);
       setAvailableTags(getUserTags().filter((tag) => !recipe.tags.includes(tag)));
     }
-  }, [recipe?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [recipe?.id]); 
 
   const [reviews, setReviews] = useState(() => getRecipeReviews(recipeId));
 
@@ -185,7 +185,6 @@ export default function RecipePage() {
   const hasGallery = recipe.images.length > 1;
   const protein = recipe.protein ?? 0;
 
-  // ── Tabs con labels traducidos ──
   const TABS: { id: Tab; label: string }[] = [
     { id: "ingredientes", label: t("ingredients") },
     { id: "pasos",        label: t("stepsTab") },
@@ -199,10 +198,8 @@ export default function RecipePage() {
       <main id="main-content" className="flex-1 pb-20 md:pb-0">
         <div className="mx-auto max-w-4xl px-4 py-0 sm:px-6 lg:px-8">
 
-          {/* ── Hero ── */}
           <div className="relative w-full overflow-hidden rounded-b-2xl mb-0" style={{ height: 340 }}>
             {recipe.images[0] && (
-              // eslint-disable-next-line @next/next/no-img-element
               <img src={recipe.images[0]} alt={recipe.title}
                 className="absolute inset-0 w-full h-full object-cover" />
             )}
@@ -249,7 +246,6 @@ export default function RecipePage() {
             </div>
           </div>
 
-          {/* ── Action bar ── */}
           <div className="flex items-center justify-around border-b border-gray-200 bg-white py-3 sticky top-0 z-20 shadow-sm">
             <button onClick={handleSave}
               className={`flex flex-col items-center gap-1 text-xs font-medium transition-colors ${isSaved ? "text-red-500" : "text-gray-500 hover:text-gray-800"}`}>
@@ -290,7 +286,6 @@ export default function RecipePage() {
             )}
           </div>
 
-          {/* ── Tabs ── */}
           <div className="flex border-b border-gray-200 bg-white sticky top-[57px] z-10">
             {TABS.map((tab) => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
@@ -304,14 +299,11 @@ export default function RecipePage() {
             ))}
           </div>
 
-          {/* ── Tab Content ── */}
           <div className="py-6 space-y-8">
 
-            {/* INGREDIENTES */}
             {activeTab === "ingredientes" && (
               <div className="space-y-8">
 
-                {/* Stats grid */}
                 <div className={`grid gap-3 ${protein > 0 ? "grid-cols-2 sm:grid-cols-5" : "grid-cols-2 sm:grid-cols-4"}`}>
                   {[
                     { icon: <Clock size={20} className="text-[#2d6a4f]" />,    label: t("time"),       value: `${recipe.cookTime} min` },
@@ -427,7 +419,6 @@ export default function RecipePage() {
               </div>
             )}
 
-            {/* PASOS */}
             {activeTab === "pasos" && (
               <div>
                 {!hasSteps ? (
@@ -445,7 +436,6 @@ export default function RecipePage() {
                             <div className="flex flex-wrap gap-2">
                               {step.images.map((img, imgIdx) => (
                                 <div key={imgIdx} className="w-28 h-28 rounded-lg overflow-hidden border border-gray-200">
-                                  {/* eslint-disable-next-line @next/next/no-img-element */}
                                   <img src={img} alt={`${t("stepsTab")} ${idx + 1} - ${imgIdx + 1}`}
                                     className="w-full h-full object-cover" />
                                 </div>
@@ -460,7 +450,6 @@ export default function RecipePage() {
               </div>
             )}
 
-            {/* GALERÍA */}
             {activeTab === "galeria" && (
               <div>
                 {!hasGallery ? (
@@ -471,7 +460,7 @@ export default function RecipePage() {
                     <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
                       {recipe.images.map((img, i) => (
                         <div key={i} className="aspect-square rounded-xl overflow-hidden">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
+
                           <img src={img} alt={`${recipe.title} ${i + 1}`} className="w-full h-full object-cover" />
                         </div>
                       ))}

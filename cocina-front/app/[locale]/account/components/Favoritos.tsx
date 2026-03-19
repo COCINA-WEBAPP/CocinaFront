@@ -1,7 +1,3 @@
-/**
- * Vista de Recetas Favoritas del usuario
- * Usa los datos mock actuales para mostrar un número real de favoritos
- */
 
 "use client";
 

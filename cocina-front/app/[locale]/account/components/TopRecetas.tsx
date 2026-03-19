@@ -19,7 +19,7 @@ export function TopRecetas({ user }: TopRecetasProps) {
         const reviews = getRecipeReviews(r.id);
         const avg = reviews.length > 0
           ? reviews.reduce((sum, rv) => sum + rv.rating, 0) / reviews.length
-          : r.rating; // fallback to initial rating
+          : r.rating;
         return { ...r, avgRating: avg, reviewCount: reviews.length };
       })
       .filter((r) => r.reviewCount > 0 || r.avgRating > 0)
@@ -39,17 +39,17 @@ export function TopRecetas({ user }: TopRecetasProps) {
         {topRecipes.map((recipe) => (
           <Link key={recipe.id} href={`/recetas/${recipe.id}`}>
             <div className="flex items-center gap-3 rounded-xl border border-gray-100 bg-white p-3 hover:border-[#2d6a4f] hover:bg-[#f0faf5] transition-colors cursor-pointer">
-              {/* Thumbnail */}
+ 
               <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
                 {recipe.images[0] ? (
-                  // eslint-disable-next-line @next/next/no-img-element
+
                   <img src={recipe.images[0]} alt={recipe.title}
                     className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full bg-gray-200" />
                 )}
               </div>
-              {/* Info */}
+
               <div className="min-w-0">
                 <p className="text-sm font-medium text-gray-800 line-clamp-1">{recipe.title}</p>
                 <p className="flex items-center gap-1 text-xs text-yellow-500 font-semibold mt-0.5">

@@ -1,6 +1,3 @@
-/**
- * Componente para mostrar la información del usuario
- */
 
 import { useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,7 +19,6 @@ interface InformacionProps {
 export function Informacion({ user, onFollowersClick, onFollowingClick }: InformacionProps) {
   const t = useTranslations("UserInfo");
 
-  // ── Top recetas: usa ratings reales desde localStorage ──
   const topRecipes = useMemo(() => {
     return getAllRecipes()
       .filter((r) => r.author.username === user.username)
@@ -30,7 +26,7 @@ export function Informacion({ user, onFollowersClick, onFollowingClick }: Inform
         const reviews = getRecipeReviews(r.id);
         const avgRating = reviews.length > 0
           ? reviews.reduce((sum, rv) => sum + rv.rating, 0) / reviews.length
-          : r.rating; // fallback al rating inicial del mock
+          : r.rating; 
         return { ...r, avgRating, reviewCount: reviews.length };
       })
       .sort((a, b) => b.avgRating - a.avgRating)
@@ -39,7 +35,7 @@ export function Informacion({ user, onFollowersClick, onFollowingClick }: Inform
 
   return (
     <div className="space-y-6">
-      {/* Avatar + info básica */}
+
       <div className="flex flex-col sm:flex-row gap-6 items-start">
         <div className="flex-shrink-0">
           <img
@@ -61,7 +57,7 @@ export function Informacion({ user, onFollowersClick, onFollowingClick }: Inform
 
       <Separator />
 
-      {/* Stats */}
+
       <Card>
         <CardContent className="p-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
           <div>
@@ -93,7 +89,6 @@ export function Informacion({ user, onFollowersClick, onFollowingClick }: Inform
         </CardContent>
       </Card>
 
-      {/* Contacto y Redes */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardContent className="p-6 space-y-2">
@@ -120,7 +115,7 @@ export function Informacion({ user, onFollowersClick, onFollowingClick }: Inform
         </Card>
       </div>
 
-      {/* Top Recetas Mejor Valoradas — con ratings reales */}
+  
       {topRecipes.length > 0 && (
         <>
           <Separator />
@@ -153,7 +148,6 @@ export function Informacion({ user, onFollowersClick, onFollowingClick }: Inform
                     </div>
                     <div className="flex items-center gap-1 flex-shrink-0">
                       <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      {/* avgRating real desde localStorage */}
                       <span className="text-sm font-semibold">{recipe.avgRating.toFixed(1)}</span>
                     </div>
                   </Link>

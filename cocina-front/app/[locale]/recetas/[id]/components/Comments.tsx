@@ -14,7 +14,7 @@ type Comment = NonNullable<Recipe["comments"]>[number];
 
 interface CommentsProps {
   initialComments?: Comment[];
-  onChange?: (comments: Comment[]) => void; // opcional para persistir
+  onChange?: (comments: Comment[]) => void; 
 }
 
 export const Comments: React.FC<CommentsProps> = ({ initialComments = [], onChange }) => {
@@ -86,7 +86,7 @@ export const Comments: React.FC<CommentsProps> = ({ initialComments = [], onChan
 
   return (
     <div className="space-y-4">
-      {/* Nuevo comentario */}
+ 
       <div className="rounded-lg border bg-card p-4">
         <h4 className="font-semibold mb-2">{t("writeComment")}</h4>
         <textarea
@@ -106,7 +106,6 @@ export const Comments: React.FC<CommentsProps> = ({ initialComments = [], onChan
         </div>
       </div>
 
-      {/* Lista comentarios o caja vacía */}
       {comments.length === 0 ? (
         <div className="rounded-lg border p-6 text-center">
           <p className="mb-3 text-muted-foreground">{t("noComments")}</p>
@@ -167,7 +166,6 @@ export const Comments: React.FC<CommentsProps> = ({ initialComments = [], onChan
 
               <p className="mt-3 text-sm">{c.comment}</p>
 
-              {/* Answers */}
               {c.answers.length > 0 && (
                 <div className="mt-4 ml-4 space-y-3 border-l-2 border-muted pl-4">
                   {c.answers.map((a, ai) => (
@@ -202,7 +200,6 @@ export const Comments: React.FC<CommentsProps> = ({ initialComments = [], onChan
                 </div>
               )}
 
-              {/* Reply box */}
               {replyingTo === i && (
                 <div className="mt-3 ml-4">
                   <textarea

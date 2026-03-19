@@ -97,10 +97,9 @@ export function Historial() {
             <ul className="divide-y divide-gray-100">
               {history.map((entry, idx) => (
                 <li key={idx} className="flex items-center gap-4 py-3 group">
-                  {/* Thumbnail */}
                   <div className="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
                     {entry.recipeImage ? (
-                      // eslint-disable-next-line @next/next/no-img-element
+
                       <img
                         src={entry.recipeImage}
                         alt={entry.recipeTitle}
@@ -113,7 +112,6 @@ export function Historial() {
                     )}
                   </div>
 
-                  {/* Info */}
                   <div className="flex-1 min-w-0">
                     <Link
                       href={`/recetas/${entry.recipeId}`}
@@ -127,7 +125,6 @@ export function Historial() {
                     </p>
                   </div>
 
-                  {/* Actions */}
                   <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <Link href={`/recetas/${entry.recipeId}`}>
                       <Button size="sm" variant="outline"

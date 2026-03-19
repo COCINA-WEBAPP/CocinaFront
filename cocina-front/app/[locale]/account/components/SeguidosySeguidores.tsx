@@ -1,7 +1,3 @@
-/**
- * Vista de Seguidos y Seguidores
- * Usa los datos mock actuales para mostrar números reales
- */
 
 "use client";
 

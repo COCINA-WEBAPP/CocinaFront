@@ -1,6 +1,3 @@
-/**
- * Componente para editar la información del usuario
- */
 
 "use client";
 
@@ -90,7 +87,6 @@ export function EditarPerfil({ user, onUpdated }: EditarPerfilProps) {
 				</Alert>
 			)}
 
-			{/* Sección: Información Básica */}
 			<div className="space-y-4 pb-4 border-b">
 				<h3 className="font-semibold text-lg">{t("basicInfo")}</h3>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -119,7 +115,6 @@ export function EditarPerfil({ user, onUpdated }: EditarPerfilProps) {
 				</div>
 			</div>
 
-			{/* Sección: Biografía */}
 			<div className="space-y-4 pb-4 border-b">
 				<h3 className="font-semibold text-lg">{t("biography")}</h3>
 				<div className="space-y-2">
@@ -136,7 +131,6 @@ export function EditarPerfil({ user, onUpdated }: EditarPerfilProps) {
 				</div>
 			</div>
 
-			{/* Sección: Enlaces */}
 			<div className="space-y-4 pb-4 border-b">
 				<h3 className="font-semibold text-lg">{t("linksAndWebsite")}</h3>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -165,7 +159,6 @@ export function EditarPerfil({ user, onUpdated }: EditarPerfilProps) {
 				</div>
 			</div>
 
-			{/* Sección: Redes Sociales */}
 			<div className="space-y-4 pb-4">
 				<h3 className="font-semibold text-lg">{t("socialMedia")}</h3>
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-4">

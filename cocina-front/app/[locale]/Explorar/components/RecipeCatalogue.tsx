@@ -38,10 +38,8 @@ export function RecipeCatalogue() {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 9;
 
-  // Use service so newly created recipes appear immediately
   const allRecipes = getAllRecipes();
 
-  // Collect unique tags across all recipes
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
     for (const r of allRecipes) {
@@ -52,7 +50,6 @@ export function RecipeCatalogue() {
 
   const filteredRecipes = useMemo(() => {
     return allRecipes.filter((recipe) => {
-      // Search
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
         const matchesSearch =
@@ -63,34 +60,26 @@ export function RecipeCatalogue() {
         if (!matchesSearch) return false;
       }
 
-      // Tag filter (from tag pills in filter panel)
       if (filters.tag && !recipe.tags.includes(filters.tag)) return false;
 
-      // Category
       if (filters.categories.length > 0 && !filters.categories.includes(recipe.category))
         return false;
 
-      // Cook time
       if (recipe.cookTime < filters.cookTime[0] || recipe.cookTime > filters.cookTime[1])
         return false;
 
-      // Calories
       if (recipe.calories < filters.calories[0] || recipe.calories > filters.calories[1])
         return false;
 
-      // Protein ← nuevo
       const protein = recipe.protein ?? 0;
       if (protein < filters.protein[0] || protein > filters.protein[1])
         return false;
 
-      // Difficulty
       if (filters.difficulty.length > 0 && !filters.difficulty.includes(recipe.difficulty))
         return false;
 
-      // Rating
       if (recipe.rating < filters.rating) return false;
 
-      // Servings
       if (recipe.servings < filters.servings[0] || recipe.servings > filters.servings[1])
         return false;
 
@@ -160,7 +149,6 @@ export function RecipeCatalogue() {
         <p className="text-lg text-muted-foreground">{t("subtitle")}</p>
       </motion.div>
 
-      {/* Mobile search bar — visible only when the desktop Header is hidden */}
       <form
         onSubmit={(e) => { e.preventDefault(); router.push(`/Explorar?search=${encodeURIComponent(mobileSearch)}`); }}
         className="md:hidden mb-6 relative flex items-center gap-2 rounded-xl border border-[#e07b39]/30 bg-white shadow-sm px-3 py-1.5"
@@ -182,14 +170,12 @@ export function RecipeCatalogue() {
       </form>
 
       <div className="flex flex-col gap-8 lg:flex-row">
-        {/* Desktop Filter Panel */}
         <aside className="hidden lg:block lg:w-80 lg:flex-shrink-0">
           <RecipeFilterPanel filters={filters} onFiltersChange={setFilters} onReset={handleResetFilters} availableTags={allTags} />
         </aside>
 
         <div className="flex-1">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            {/* Mobile Filter */}
             <Sheet open={isMobileFilterOpen} onOpenChange={setIsMobileFilterOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" className="lg:hidden">

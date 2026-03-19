@@ -20,7 +20,6 @@ import { toast } from "sonner";
 import type { CreateRecipeData } from "@/lib/types/recipes";
 import { X, Upload, Plus, Trash2, LinkIcon, ImageIcon } from "lucide-react";
 
-// ─── Local types ──────────────────────────────────────────────────────────────
 
 type ImageSource =
   | { type: "url"; value: string }
@@ -39,17 +38,14 @@ interface StepRow {
   images: ImageSource[];
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
 
 const FIXED_UNITS = ["g", "kg", "ml", "l", "tsp", "tbsp", "oz", "lb"];
 const DIFFICULTY_VALUES: CreateRecipeData["difficulty"][] = ["Fácil", "Intermedio", "Difícil"];
 
-// ─── Validation helpers ───────────────────────────────────────────────────────
 
-/** Devuelve true si el string contiene algún dígito */
 const hasNumbers = (str: string) => /\d/.test(str);
 
-/** Devuelve true si la cantidad es válida: vacía, o número entero 0–999 */
+
 const isValidQuantity = (val: string) => {
   if (val === "") return true;
   if (!/^\d+$/.test(val)) return false;
@@ -57,7 +53,6 @@ const isValidQuantity = (val: string) => {
   return n >= 0 && n <= 999;
 };
 
-// ─── Image Input Modal ────────────────────────────────────────────────────────
 
 function ImageInputModal({
   onAdd,
@@ -87,7 +82,6 @@ function ImageInputModal({
           </button>
         </div>
 
-        {/* Tabs */}
         <div className="flex border-b border-gray-200 mb-5">
           {(["url", "file"] as const).map((tb) => (
             <button
@@ -137,13 +131,12 @@ function ImageInputModal({
   );
 }
 
-// ─── Image Thumbnail ──────────────────────────────────────────────────────────
 
 function ImageThumb({ src, onRemove }: { src: ImageSource; onRemove: () => void }) {
   const url = src.type === "url" ? src.value : src.preview;
   return (
     <div className="relative group w-20 h-20 rounded-lg overflow-hidden border border-gray-200 flex-shrink-0">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
+
       <img src={url} alt="" className="w-full h-full object-cover" />
       <button
         onClick={onRemove}
@@ -155,7 +148,6 @@ function ImageThumb({ src, onRemove }: { src: ImageSource; onRemove: () => void 
   );
 }
 
-// ─── Section Header ───────────────────────────────────────────────────────────
 
 function SectionHeader({
   title,
@@ -181,14 +173,12 @@ function SectionHeader({
   );
 }
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function CreateRecipePage() {
   const t = useTranslations("RecipeForm");
   const tAccount = useTranslations("Account");
   const router = useRouter();
 
-  // ── Constantes traducidas (dentro del componente para reaccionar al locale) ──
   const UNIT_OPTIONS = [
     t("unitOther"), ...FIXED_UNITS, t("unitCup"), t("unitUnit"), t("unitPinch"), t("unitTaste"),
   ];
@@ -209,7 +199,6 @@ export default function CreateRecipePage() {
   const [error, setError] = useState("");
   const [userTags, setUserTags] = useState<string[]>([]);
 
-  // ── Form fields (aligned exactly with CreateRecipeData) ──
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -219,24 +208,20 @@ export default function CreateRecipePage() {
   const [servings, setServings] = useState(1);
   const [difficulty, setDifficulty] = useState<CreateRecipeData["difficulty"]>("Fácil");
 
-  // ── Images ──
   const [mainPhoto, setMainPhoto] = useState<ImageSource | null>(null);
   const [gallery, setGallery] = useState<ImageSource[]>([]);
   const [showMainModal, setShowMainModal] = useState(false);
   const [showGalleryModal, setShowGalleryModal] = useState(false);
 
-  // ── Ingredients (UI rows → serialized to string[] for the API) ──
   const [ingredients, setIngredients] = useState<IngredientRow[]>([
     { id: crypto.randomUUID(), name: "", quantity: "", unit: "Otros" },
   ]);
 
-  // ── Steps ──
   const [steps, setSteps] = useState<StepRow[]>([
     { id: crypto.randomUUID(), text: "", images: [] },
   ]);
   const [stepImageModalId, setStepImageModalId] = useState<string | null>(null);
 
-  // ── Tags ──
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [customTags, setCustomTags] = useState<string[]>([]);
   const [newTagInput, setNewTagInput] = useState("");
@@ -265,7 +250,6 @@ export default function CreateRecipePage() {
     );
   }
 
-  // ── Helpers ───────────────────────────────────────────────────────────────────
 
   const resolveUrl = (src: ImageSource) => (src.type === "url" ? src.value : src.preview);
 
@@ -274,7 +258,6 @@ export default function CreateRecipePage() {
     ...gallery.map(resolveUrl),
   ];
 
-  /** Serialize ingredient rows to "quantity unit name" strings */
   const serializeIngredients = (): string[] =>
     ingredients
       .filter((r) => r.name.trim())
@@ -303,7 +286,6 @@ export default function CreateRecipePage() {
     setError("");
   };
 
-  // Ingredient helpers
   const updateIngredient = (id: string, field: keyof IngredientRow, val: string) =>
     setIngredients((prev) => prev.map((r) => (r.id === id ? { ...r, [field]: val } : r)));
   const removeIngredient = (id: string) =>
@@ -311,7 +293,7 @@ export default function CreateRecipePage() {
   const addIngredient = () =>
     setIngredients((prev) => [...prev, { id: crypto.randomUUID(), name: "", quantity: "", unit: t("unitOther") }]);
 
-  // Step helpers
+
   const updateStep = (id: string, val: string) =>
     setSteps((prev) => prev.map((s) => (s.id === id ? { ...s, text: val } : s)));
   const removeStep = (id: string) =>
@@ -323,7 +305,6 @@ export default function CreateRecipePage() {
   const removeStepImage = (stepId: string, imgIdx: number) =>
     setSteps((prev) => prev.map((s) => s.id === stepId ? { ...s, images: s.images.filter((_, i) => i !== imgIdx) } : s));
 
-  // ── Submit ────────────────────────────────────────────────────────────────────
 
   const handleSubmit = async () => {
     setError("");
@@ -385,8 +366,7 @@ export default function CreateRecipePage() {
     }
   };
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // Shared input classes
+
   const inputCls = "border-gray-300 focus:border-[#2d6a4f] focus:ring-[#2d6a4f]";
   const selectCls =
     "h-10 rounded-md border border-gray-300 px-3 text-sm focus:border-[#2d6a4f] focus:outline-none focus:ring-1 focus:ring-[#2d6a4f] bg-white";
@@ -411,7 +391,6 @@ export default function CreateRecipePage() {
 
       <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
 
-        {/* ── Header ── */}
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-bold text-[#2d6a4f]">{t("createTitle")}</h1>
           <button
@@ -424,10 +403,8 @@ export default function CreateRecipePage() {
 
         <div className="space-y-7">
 
-          {/* ── Row 1: Left fields + Right main photo ── */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            {/* Left */}
             <div className="space-y-4">
               <div>
                 <Label className="text-sm font-medium text-gray-700 mb-1 block">
@@ -452,7 +429,6 @@ export default function CreateRecipePage() {
                 />
               </div>
 
-              {/* cookTime / calories / protein */}
               <div className="grid grid-cols-3 gap-3">
                 <div>
                   <Label className="text-xs font-medium text-gray-600 mb-1 block leading-tight">
@@ -473,7 +449,6 @@ export default function CreateRecipePage() {
                 </div>
               </div>
 
-              {/* category / difficulty */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <Label className="text-xs font-medium text-gray-600 mb-1 block">{t("categoryLabel")}</Label>
@@ -500,7 +475,6 @@ export default function CreateRecipePage() {
               </div>
             </div>
 
-            {/* Right: Main Photo */}
             <div className="flex flex-col gap-2">
               <button
                 type="button"
@@ -508,7 +482,6 @@ export default function CreateRecipePage() {
                 className="relative w-full flex-1 min-h-[220px] border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center gap-3 hover:border-[#2d6a4f] hover:bg-[#f0faf5] transition-colors overflow-hidden bg-gray-50"
               >
                 {mainPhoto ? (
-                  // eslint-disable-next-line @next/next/no-img-element
                   <img src={resolveUrl(mainPhoto)} alt="Foto principal"
                     className="absolute inset-0 w-full h-full object-cover" />
                 ) : (
@@ -529,7 +502,6 @@ export default function CreateRecipePage() {
             </div>
           </div>
 
-          {/* ── Gallery ── */}
           <div>
             <SectionHeader
               title={t("galleryTitle")}
@@ -549,7 +521,6 @@ export default function CreateRecipePage() {
 
           <hr className="border-gray-100" />
 
-          {/* ── Ingredients ── */}
           <div>
             <SectionHeader
               title={t("ingredientsList")}
@@ -595,7 +566,6 @@ export default function CreateRecipePage() {
 
           <hr className="border-gray-100" />
 
-          {/* ── Steps ── */}
           <div>
             <SectionHeader
               title={t("stepsTitle")}
@@ -604,7 +574,7 @@ export default function CreateRecipePage() {
             <div className="space-y-4">
               {steps.map((step, idx) => (
                 <div key={step.id} className="flex items-start gap-3">
-                  {/* Step number badge */}
+
                   <span className="mt-2.5 flex-shrink-0 w-6 h-6 rounded-full bg-[#2d6a4f] text-white text-xs flex items-center justify-center font-semibold">
                     {idx + 1}
                   </span>
@@ -616,7 +586,6 @@ export default function CreateRecipePage() {
                       rows={2}
                       className={`${inputCls} resize-none text-sm`}
                     />
-                    {/* Step images */}
                     <div className="flex flex-wrap items-center gap-2">
                       {step.images.map((img, imgIdx) => (
                         <ImageThumb key={imgIdx} src={img}
@@ -642,11 +611,9 @@ export default function CreateRecipePage() {
 
           <hr className="border-gray-100" />
 
-          {/* ── Tags ── */}
           <div>
             <h2 className="text-base font-bold text-gray-800 mb-3">{t("tagsTitle")}</h2>
 
-            {/* Selected tags as removable badges */}
             {selectedTags.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-3">
                 {selectedTags.map((tag) => (
@@ -662,7 +629,6 @@ export default function CreateRecipePage() {
               </div>
             )}
 
-            {/* Add existing + create new */}
             <div className="flex items-center gap-2">
               <select
                 value=""
@@ -692,14 +658,12 @@ export default function CreateRecipePage() {
             </div>
           </div>
 
-          {/* ── Error ── */}
           {error && (
             <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
               {error}
             </p>
           )}
 
-          {/* ── Actions ── */}
           <div className="flex items-center justify-end gap-3 pt-2 pb-6">
             <Button
               type="button"

@@ -24,8 +24,7 @@ export function RecetasCreadas({ user: passedUser }: RecetasCreadasProps) {
 
   const createdRecipes = useMemo(() => {
     if (!currentUser) return [];
-    // Filtra por username del autor, no por el array recipes del usuario
-    // Así siempre refleja el estado actual del store
+ 
     return getAllRecipes().filter(
       (r) => r.author.username === currentUser.username
     );

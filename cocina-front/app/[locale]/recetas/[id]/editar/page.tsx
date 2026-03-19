@@ -25,7 +25,6 @@ import type { CreateRecipeData, Recipe, RecipeStep } from "@/lib/types/recipes";
 import { normalizeStep } from "@/lib/types/recipes";
 import { X, Upload, Plus, Trash2, LinkIcon, ImageIcon, Tag } from "lucide-react";
 
-// ─── Local types ──────────────────────────────────────────────────────────────
 
 type ImageSource =
   | { type: "url"; value: string }
@@ -44,17 +43,12 @@ interface StepRow {
   images: ImageSource[];
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-
 const FIXED_UNITS = ["g", "kg", "ml", "l", "tsp", "tbsp", "oz", "lb"];
 const DIFFICULTY_VALUES: CreateRecipeData["difficulty"][] = ["Fácil", "Intermedio", "Difícil"];
 
-// ─── Validation helpers ───────────────────────────────────────────────────────
 
-/** Devuelve true si el string contiene algún dígito */
 const hasNumbers = (str: string) => /\d/.test(str);
 
-/** Devuelve true si la cantidad es válida: vacía, o número entero 0–999 */
 const isValidQuantity = (val: string) => {
   if (val === "") return true;
   if (!/^\d+$/.test(val)) return false;
@@ -62,12 +56,7 @@ const isValidQuantity = (val: string) => {
   return n >= 0 && n <= 999;
 };
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
 
-/**
- * Parse a serialized ingredient string like "200 g harina" back into row fields.
- * Falls back gracefully if the format doesn't match.
- */
 function parseIngredientString(raw: string): IngredientRow {
   const parts = raw.trim().split(/\s+/);
   const knownUnits = FIXED_UNITS;
@@ -81,7 +70,6 @@ function parseIngredientString(raw: string): IngredientRow {
   return { id: crypto.randomUUID(), quantity: "", unit: "Otros", name: raw };
 }
 
-// ─── Image Input Modal ────────────────────────────────────────────────────────
 
 function ImageInputModal({
   onAdd,
@@ -159,13 +147,11 @@ function ImageInputModal({
   );
 }
 
-// ─── Image Thumbnail ──────────────────────────────────────────────────────────
-
 function ImageThumb({ src, onRemove }: { src: ImageSource; onRemove: () => void }) {
   const url = src.type === "url" ? src.value : src.preview;
   return (
     <div className="relative group w-20 h-20 rounded-lg overflow-hidden border border-gray-200 flex-shrink-0">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
+
       <img src={url} alt="" className="w-full h-full object-cover" />
       <button onClick={onRemove}
         className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -175,7 +161,6 @@ function ImageThumb({ src, onRemove }: { src: ImageSource; onRemove: () => void 
   );
 }
 
-// ─── Section Header ───────────────────────────────────────────────────────────
 
 function SectionHeader({ title, action }: {
   title: string;
@@ -194,8 +179,6 @@ function SectionHeader({ title, action }: {
   );
 }
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
-
 export default function EditRecipePage() {
   const t = useTranslations("RecipeForm");
   const tAccount = useTranslations("Account");
@@ -204,7 +187,7 @@ export default function EditRecipePage() {
   const params = useParams();
   const recipeId = (params as { id: string }).id;
 
-  // ── Constantes traducidas (dentro del componente para reaccionar al locale) ──
+
   const UNIT_OPTIONS = [
     t("unitOther"), ...FIXED_UNITS, t("unitCup"), t("unitUnit"), t("unitPinch"), t("unitTaste"),
   ];
@@ -226,7 +209,6 @@ export default function EditRecipePage() {
   const [error, setError] = useState("");
   const [userTags, setUserTags] = useState<string[]>([]);
 
-  // ── Form state ──
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -243,18 +225,15 @@ export default function EditRecipePage() {
   ]);
   const [stepImageModalId, setStepImageModalId] = useState<string | null>(null);
 
-  // ── Image state ──
   const [mainPhoto, setMainPhoto] = useState<ImageSource | null>(null);
   const [gallery, setGallery] = useState<ImageSource[]>([]);
   const [showMainModal, setShowMainModal] = useState(false);
   const [showGalleryModal, setShowGalleryModal] = useState(false);
 
-  // ── Tag state ──
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [customTags, setCustomTags] = useState<string[]>([]);
   const [newTagInput, setNewTagInput] = useState("");
 
-  // ── Load recipe and prefill form ──
   useEffect(() => {
     const user = getCurrentUser();
     const found = getRecipeById(recipeId);
@@ -267,7 +246,6 @@ export default function EditRecipePage() {
     setIsAuthorized(true);
     setUserTags(getUserTags());
 
-    // ── Prefill all form fields ──
     setTitle(found.title);
     setDescription(found.description);
     setCategory(found.category);
@@ -278,12 +256,10 @@ export default function EditRecipePage() {
     setDifficulty(found.difficulty);
     setSelectedTags(found.tags ?? []);
 
-    // Parse ingredients back into rows
     if (found.ingredients.length > 0) {
       setIngredients(found.ingredients.map(parseIngredientString));
     }
 
-    // Images: first = main photo, rest = gallery
     if (found.images.length > 0) {
       setMainPhoto({ type: "url", value: found.images[0] });
       setGallery(found.images.slice(1).map((url) => ({ type: "url", value: url })));
@@ -296,16 +272,13 @@ export default function EditRecipePage() {
       }));
     }
 
-    // Etiquetas de la receta que no están en PRESET_TAGS ni userTags → customTags
     const knownTags = new Set([...PRESET_TAGS, ...getUserTags()]);
     const recipeCustomTags = (found.tags ?? []).filter((tg) => !knownTags.has(tg));
     if (recipeCustomTags.length > 0) {
       setCustomTags(recipeCustomTags);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recipeId]);
 
-  // ── Auth/loading guards ──────────────────────────────────────────────────────
+  }, [recipeId]);
 
   if (isAuthorized === null) return null;
 
@@ -344,8 +317,6 @@ export default function EditRecipePage() {
       </div>
     );
   }
-
-  // ── Form helpers ──────────────────────────────────────────────────────────────
 
   const resolveUrl = (src: ImageSource) => (src.type === "url" ? src.value : src.preview);
 
@@ -399,8 +370,6 @@ export default function EditRecipePage() {
     setSteps((prev) => prev.map((s) => s.id === stepId ? { ...s, images: [...s.images, img] } : s));
   const removeStepImage = (stepId: string, imgIdx: number) =>
     setSteps((prev) => prev.map((s) => s.id === stepId ? { ...s, images: s.images.filter((_, i) => i !== imgIdx) } : s));
-
-  // ── Submit ────────────────────────────────────────────────────────────────────
 
   const handleSubmit = async () => {
     setError("");
@@ -461,8 +430,6 @@ export default function EditRecipePage() {
     }
   };
 
-  // ─────────────────────────────────────────────────────────────────────────────
-
   const inputCls = "border-gray-300 focus:border-[#2d6a4f] focus:ring-[#2d6a4f]";
   const selectCls =
     "h-10 rounded-md border border-gray-300 px-3 text-sm focus:border-[#2d6a4f] focus:outline-none focus:ring-1 focus:ring-[#2d6a4f] bg-white";
@@ -472,7 +439,6 @@ export default function EditRecipePage() {
       <Header />
       <main id="main-content" className="flex-1 pb-20 md:pb-0">
 
-        {/* Modals */}
         {showMainModal && (
           <ImageInputModal onAdd={(s) => setMainPhoto(s)} onClose={() => setShowMainModal(false)} />
         )}
@@ -491,7 +457,6 @@ export default function EditRecipePage() {
 
         <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
 
-          {/* ── Header ── */}
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-2xl font-bold text-[#2d6a4f]">{t("editTitle")}</h1>
             <button onClick={() => router.back()}
@@ -502,10 +467,8 @@ export default function EditRecipePage() {
 
           <div className="space-y-7">
 
-            {/* ── Row 1: Left fields + Right main photo ── */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-              {/* Left */}
               <div className="space-y-4">
                 <div>
                   <Label className="text-sm font-medium text-gray-700 mb-1 block">{t("recipeName")}</Label>
@@ -566,12 +529,10 @@ export default function EditRecipePage() {
                 </div>
               </div>
 
-              {/* Right: Main Photo */}
               <div className="flex flex-col gap-2">
                 <button type="button" onClick={() => setShowMainModal(true)}
                   className="relative w-full flex-1 min-h-[220px] border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center gap-3 hover:border-[#2d6a4f] hover:bg-[#f0faf5] transition-colors overflow-hidden bg-gray-50">
                   {mainPhoto ? (
-                    // eslint-disable-next-line @next/next/no-img-element
                     <img src={resolveUrl(mainPhoto)} alt="Foto principal"
                       className="absolute inset-0 w-full h-full object-cover" />
                   ) : (
@@ -590,7 +551,6 @@ export default function EditRecipePage() {
               </div>
             </div>
 
-            {/* ── Gallery ── */}
             <div>
               <SectionHeader
                 title={t("galleryTitle")}
@@ -610,7 +570,6 @@ export default function EditRecipePage() {
 
             <hr className="border-gray-100" />
 
-            {/* ── Ingredients ── */}
             <div>
               <SectionHeader
                 title={t("ingredientsList")}
@@ -654,7 +613,6 @@ export default function EditRecipePage() {
 
             <hr className="border-gray-100" />
 
-            {/* ── Steps ── */}
             <div>
               <SectionHeader
                 title={t("stepsTitle")}
@@ -670,7 +628,7 @@ export default function EditRecipePage() {
                       <Textarea placeholder={t("stepPlaceholder", { num: idx + 1 })} value={step.text}
                         onChange={(e) => updateStep(step.id, e.target.value)}
                         rows={2} className={`${inputCls} resize-none text-sm`} />
-                      {/* Step images */}
+
                       <div className="flex flex-wrap items-center gap-2">
                         {step.images.map((img, imgIdx) => (
                           <ImageThumb key={imgIdx} src={img}
@@ -694,7 +652,6 @@ export default function EditRecipePage() {
 
             <hr className="border-gray-100" />
 
-            {/* ── Tags ── */}
             <div>
               <h2 className="text-base font-bold text-gray-800 mb-3">{t("tagsTitle")}</h2>
 
@@ -743,14 +700,12 @@ export default function EditRecipePage() {
               )}
             </div>
 
-            {/* ── Error ── */}
             {error && (
               <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
                 {error}
               </p>
             )}
 
-            {/* ── Actions ── */}
             <div className="flex items-center justify-end gap-3 pt-2 pb-6">
               <Button type="button" variant="outline" onClick={() => router.back()}
                 className="border-gray-300 text-gray-600 hover:bg-gray-50">

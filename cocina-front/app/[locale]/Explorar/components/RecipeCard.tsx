@@ -72,7 +72,6 @@ export function RecipeCard({ recipe, onFavoriteChange }: RecipeCardProps) {
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Badges */}
       <div className="absolute left-2 top-2 z-10 flex flex-col gap-1">
         {recipe.isNew && (
           <Badge className="bg-blue-500 text-white hover:bg-blue-600">{t("new")}</Badge>
@@ -82,7 +81,6 @@ export function RecipeCard({ recipe, onFavoriteChange }: RecipeCardProps) {
         )}
       </div>
 
-      {/* Wishlist Button */}
       <button
         onClick={handleWishlist}
         className="absolute right-2 top-2 z-10 rounded-full bg-white/90 p-2 shadow-md transition-all duration-200 hover:scale-110 hover:bg-white dark:bg-gray-800/90 dark:hover:bg-gray-800"
@@ -91,7 +89,6 @@ export function RecipeCard({ recipe, onFavoriteChange }: RecipeCardProps) {
         <Heart className={`h-5 w-5 transition-colors ${isWishlisted ? "fill-red-500 text-red-500" : "text-gray-600 dark:text-gray-300"}`} />
       </button>
 
-      {/* Image */}
       <div className="relative h-48 w-full overflow-hidden bg-muted">
         <ImageWithFallback
           src={recipe.images[0]}
@@ -111,7 +108,6 @@ export function RecipeCard({ recipe, onFavoriteChange }: RecipeCardProps) {
         </motion.div>
       </div>
 
-      {/* Content */}
       <div className="flex flex-1 flex-col p-4">
         <div className="mb-2">
           <Badge variant="outline" className="text-xs">{recipe.category}</Badge>
@@ -129,7 +125,6 @@ export function RecipeCard({ recipe, onFavoriteChange }: RecipeCardProps) {
           </span>
         </div>
 
-        {/* Stats row — tiempo, porciones, calorías, proteína */}
         <div className="mb-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
             <Clock className="h-4 w-4" />
@@ -143,7 +138,6 @@ export function RecipeCard({ recipe, onFavoriteChange }: RecipeCardProps) {
             <Flame className="h-4 w-4" />
             <span>{recipe.calories} kcal</span>
           </div>
-          {/* Proteína */}
           {(recipe.protein ?? 0) > 0 && (
             <div className="flex items-center gap-1">
               <Dumbbell className="h-4 w-4" />
@@ -156,7 +150,6 @@ export function RecipeCard({ recipe, onFavoriteChange }: RecipeCardProps) {
           <Badge className={getDifficultyColor(recipe.difficulty)}>{recipe.difficulty}</Badge>
         </div>
 
-        {/* Rating */}
         <div className="mb-4 flex items-center gap-2">
           <div className="flex items-center">
             {[...Array(5)].map((_, i) => (

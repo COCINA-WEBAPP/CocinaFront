@@ -18,7 +18,7 @@ import { useTranslations } from "next-intl";
 import { useRouter, Link } from "@/i18n/navigation";
 import { Heart, Clock, UtensilsCrossed, LogOut, Star, ChefHat, Pencil } from "lucide-react";
 
-// ─── Tab type ─────────────────────────────────────────────────────────────────
+
 type Tab = "favoritos" | "historial" | "recetas" | "info";
 
 const TAB_KEYS: { id: Tab; labelKey: string; icon: React.ReactNode }[] = [
@@ -28,7 +28,6 @@ const TAB_KEYS: { id: Tab; labelKey: string; icon: React.ReactNode }[] = [
   { id: "info",       labelKey: "tabInfo",       icon: <ChefHat size={16} /> },
 ];
 
-// ─── Top Recipes mini component ───────────────────────────────────────────────
 function TopRecipes({ user }: { user: AppUser }) {
   const t = useTranslations("Account");
   const topRecipes = useMemo(() => {
@@ -59,7 +58,7 @@ function TopRecipes({ user }: { user: AppUser }) {
             <div className="flex items-center gap-3 rounded-xl border border-gray-100 bg-white p-3 hover:border-[#2d6a4f] hover:bg-[#f0faf5] transition-colors cursor-pointer shadow-sm">
               <div className="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
                 {recipe.images[0] ? (
-                  // eslint-disable-next-line @next/next/no-img-element
+                  
                   <img src={recipe.images[0]} alt={recipe.title} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full bg-gray-200" />
@@ -80,7 +79,6 @@ function TopRecipes({ user }: { user: AppUser }) {
   );
 }
 
-// ─── Main page ────────────────────────────────────────────────────────────────
 function AccountPageContent() {
   const t = useTranslations("Account");
   const router = useRouter();
@@ -127,12 +125,10 @@ function AccountPageContent() {
     <div className="min-h-screen bg-[#faf8f5]">
       <div className="max-w-2xl mx-auto px-4 py-6 space-y-4">
 
-        {/* ── User Header Card ── */}
         <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
           <div className="flex items-center gap-4">
-            {/* Avatar */}
             <div className="relative flex-shrink-0">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              
               <img
                 src={currentUser.avatar || "https://i.pravatar.cc/150?img=3"}
                 alt={currentUser.fullName}
@@ -140,14 +136,12 @@ function AccountPageContent() {
               />
             </div>
 
-            {/* Name + email */}
             <div className="flex-1 min-w-0">
               <h1 className="text-lg font-bold text-gray-900 truncate">{currentUser.fullName}</h1>
               <p className="text-sm text-gray-400 truncate">{currentUser.email}</p>
             </div>
           </div>
 
-          {/* Buttons row */}
           <div className="flex items-center gap-3 mt-4">
             <Button
               onClick={() => setIsEditDialogOpen(true)}
@@ -167,14 +161,12 @@ function AccountPageContent() {
           </div>
         </div>
 
-        {/* ── Top Recipes ── */}
         <div className="bg-white rounded-2xl py-4 shadow-sm border border-gray-100">
           <TopRecipes user={currentUser} />
         </div>
 
-        {/* ── Tabs ── */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          {/* Tab headers */}
+
           <div className="flex border-b border-gray-100">
             {TAB_KEYS.map((tab) => (
               <button
@@ -192,7 +184,6 @@ function AccountPageContent() {
             ))}
           </div>
 
-          {/* Tab content */}
           <div className="p-4">
             {activeTab === "favoritos" && <Favoritos />}
             {activeTab === "historial" && <Historial />}
@@ -214,7 +205,6 @@ function AccountPageContent() {
         </div>
       </div>
 
-      {/* ── Edit profile dialog ── */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader className="sticky top-0 bg-background z-10">
@@ -233,7 +223,6 @@ function AccountPageContent() {
         </DialogContent>
       </Dialog>
 
-      {/* ── Followers / following dialog ── */}
       <Dialog open={isFollowingDialogOpen} onOpenChange={setIsFollowingDialogOpen}>
         <DialogContent className="w-[90vw] max-w-5xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>

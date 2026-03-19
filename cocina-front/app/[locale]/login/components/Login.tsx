@@ -42,7 +42,6 @@ export function LoginForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Usuarios de ejemplo para facilitar las pruebas
   const fillExample = () => {
     setFormData({ email: "maria@example.com", password: "cualquiera" });
   };
@@ -58,7 +57,6 @@ export function LoginForm() {
         </Alert>
       )}
 
-      {/* Email */}
       <div className="space-y-1.5">
         <label className="text-sm font-medium text-gray-700">{t("email")}</label>
         <input
@@ -69,7 +67,6 @@ export function LoginForm() {
         />
       </div>
 
-      {/* Contraseña */}
       <div className="space-y-1.5">
         <label className="text-sm font-medium text-gray-700">{t("password")}</label>
         <input
@@ -80,7 +77,6 @@ export function LoginForm() {
         />
       </div>
 
-      {/* Usar ejemplo / Olvidaste contraseña */}
       <div className="flex items-center justify-between text-sm">
         <button
           type="button"
@@ -94,7 +90,6 @@ export function LoginForm() {
         </a>
       </div>
 
-      {/* Botón */}
       <button
         type="submit"
         disabled={isLoading}
@@ -107,7 +102,6 @@ export function LoginForm() {
         )}
       </button>
 
-      {/* Usuarios de prueba */}
       <div className="text-xs text-gray-400 text-center pt-1 space-y-0.5">
         <p>{t("testUsers")}</p>
         <p>{t("testEmails")}</p>

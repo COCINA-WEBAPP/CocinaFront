@@ -29,14 +29,12 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
     setSuccess(false);
     setIsLoading(true);
 
-    // Validación de contraseñas
     if (formData.password !== formData.confirmPassword) {
       setError(t("passwordMismatch"));
       setIsLoading(false);
       return;
     }
 
-    // Validación de longitud de contraseña
     if (formData.password.length < 6) {
       setError(t("passwordLength"));
       setIsLoading(false);
@@ -54,10 +52,8 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
       console.log("Usuario registrado:", user);
       setSuccess(true);
 
-      // Limpia el formulario
       setFormData({ username: "", email: "", fullName: "", password: "", confirmPassword: "" });
 
-      // Espera 2 segundos y cambia al tab de login
       setTimeout(() => { onSuccess?.(); }, 2000);
     } catch (err) {
       setError(err instanceof Error ? err.message : t("registerError"));
@@ -88,7 +84,6 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         </Alert>
       )}
 
-      {/* Nombre Completo */}
       <div className="space-y-1.5">
         <label className="text-sm font-medium text-gray-700">{t("fullName")}</label>
         <input
@@ -99,7 +94,6 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         />
       </div>
 
-      {/* Nombre de usuario */}
       <div className="space-y-1.5">
         <label className="text-sm font-medium text-gray-700">{t("username")}</label>
         <input
@@ -110,7 +104,6 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         />
       </div>
 
-      {/* Email */}
       <div className="space-y-1.5">
         <label className="text-sm font-medium text-gray-700">{t("email")}</label>
         <input
@@ -121,7 +114,6 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         />
       </div>
 
-      {/* Contraseña */}
       <div className="space-y-1.5">
         <label className="text-sm font-medium text-gray-700">{t("password")}</label>
         <input
@@ -132,7 +124,6 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         />
       </div>
 
-      {/* Confirmar contraseña */}
       <div className="space-y-1.5">
         <label className="text-sm font-medium text-gray-700">{t("confirmPassword")}</label>
         <input
@@ -143,7 +134,6 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         />
       </div>
 
-      {/* Botón */}
       <button
         type="submit"
         disabled={isLoading || success}
@@ -157,13 +147,11 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         )}
       </button>
 
-      {/* Aria-live */}
       <div className="sr-only" aria-live="polite" role="status">
         {success && t("successMessage")}
         {error && error}
       </div>
 
-      {/* Términos */}
       <p className="text-xs text-gray-400 text-center">{t("termsNotice")}</p>
     </form>
   );

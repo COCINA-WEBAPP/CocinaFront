@@ -10,7 +10,6 @@ import { useTranslations } from "next-intl";
 import type { CreateRecipeData, RecipeStep } from "@/lib/types/recipes";
 import { normalizeStep } from "@/lib/types/recipes";
 
-// ─── Constants ────────────────────────────────────────────────────────────────
 
 const UNIT_OPTIONS = [
   "Otros", "g", "kg", "ml", "l", "tsp", "tbsp", "taza",
@@ -20,7 +19,6 @@ const UNIT_OPTIONS = [
 const PRESET_TAGS = ["Italiana", "Mexicana", "Desayuno", "Cena", "Saludable", "Postre"];
 const DIFFICULTY_OPTIONS: CreateRecipeData["difficulty"][] = ["Fácil", "Intermedio", "Difícil"];
 
-// ─── Local types ──────────────────────────────────────────────────────────────
 
 type ImageSource =
   | { type: "url"; value: string }
@@ -39,8 +37,6 @@ interface StepRow {
   images: ImageSource[];
 }
 
-// ─── Parse a serialized ingredient string back to row fields ──────────────────
-
 function parseIngredient(raw: string): IngredientRow {
   const parts = raw.trim().split(/\s+/);
   const knownUnits = UNIT_OPTIONS.filter((u) => u !== "Otros");
@@ -52,8 +48,6 @@ function parseIngredient(raw: string): IngredientRow {
   }
   return { id: crypto.randomUUID(), quantity: "", unit: "Otros", name: raw };
 }
-
-// ─── Image Input Modal ────────────────────────────────────────────────────────
 
 function ImageInputModal({ onAdd, onClose }: { onAdd: (src: ImageSource) => void; onClose: () => void }) {
   const [tab, setTab] = useState<"url" | "file">("url");
@@ -114,13 +108,11 @@ function ImageInputModal({ onAdd, onClose }: { onAdd: (src: ImageSource) => void
   );
 }
 
-// ─── Image Thumbnail ──────────────────────────────────────────────────────────
 
 function ImageThumb({ src, onRemove }: { src: ImageSource; onRemove: () => void }) {
   const url = src.type === "url" ? src.value : src.preview;
   return (
     <div className="relative group w-20 h-20 rounded-lg overflow-hidden border border-gray-200 flex-shrink-0">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={url} alt="" className="w-full h-full object-cover" />
       <button onClick={onRemove}
         className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -129,8 +121,6 @@ function ImageThumb({ src, onRemove }: { src: ImageSource; onRemove: () => void 
     </div>
   );
 }
-
-// ─── Section Header ───────────────────────────────────────────────────────────
 
 function SectionHeader({ title, action }: {
   title: string;
@@ -149,8 +139,6 @@ function SectionHeader({ title, action }: {
   );
 }
 
-// ─── Props ────────────────────────────────────────────────────────────────────
-
 interface RecipeFormProps {
   initialData?: Partial<CreateRecipeData> & { steps?: (string | RecipeStep)[] };
   onSubmit: (data: CreateRecipeData) => Promise<void>;
@@ -161,8 +149,6 @@ interface RecipeFormProps {
   userTags?: string[];
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
-
 export function RecipeForm({
   initialData,
   onSubmit,
@@ -172,10 +158,8 @@ export function RecipeForm({
   submittingLabel,
   userTags = [],
 }: RecipeFormProps) {
-  // keeps backward-compat with translations used in the old form
   const t = useTranslations("RecipeForm");
 
-  // ── Field state ──
   const [title, setTitle] = useState(initialData?.title ?? "");
   const [description, setDescription] = useState(initialData?.description ?? "");
   const [category, setCategory] = useState(initialData?.category ?? "");
@@ -187,14 +171,12 @@ export function RecipeForm({
     initialData?.difficulty ?? "Fácil"
   );
 
-  // ── Ingredients ──
   const [ingredients, setIngredients] = useState<IngredientRow[]>(() =>
     initialData?.ingredients?.length
       ? initialData.ingredients.map(parseIngredient)
       : [{ id: crypto.randomUUID(), name: "", quantity: "", unit: "Otros" }]
   );
 
-  // ── Steps ──
   const [steps, setSteps] = useState<StepRow[]>(() =>
     initialData?.steps?.length
       ? initialData.steps.map((s) => {
@@ -205,7 +187,6 @@ export function RecipeForm({
   );
   const [stepImageModalId, setStepImageModalId] = useState<string | null>(null);
 
-  // ── Images ──
   const [mainPhoto, setMainPhoto] = useState<ImageSource | null>(() =>
     initialData?.images?.[0] ? { type: "url", value: initialData.images[0] } : null
   );
@@ -215,9 +196,6 @@ export function RecipeForm({
   const [showMainModal, setShowMainModal] = useState(false);
   const [showGalleryModal, setShowGalleryModal] = useState(false);
 
-  // ── Tags ──
-  // FIX: recipe's own tags that are not in PRESET_TAGS or userTags go into customTags
-  // so they always appear as selectable pills when editing.
   const [customTags, setCustomTags] = useState<string[]>(() => {
     if (!initialData?.tags) return [];
     const known = new Set([...PRESET_TAGS, ...userTags]);
@@ -226,10 +204,7 @@ export function RecipeForm({
   const [selectedTags, setSelectedTags] = useState<string[]>(initialData?.tags ?? []);
   const [newTagInput, setNewTagInput] = useState("");
 
-  // All pills = presets + user inventory + recipe-specific tags not in the above
   const allTags = Array.from(new Set([...PRESET_TAGS, ...userTags, ...customTags]));
-
-  // ── Helpers ──
 
   const resolveUrl = (src: ImageSource) => (src.type === "url" ? src.value : src.preview);
 
@@ -260,7 +235,6 @@ export function RecipeForm({
     setNewTagInput("");
   };
 
-  // Ingredient helpers
   const updateIngredient = (id: string, field: keyof IngredientRow, val: string) =>
     setIngredients((prev) => prev.map((r) => (r.id === id ? { ...r, [field]: val } : r)));
   const removeIngredient = (id: string) =>
@@ -268,7 +242,6 @@ export function RecipeForm({
   const addIngredient = () =>
     setIngredients((prev) => [...prev, { id: crypto.randomUUID(), name: "", quantity: "", unit: "Otros" }]);
 
-  // Step helpers
   const updateStep = (id: string, val: string) =>
     setSteps((prev) => prev.map((s) => (s.id === id ? { ...s, text: val } : s)));
   const removeStep = (id: string) =>
@@ -280,7 +253,6 @@ export function RecipeForm({
   const removeStepImage = (stepId: string, imgIdx: number) =>
     setSteps((prev) => prev.map((s) => s.id === stepId ? { ...s, images: s.images.filter((_, i) => i !== imgIdx) } : s));
 
-  // ── Submit ──
   const handleSubmit = async () => {
     if (!title.trim()) return;
     await onSubmit({
@@ -301,7 +273,6 @@ export function RecipeForm({
     });
   };
 
-  // ── Shared style tokens ──
   const inputCls = "border-gray-300 focus:border-[#2d6a4f] focus:ring-[#2d6a4f]";
   const selectCls =
     "h-10 rounded-md border border-gray-300 px-3 text-sm focus:border-[#2d6a4f] focus:outline-none focus:ring-1 focus:ring-[#2d6a4f] bg-white";
@@ -326,10 +297,8 @@ export function RecipeForm({
 
       <div className="space-y-7">
 
-        {/* ── Row 1: Fields + Main Photo ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-          {/* Left */}
           <div className="space-y-4">
             <div>
               <Label className="text-sm font-medium text-gray-700 mb-1 block">
@@ -393,12 +362,10 @@ export function RecipeForm({
             </div>
           </div>
 
-          {/* Right: Main Photo */}
           <div className="flex flex-col gap-2">
             <button type="button" onClick={() => setShowMainModal(true)}
               className="relative w-full flex-1 min-h-[220px] border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center gap-3 hover:border-[#2d6a4f] hover:bg-[#f0faf5] transition-colors overflow-hidden bg-gray-50">
               {mainPhoto ? (
-                // eslint-disable-next-line @next/next/no-img-element
                 <img src={resolveUrl(mainPhoto)} alt="Foto principal"
                   className="absolute inset-0 w-full h-full object-cover" />
               ) : (
@@ -417,7 +384,6 @@ export function RecipeForm({
           </div>
         </div>
 
-        {/* ── Gallery ── */}
         <div>
           <SectionHeader
             title="Galería de imágenes"
@@ -437,7 +403,6 @@ export function RecipeForm({
 
         <hr className="border-gray-100" />
 
-        {/* ── Ingredients ── */}
         <div>
           <SectionHeader
             title={t("ingredients")}
@@ -468,7 +433,6 @@ export function RecipeForm({
 
         <hr className="border-gray-100" />
 
-        {/* ── Steps ── */}
         <div>
           <SectionHeader
             title="Pasos de preparación"
@@ -484,7 +448,6 @@ export function RecipeForm({
                   <Textarea placeholder={`Describe el paso ${idx + 1}...`} value={step.text}
                     onChange={(e) => updateStep(step.id, e.target.value)}
                     rows={2} className={`${inputCls} resize-none text-sm`} />
-                  {/* Step images */}
                   <div className="flex flex-wrap items-center gap-2">
                     {step.images.map((img, imgIdx) => (
                       <ImageThumb key={imgIdx} src={img}
@@ -508,11 +471,9 @@ export function RecipeForm({
 
         <hr className="border-gray-100" />
 
-        {/* ── Tags ── */}
         <div>
           <h2 className="text-base font-bold text-gray-800 mb-3">{t("tags")}</h2>
 
-          {/* Selected tags as removable badges */}
           {selectedTags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-3">
               {selectedTags.map((tag) => (
@@ -528,7 +489,6 @@ export function RecipeForm({
             </div>
           )}
 
-          {/* Add existing + create new */}
           <div className="flex items-center gap-2">
             <select
               value=""
@@ -552,14 +512,12 @@ export function RecipeForm({
           </div>
         </div>
 
-        {/* ── Error ── */}
         {error && (
           <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
             {error}
           </p>
         )}
 
-        {/* ── Actions ── */}
         <div className="flex items-center justify-end gap-3 pt-2 pb-6">
           <Button type="button" onClick={handleSubmit}
             disabled={isLoading || !title.trim()}

@@ -42,9 +42,8 @@ export default function ShoppingListPage() {
     refreshState();
   }, [refreshState]);
 
-  // Lista final deduplicada: ingredientes únicos que NO están marcados como "en casa"
   const finalList = useMemo(() => {
-    const seen = new Map<string, string>(); // normalized → original
+    const seen = new Map<string, string>(); 
     for (const entry of state.entries) {
       for (const ingredient of entry.ingredients) {
         const key = ingredient.toLowerCase().trim();
@@ -78,7 +77,6 @@ export default function ShoppingListPage() {
     return state.ownedItems.filter((item) => allNormalized.has(item)).length;
   }, [state]);
 
-  // Agrupar la lista final por categoría de supermercado
   const groupedFinalList = useMemo(() => {
     return groupIngredientsByCategory(finalList);
   }, [finalList]);
@@ -158,7 +156,6 @@ export default function ShoppingListPage() {
     }
   };
 
-  // Estado vacío
   if (state.entries.length === 0) {
     return (
       <div className="container mx-auto px-4 py-16 flex items-center justify-center">
@@ -183,7 +180,6 @@ export default function ShoppingListPage() {
   return (
     <div className="container mx-auto px-4 py-10">
       <div className="max-w-4xl mx-auto space-y-6">
-        {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold flex items-center gap-2">
@@ -198,7 +194,6 @@ export default function ShoppingListPage() {
           </Button>
         </div>
 
-        {/* Summary badges */}
         <div className="flex flex-wrap gap-2">
           <Badge variant="default">
             <ShoppingCart className="mr-1 h-3 w-3" />
@@ -218,7 +213,6 @@ export default function ShoppingListPage() {
 
         <Separator />
 
-        {/* Grouped by recipe */}
         <div className="space-y-4">
           {state.entries.map((entry) => (
             <Card key={entry.recipeId}>
@@ -277,7 +271,6 @@ export default function ShoppingListPage() {
 
         <Separator />
 
-        {/* Final deduplicated list grouped by category */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -325,7 +318,6 @@ export default function ShoppingListPage() {
           </CardContent>
         </Card>
 
-        {/* Action buttons */}
         {finalList.length > 0 && (
           <div className="flex flex-wrap gap-3">
             <Button variant="outline" onClick={handleCopy}>
@@ -340,7 +332,6 @@ export default function ShoppingListPage() {
         )}
       </div>
 
-      {/* Clear all confirmation dialog */}
       <Dialog open={isClearDialogOpen} onOpenChange={setIsClearDialogOpen}>
         <DialogContent>
           <DialogHeader>

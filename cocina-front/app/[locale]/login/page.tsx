@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 
 function LoginPageContent() {
   const t = useTranslations("Login");
+  const tReg = useTranslations("Register");
   const [activeTab, setActiveTab] = useState("login");
   const searchParams = useSearchParams();
 
@@ -22,14 +23,12 @@ function LoginPageContent() {
     <div className="container mx-auto px-4 py-12 flex items-center justify-center min-h-[calc(100vh-200px)]">
       <div className="w-full max-w-md rounded-2xl overflow-hidden shadow-2xl bg-white">
 
-        {/* ── Header naranja degradado ── */}
         <div className="bg-gradient-to-br from-[#f97316] via-[#fb923c] to-[#fdba74] px-7 pt-6 pb-5">
           <h1 className="text-2xl font-bold text-white">
-            {activeTab === "login" ? "Iniciar Sesión" : "Crear Cuenta"}
+            {activeTab === "login" ? t("loginTab") : tReg("createAccount")}
           </h1>
         </div>
 
-        {/* ── Tabs ── */}
         <div className="flex border-b border-gray-100 bg-white px-7 pt-4">
           <button
             onClick={() => setActiveTab("login")}
@@ -53,7 +52,6 @@ function LoginPageContent() {
           </button>
         </div>
 
-        {/* ── Contenido del tab ── */}
         <div className="px-7 py-6">
           {activeTab === "login" ? (
             <LoginForm />
