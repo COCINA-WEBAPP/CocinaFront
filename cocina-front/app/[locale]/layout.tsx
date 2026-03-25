@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Toaster } from "@/components/ui/sonner";
 import { ChefBot } from "@/components/ChefBot";
+import { Analytics } from "@vercel/analytics/next";
 import "@/styles/globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -66,6 +67,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <ChefBot />
           <Toaster />
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
