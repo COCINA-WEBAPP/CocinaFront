@@ -3,6 +3,8 @@ import { Footer } from "@/components/Footer";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { setRequestLocale } from "next-intl/server";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
 	children: React.ReactNode;
 	params: Promise<{ locale: string }>;

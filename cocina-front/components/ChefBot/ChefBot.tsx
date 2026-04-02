@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { MessageCircle, X, Send, ChefHat, Bot } from "lucide-react";
+import { useLocale } from "next-intl";
+import { useActiveRecipe } from "@/lib/contexts/ActiveRecipeContext";
 import { getChefBotResponse } from "./chefBotResponses";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
@@ -58,6 +60,8 @@ function renderMessageContent(content: string) {
 
 export function ChefBot() {
   const t = useTranslations("ChefBot");
+  const locale = useLocale();
+  const { activeRecipe } = useActiveRecipe();
 
   const WELCOME_MESSAGE: ChatMessage = {
     id: "welcome",
@@ -120,7 +124,7 @@ export function ChefBot() {
 
       // Simular delay de "pensando" para que se sienta conversacional
       setTimeout(() => {
-        const responseText = getChefBotResponse(trimmed);
+        const responseText = getChefBotResponse(trimmed, locale, activeRecipe ?? undefined);
         const botMsg: ChatMessage = {
           id: `bot-${Date.now()}`,
           role: "bot",

@@ -12,14 +12,17 @@ import { Recipe } from "@/lib/types/recipes";
 import { getCurrentUser, saveRecipe, unsaveRecipe, isRecipeSaved } from "@/lib/services/user";
 import { getRecipeReviews } from "@/lib/services/recipe";
 import { useTranslations } from "next-intl";
+import { localizeRecipe } from "@/lib/services/recipe-i18n";
 
 interface RecipeCardProps {
   recipe: Recipe;
   onFavoriteChange?: (recipeId: string, saved: boolean) => void;
 }
 
-export function RecipeCard({ recipe, onFavoriteChange }: RecipeCardProps) {
+export function RecipeCard({ recipe: rawRecipe, onFavoriteChange }: RecipeCardProps) {
   const t = useTranslations("RecipeCard");
+  const tRecipes = useTranslations("Recipes");
+  const recipe = localizeRecipe(rawRecipe, tRecipes as any);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 

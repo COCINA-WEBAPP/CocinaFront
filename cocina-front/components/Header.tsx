@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, BookMarked, User, Menu, ChefHat, LogOut, UserCircle, Plus, ShoppingCart } from "lucide-react";
+import { Search, BookMarked, User, Menu, CookingPot, LogOut, UserCircle, Plus, ShoppingCart } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
@@ -17,6 +17,7 @@ import {
 import { getCurrentUser, logout } from "@/lib/services/user";
 import type { User as AppUser } from "@/lib/types/users";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useShoppingListCount } from "@/hooks/useShoppingListCount";
 
 interface HeaderProps {
   savedRecipesCount?: number;
@@ -28,6 +29,7 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
   const [currentUser, setCurrentUser] = useState<AppUser | null>(null);
   const router = useRouter();
   const t = useTranslations("Header");
+  const shoppingCount = useShoppingListCount();
 
   useEffect(() => {
     setCurrentUser(getCurrentUser());
@@ -63,9 +65,9 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
           </Button>
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-              <ChefHat className="h-5 w-5 text-primary-foreground" />
+              <CookingPot className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="font-bold text-lg hidden sm:block">RecipeShare</span>
+            <span className="font-bold text-lg hidden sm:block">Cocina</span>
           </div>
         </div>
 
@@ -105,8 +107,16 @@ export function Header({ savedRecipesCount = 0, onMenuToggle }: HeaderProps) {
             )}
           </Button>
           <Link href="/lista-compras">
-            <Button variant="ghost" size="sm" aria-label={t("shoppingList")}>
+            <Button variant="ghost" size="sm" className="relative" aria-label={t("shoppingList")}>
               <ShoppingCart className="h-5 w-5" />
+              {shoppingCount > 0 && (
+                <Badge
+                  variant="destructive"
+                  className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                >
+                  {shoppingCount}
+                </Badge>
+              )}
             </Button>
           </Link>
           {currentUser && (

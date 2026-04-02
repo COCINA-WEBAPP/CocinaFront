@@ -20,9 +20,10 @@ import { ImageCarousel } from "./components/ImageCarousel";
 import { Comments } from "./components/Comments";
 import { Reseñas } from "./components/Reseñas";
 import type { Recipe } from "@/lib/types/recipes";
-import { normalizeStep } from "@/lib/types/recipes";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { localizeRecipe } from "@/lib/services/recipe-i18n";
+import { useActiveRecipe } from "@/lib/contexts/ActiveRecipeContext";
 import {
   getCurrentUser, saveRecipe, unsaveRecipe, isRecipeSaved,
   addToCookingHistory,
@@ -30,6 +31,8 @@ import {
 import { addRecipeToShoppingList, isRecipeInShoppingList } from "@/lib/services/shopping-list";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { resolveRecipeUser, getInitials, getAvatarSrc } from "@/lib/services/recipe-user";
+import { PortionDialog } from "@/components/PortionDialog";
+import { StepSwiper } from "./components/StepSwiper";
 import {
   Dialog, DialogContent, DialogDescription, DialogFooter,
   DialogHeader, DialogTitle,
@@ -40,8 +43,10 @@ type Tab = "ingredientes" | "pasos" | "galeria";
 export default function RecipePage() {
   const t = useTranslations("Recipe");
   const tCard = useTranslations("RecipeCard");
+  const tRecipes = useTranslations("Recipes");
   const params = useParams();
   const router = useRouter();
+  const { setActiveRecipe } = useActiveRecipe();
   const recipeId = (params as any).id as string;
 
   const [isSaved, setIsSaved] = useState(false);
@@ -52,6 +57,7 @@ export default function RecipePage() {
   const [inShoppingList, setInShoppingList] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>("ingredientes");
   const [isCooking, setIsCooking] = useState(false);
+  const [isPortionDialogOpen, setIsPortionDialogOpen] = useState(false);
   
   useEffect(() => {
     getCurrentUser();
@@ -59,16 +65,19 @@ export default function RecipePage() {
     setInShoppingList(isRecipeInShoppingList(recipeId));
   }, [recipeId]);
 
-  const recipe: Recipe | undefined = getAllRecipes().find(
+  const rawRecipe: Recipe | undefined = getAllRecipes().find(
     (r) => r.id === recipeId || r.slug === recipeId
   );
+  const recipe = rawRecipe ? localizeRecipe(rawRecipe, tRecipes as any) : undefined;
 
   useEffect(() => {
     if (recipe) {
       setRecipeTags([...recipe.tags]);
       setAvailableTags(getUserTags().filter((tag) => !recipe.tags.includes(tag)));
+      setActiveRecipe(recipe);
     }
-  }, [recipe?.id]); 
+    return () => setActiveRecipe(null);
+  }, [recipe?.id]);
 
   const [reviews, setReviews] = useState(() => getRecipeReviews(recipeId));
 
@@ -101,7 +110,12 @@ export default function RecipePage() {
 
   const handleAddToShoppingList = () => {
     if (!recipe) return;
-    addRecipeToShoppingList(recipeId, recipe.title, recipe.ingredients);
+    setIsPortionDialogOpen(true);
+  };
+
+  const handlePortionConfirm = (scaledIngredients: string[], _targetServings: number) => {
+    if (!recipe) return;
+    addRecipeToShoppingList(recipeId, recipe.title, scaledIngredients);
     setInShoppingList(true);
     toast.success(t("addedToShoppingList"));
   };
@@ -179,9 +193,6 @@ export default function RecipePage() {
     ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount
     : recipe.rating;
 
-  const rawSteps = recipe.steps ?? [];
-  const steps = rawSteps.map(normalizeStep);
-  const hasSteps = steps.length > 0;
   const hasGallery = recipe.images.length > 1;
   const protein = recipe.protein ?? 0;
 
@@ -420,34 +431,7 @@ export default function RecipePage() {
             )}
 
             {activeTab === "pasos" && (
-              <div>
-                {!hasSteps ? (
-                  <p className="text-gray-400 italic text-sm">{t("noSteps")}</p>
-                ) : (
-                  <ol className="space-y-8">
-                    {steps.map((step, idx) => (
-                      <li key={idx} className="flex gap-4">
-                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#e07b39] text-white flex items-center justify-center font-bold text-sm mt-0.5">
-                          {idx + 1}
-                        </div>
-                        <div className="flex-1 space-y-3">
-                          <p className="text-gray-800 leading-relaxed">{step.text}</p>
-                          {step.images.length > 0 && (
-                            <div className="flex flex-wrap gap-2">
-                              {step.images.map((img, imgIdx) => (
-                                <div key={imgIdx} className="w-28 h-28 rounded-lg overflow-hidden border border-gray-200">
-                                  <img src={img} alt={`${t("stepsTab")} ${idx + 1} - ${imgIdx + 1}`}
-                                    className="w-full h-full object-cover" />
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
-                )}
-              </div>
+              <StepSwiper steps={recipe.steps} />
             )}
 
             {activeTab === "galeria" && (
@@ -475,6 +459,17 @@ export default function RecipePage() {
 
       <Footer />
       <MobileBottomNav />
+
+      {recipe && (
+        <PortionDialog
+          open={isPortionDialogOpen}
+          onOpenChange={setIsPortionDialogOpen}
+          recipeTitle={recipe.title}
+          originalServings={recipe.servings}
+          ingredients={recipe.ingredients}
+          onConfirm={handlePortionConfirm}
+        />
+      )}
 
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent>

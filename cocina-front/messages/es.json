@@ -1,6 +1,6 @@
 {
   "Metadata": {
-    "title": "RecipeShare - Descubre y Comparte Recetas",
+    "title": "Cocina - Descubre y Comparte Recetas",
     "description": "Plataforma para descubrir recetas increíbles publicadas por usuarios de todo el mundo"
   },
   "Header": {
@@ -36,7 +36,7 @@
     "subscribeText": "Suscríbete para recibir las mejores recetas y consejos de cocina.",
     "emailPlaceholder": "Tu correo electrónico",
     "privacyNote": "Al suscribirte, aceptas nuestra Política de Privacidad.",
-    "copyright": "© 2026 RecipeShare. Todos los derechos reservados.",
+    "copyright": "© 2026 Cocina. Todos los derechos reservados.",
     "privacy": "Privacidad",
     "terms": "Términos de Servicio",
     "cookies": "Cookies"
@@ -52,7 +52,7 @@
     "shoppingList": "Compras"
   },
   "Login": {
-    "welcome": "Bienvenido a RecipeShare",
+    "welcome": "Bienvenido a Cocina",
     "subtitle": "Inicia sesión o crea una cuenta para comenzar",
     "loginTab": "Iniciar Sesión",
     "registerTab": "Registrarse",
@@ -456,7 +456,7 @@
     "uploadHint": "Haz clic para seleccionar una imagen de tu computador",
     "uploadFormats": "PNG, JPG, WEBP hasta 10 MB",
     "stepPhotoBtn": "Foto",
-     "difficultyEasy": "Fácil",
+    "difficultyEasy": "Fácil",
     "difficultyMedium": "Intermedio",
     "difficultyHard": "Difícil",
     "unitOther": "Otros",
@@ -506,5 +506,837 @@
     "removeEntry": "Eliminar del historial",
     "entryRemoved": "Entrada eliminada del historial",
     "historyCleared": "Historial limpiado"
+  },
+  "PortionDialog": {
+    "title": "Ajustar porciones",
+    "servings": "porciones",
+    "preview": "Vista previa de ingredientes",
+    "confirm": "Agregar a la lista",
+    "cancel": "Cancelar"
+  },
+  "BrandSearch": {
+    "placeholder": "Buscar marca...",
+    "noResults": "No se encontraron marcas",
+    "clear": "Limpiar selección",
+    "byRecipe": "Por receta",
+    "byBrand": "Por marca"
+  },
+  "Steps": {
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "stepOf": "Paso {current} de {total}",
+    "noSteps": "Esta receta no tiene pasos registrados."
+  },
+  "Timer": {
+    "start": "Iniciar",
+    "pause": "Pausar",
+    "reset": "Reiniciar",
+    "done": "¡Tiempo cumplido!"
+  },
+  "Recipes": {
+    "pancakes-esponjosos-con-miel": {
+      "title": "Pancakes Esponjosos con Miel",
+      "description": "Pancakes perfectos para empezar el día, esponjosos y servidos con miel.",
+      "category": "Desayuno",
+      "difficulty": "Fácil",
+      "tags": [
+        "Dulce",
+        "Rápido",
+        "Clásico"
+      ],
+      "ingredients": [
+        "2 tazas de harina",
+        "2 cucharadas de azúcar",
+        "1 cucharada de polvo de hornear",
+        "2 huevos",
+        "1 1/2 taza de leche",
+        "2 cucharadas de mantequilla derretida",
+        "1 pizca de sal",
+        "Miel al gusto"
+      ],
+      "steps": [
+        "Mezcla la harina, el azúcar, el polvo de hornear y la sal en un bowl grande.",
+        "En otro recipiente, bate los huevos junto con la leche y la mantequilla derretida.",
+        "Incorpora los ingredientes líquidos a los secos y mezcla hasta obtener una masa homogénea sin sobre-batir.",
+        "Calienta una sartén antiadherente a fuego medio y vierte porciones de masa.",
+        "Cocina cada pancake hasta que aparezcan burbujas en la superficie, voltea y cocina 1 minuto más.",
+        "Sirve caliente con miel al gusto."
+      ]
+    },
+    "pasta-carbonara-autentica": {
+      "title": "Pasta Carbonara Auténtica",
+      "description": "Receta tradicional italiana con huevo y panceta para una carbonara cremosa.",
+      "category": "Almuerzo",
+      "difficulty": "Intermedio",
+      "tags": [
+        "Italiana",
+        "Pasta",
+        "Cremosa"
+      ],
+      "ingredients": [
+        "400 g de spaghetti",
+        "150 g de panceta",
+        "3 huevos",
+        "100 g de queso pecorino rallado",
+        "Sal y pimienta al gusto",
+        "Aceite de oliva"
+      ],
+      "steps": [
+        "Cocina el spaghetti en agua con sal hasta que esté al dente, reserva 1 taza del agua de cocción.",
+        "Sofríe la panceta en una sartén con un poco de aceite hasta que esté dorada y crujiente.",
+        "Bate los huevos con el queso pecorino rallado y pimienta generosa en un bowl.",
+        "Retira la sartén del fuego, añade la pasta escurrida y mezcla con la panceta.",
+        "Agrega la mezcla de huevo y queso, removiendo rápidamente. Añade agua de cocción poco a poco para lograr una salsa cremosa.",
+        "Sirve de inmediato con más queso y pimienta."
+      ]
+    },
+    "torta-de-chocolate-decadente": {
+      "title": "Torta de Chocolate Decadente",
+      "description": "Irresistible postre de chocolate para ocasiones especiales.",
+      "category": "Postre",
+      "difficulty": "Difícil",
+      "tags": [
+        "Chocolate",
+        "Cumpleaños",
+        "Especial"
+      ],
+      "ingredients": [
+        "250 g de chocolate negro",
+        "200 g de mantequilla",
+        "200 g de azúcar",
+        "5 huevos",
+        "100 g de harina",
+        "1 pizca de sal",
+        "Cacao para espolvorear",
+        "Crema para decorar",
+        "Frutas para acompañar",
+        "Extracto de vainilla",
+        "Azúcar glas",
+        "Leche (si se requiere ajustar la textura)"
+      ],
+      "steps": [
+        "Precalienta el horno a 180 °C y engrasa un molde redondo de 22 cm.",
+        "Derrite el chocolate con la mantequilla a baño maría o en microondas en intervalos de 30 segundos.",
+        "Bate el azúcar con los huevos hasta obtener una mezcla pálida y espumosa.",
+        "Incorpora el chocolate derretido y el extracto de vainilla a la mezcla de huevo.",
+        "Agrega la harina tamizada y la sal, mezcla con movimientos envolventes.",
+        "Vierte en el molde y hornea 30-35 minutos. El centro debe quedar ligeramente húmedo.",
+        "Deja enfriar completamente antes de desmoldar. Decora con cacao en polvo, crema y frutas."
+      ]
+    },
+    "ensalada-mediterranea-fresca": {
+      "title": "Ensalada Mediterránea Fresca",
+      "description": "Saludable y deliciosa ensalada con ingredientes frescos y aderezo cítrico.",
+      "category": "Ensalada",
+      "difficulty": "Fácil",
+      "tags": [
+        "Saludable",
+        "Vegetariano",
+        "Mediterránea"
+      ],
+      "ingredients": [
+        "Lechuga romana",
+        "Tomate cherry",
+        "Pepino",
+        "Queso feta",
+        "Aceitunas negras",
+        "Aceite de oliva",
+        "Jugo de limón",
+        "Orégano",
+        "Sal y pimienta",
+        "Cebolla roja"
+      ],
+      "steps": [
+        "Lava y seca bien todos los vegetales.",
+        "Corta la lechuga en trozos, el pepino en rodajas, los tomates cherry a la mitad y la cebolla en aros finos.",
+        "Coloca todos los vegetales en una ensaladera grande.",
+        "Añade el queso feta desmenuzado y las aceitunas negras.",
+        "Prepara el aderezo mezclando aceite de oliva, jugo de limón, orégano, sal y pimienta.",
+        "Vierte el aderezo sobre la ensalada justo antes de servir."
+      ]
+    },
+    "pollo-a-la-parrilla-con-hierbas": {
+      "title": "Pollo a la Parrilla con Hierbas",
+      "description": "Pollo jugoso marinado con hierbas aromáticas y cocinado a la parrilla.",
+      "category": "Cena",
+      "difficulty": "Intermedio",
+      "tags": [
+        "Proteína",
+        "Saludable",
+        "Parrilla"
+      ],
+      "ingredients": [
+        "1 pollo entero o trozos",
+        "Romero",
+        "Tomillo",
+        "Ajo",
+        "Aceite de oliva",
+        "Sal y pimienta",
+        "Zumo de limón",
+        "Pimienta negra",
+        "Miel (opcional para glaseado)"
+      ],
+      "steps": [
+        "Mezcla el aceite de oliva, el zumo de limón, el ajo picado, el romero, el tomillo, la sal y la pimienta.",
+        "Marina el pollo en esta mezcla durante al menos 1 hora (mejor toda la noche en la nevera).",
+        "Precalienta la parrilla a fuego medio-alto.",
+        "Cocina el pollo unos 20-25 minutos por lado, dependiendo del grosor, hasta que esté bien cocido.",
+        "Opcional: pincela con miel los últimos 5 minutos para un glaseado caramelizado.",
+        "Deja reposar 5 minutos antes de servir."
+      ]
+    },
+    "bowl-de-smoothie-tropical": {
+      "title": "Bowl de Smoothie Tropical",
+      "description": "Energizante bowl de frutas tropicales perfecto para el desayuno o merienda.",
+      "category": "Desayuno",
+      "difficulty": "Fácil",
+      "tags": [
+        "Vegano",
+        "Saludable",
+        "Frutas"
+      ],
+      "ingredients": [
+        "1 banana congelada",
+        "1/2 taza de mango",
+        "1/2 taza de piña",
+        "1/2 taza de leche vegetal",
+        "Semillas de chía",
+        "Granola",
+        "Frutas frescas para topping"
+      ],
+      "steps": [
+        "Coloca la banana congelada, el mango, la piña y la leche vegetal en la licuadora.",
+        "Procesa hasta obtener una mezcla espesa y cremosa. Si es necesario, añade más leche vegetal.",
+        "Vierte la mezcla en un bowl.",
+        "Decora con granola, semillas de chía y las frutas frescas al gusto.",
+        "Sirve de inmediato."
+      ]
+    },
+    "tacos-de-carne-asada": {
+      "title": "Tacos de Carne Asada",
+      "description": "Auténticos tacos mexicanos con carne marinada, cebolla y cilantro.",
+      "category": "Cena",
+      "difficulty": "Intermedio",
+      "tags": [
+        "Mexicana",
+        "Carne",
+        "Picante"
+      ],
+      "ingredients": [
+        "500 g de carne para asar",
+        "Salsa de soja",
+        "Ajo",
+        "Comino",
+        "Tortillas",
+        "Cebolla",
+        "Cilantro",
+        "Limón",
+        "Chiles (opcional)",
+        "Aceite",
+        "Sal y pimienta",
+        "Pimiento",
+        "Papas (opcional para acompañar)",
+        "Aderezo",
+        "Queso fresco"
+      ],
+      "steps": [
+        "Marina la carne con salsa de soja, ajo, comino, sal, pimienta y aceite durante 30 minutos.",
+        "Calienta una sartén o parrilla a fuego alto y cocina la carne 3-4 minutos por lado.",
+        "Deja reposar la carne 5 minutos y luego córtala en tiras o cubos pequeños.",
+        "Calienta las tortillas en una sartén seca 30 segundos por lado.",
+        "Arma los tacos con la carne, cebolla y cilantro picados, y un chorrito de limón.",
+        "Acompaña con queso fresco y chiles al gusto."
+      ]
+    },
+    "sushi-rolls-caseros": {
+      "title": "Sushi Rolls Caseros",
+      "description": "Aprende a hacer sushi en casa con esta receta detallada paso a paso.",
+      "category": "Almuerzo",
+      "difficulty": "Difícil",
+      "tags": [
+        "Japonesa",
+        "Pescado",
+        "Gourmet"
+      ],
+      "ingredients": [
+        "Arroz para sushi",
+        "Vinagre de arroz",
+        "Alga nori",
+        "Salmón o atún",
+        "Pepino",
+        "Aguacate",
+        "Salsa de soja",
+        "Wasabi",
+        "Jengibre encurtido",
+        "Semillas de sésamo",
+        "Esterilla para enrollar"
+      ],
+      "steps": [
+        "Cocina el arroz para sushi y sazónalo con vinagre de arroz, azúcar y sal. Deja enfriar.",
+        "Coloca una lámina de alga nori sobre la esterilla.",
+        "Extiende una capa fina de arroz sobre el alga, dejando 2 cm libres en el borde superior.",
+        "Coloca los rellenos (salmón, pepino, aguacate) en el centro.",
+        "Enrolla con ayuda de la esterilla, presionando firmemente.",
+        "Corta el rollo en 8 piezas con un cuchillo mojado en agua. Sirve con salsa de soja, wasabi y jengibre."
+      ]
+    },
+    "pizza-margherita-clasica": {
+      "title": "Pizza Margherita Clásica",
+      "description": "Pizza italiana simple y deliciosa con albahaca fresca y mozzarella.",
+      "category": "Cena",
+      "difficulty": "Intermedio",
+      "tags": [
+        "Italiana",
+        "Pizza",
+        "Vegetariano"
+      ],
+      "ingredients": [
+        "Masa para pizza",
+        "Salsa de tomate",
+        "Mozzarella",
+        "Hojas de albahaca",
+        "Aceite de oliva",
+        "Sal",
+        "Harina para estirar la masa",
+        "Orégano"
+      ],
+      "steps": [
+        "Precalienta el horno a 250 °C con la bandeja dentro.",
+        "Estira la masa sobre una superficie enharinada hasta obtener un círculo fino.",
+        "Extiende la salsa de tomate dejando 1 cm de borde libre.",
+        "Distribuye la mozzarella en trozos irregulares sobre la salsa.",
+        "Hornea 8-10 minutos hasta que los bordes estén dorados y el queso burbujeante.",
+        "Saca del horno, añade hojas de albahaca fresca, un hilo de aceite de oliva y sirve."
+      ]
+    },
+    "tiramisu-tradicional": {
+      "title": "Tiramisú Tradicional",
+      "description": "Clásico postre italiano a base de café y mascarpone.",
+      "category": "Postre",
+      "difficulty": "Intermedio",
+      "tags": [
+        "Italiana",
+        "Café",
+        "Cremoso"
+      ],
+      "ingredients": [
+        "Queso mascarpone",
+        "Huevos",
+        "Azúcar",
+        "Café espresso",
+        "Bizcochos de soletilla",
+        "Cacao en polvo",
+        "Licor (opcional)"
+      ],
+      "steps": [
+        "Separa las yemas de las claras. Bate las yemas con el azúcar hasta obtener una crema pálida.",
+        "Incorpora el mascarpone a las yemas y mezcla hasta integrar.",
+        "Monta las claras a punto de nieve e incorpóralas con movimientos envolventes.",
+        "Prepara el café y añade el licor si se desea. Deja enfriar.",
+        "Moja brevemente cada bizcocho en el café y coloca una capa en el molde.",
+        "Extiende una capa de crema de mascarpone. Repite las capas y termina con crema.",
+        "Refrigera mínimo 4 horas. Espolvorea cacao en polvo justo antes de servir."
+      ]
+    },
+    "sopa-de-verduras-casera": {
+      "title": "Sopa de Verduras Casera",
+      "description": "Reconfortante sopa llena de verduras frescas y sabor casero.",
+      "category": "Sopa",
+      "difficulty": "Fácil",
+      "tags": [
+        "Vegano",
+        "Saludable",
+        "Reconfortante"
+      ],
+      "ingredients": [
+        "Zanahoria",
+        "Apio",
+        "Cebolla",
+        "Calabacín",
+        "Papas",
+        "Tomate",
+        "Caldo de verduras",
+        "Perejil",
+        "Ajo",
+        "Sal y pimienta",
+        "Aceite de oliva",
+        "Especias al gusto"
+      ],
+      "steps": [
+        "Pela y corta todas las verduras en trozos medianos.",
+        "Sofríe la cebolla y el ajo en una olla con aceite de oliva a fuego medio hasta que estén transparentes.",
+        "Agrega la zanahoria, el apio y las papas. Sofríe 3 minutos más.",
+        "Añade el tomate, el calabacín y el caldo de verduras.",
+        "Lleva a hervor, reduce el fuego y cocina 20 minutos hasta que todas las verduras estén tiernas.",
+        "Ajusta sal, pimienta y especias. Sirve con perejil fresco picado."
+      ]
+    },
+    "hamburguesa-gourmet-completa": {
+      "title": "Hamburguesa Gourmet Completa",
+      "description": "Hamburguesa jugosa con todos los acompañamientos clásicos y gourmet.",
+      "category": "Almuerzo",
+      "difficulty": "Fácil",
+      "tags": [
+        "Americana",
+        "Carne",
+        "Clásico"
+      ],
+      "ingredients": [
+        "Carne molida 80/20",
+        "Pan brioche",
+        "Lechuga",
+        "Tomate",
+        "Cebolla caramelizada",
+        "Queso cheddar",
+        "Salsa especial",
+        "Pepinillos",
+        "Papas fritas (acompañamiento)",
+        "Aceite y sal",
+        "Mayonesa",
+        "Ketchup",
+        "Mostaza",
+        "Bacon (opcional)"
+      ],
+      "steps": [
+        "Forma 4 medallones de carne de unos 180 g cada uno. Sazona con sal y pimienta.",
+        "Cocina el bacon en una sartén hasta que esté crujiente. Reserva.",
+        "En la misma sartén a fuego alto, cocina los medallones 3-4 minutos por lado.",
+        "Añade el queso cheddar en el último minuto y tapa para que se derrita.",
+        "Tuesta los panes brioche en la sartén con un poco de mantequilla.",
+        "Monta la hamburguesa: pan, salsa especial, lechuga, tomate, medallón con queso, cebolla caramelizada, bacon y pepinillos."
+      ]
+    },
+    "crepes-de-espinaca-y-ricotta": {
+      "title": "Crepes de Espinaca y Ricotta",
+      "description": "Delicados crepes rellenos de espinaca salteada y queso ricotta, ideales como entrada.",
+      "category": "Entrada",
+      "difficulty": "Intermedio",
+      "tags": [
+        "Vegetariano",
+        "Entradas",
+        "Ligero"
+      ],
+      "ingredients": [
+        "1 taza de harina",
+        "2 huevos",
+        "1 1/4 taza de leche",
+        "200 g de ricotta",
+        "200 g de espinacas frescas",
+        "1 diente de ajo",
+        "Aceite de oliva",
+        "Sal y pimienta"
+      ],
+      "steps": [
+        "Mezcla la harina, los huevos y la leche hasta obtener una masa lisa. Reposa 15 minutos.",
+        "Sofríe el ajo picado en aceite de oliva. Añade las espinacas y saltea hasta que se marchiten.",
+        "Mezcla las espinacas con la ricotta, sal y pimienta al gusto.",
+        "Cocina los crepes en una sartén antiadherente ligeramente engrasada, 1-2 minutos por lado.",
+        "Rellena cada crepe con la mezcla de espinaca y ricotta y dobla en cuartos o enrolla.",
+        "Sirve caliente, opcionalmente con salsa de tomate o gratinado al horno."
+      ]
+    },
+    "gulash-hungaro-tradicional": {
+      "title": "Goulash Húngaro Tradicional",
+      "description": "Estofado robusto de carne con pimentón y verduras, reconfortante y lleno de sabor.",
+      "category": "Almuerzo",
+      "difficulty": "Difícil",
+      "tags": [
+        "Estofado",
+        "Carnes",
+        "Tradicional"
+      ],
+      "ingredients": [
+        "1 kg de carne de ternera en trozos",
+        "3 cebollas grandes",
+        "2 pimientos rojos",
+        "3 cucharadas de pimentón dulce",
+        "2 zanahorias",
+        "2 tomates",
+        "Caldo de carne",
+        "Sal y pimienta",
+        "Aceite"
+      ],
+      "steps": [
+        "Sella la carne en una olla con aceite caliente hasta dorar por todos los lados. Retira y reserva.",
+        "En la misma olla, sofríe la cebolla y los pimientos hasta que estén blandos.",
+        "Añade el pimentón dulce y mezcla 1 minuto con cuidado de no quemarlo.",
+        "Incorpora la carne, las zanahorias, los tomates troceados y el caldo hasta cubrir.",
+        "Lleva a hervor, tapa y cocina a fuego lento durante 1 hora y 30 minutos.",
+        "Ajusta sal y pimienta. Sirve acompañado de pan o pasta."
+      ]
+    },
+    "arepas-rellenas-de-queso-y-aguacate": {
+      "title": "Arepas Rellenas de Queso y Aguacate",
+      "description": "Arepas crujientes por fuera y suaves por dentro, rellenas con queso fundido y aguacate.",
+      "category": "Desayuno",
+      "difficulty": "Fácil",
+      "tags": [
+        "Latina",
+        "Sin Gluten",
+        "Clásico"
+      ],
+      "ingredients": [
+        "2 tazas de harina de maíz precocida",
+        "2 1/2 tazas de agua",
+        "Sal",
+        "Queso blanco rallado",
+        "1 aguacate",
+        "Mantequilla para freír"
+      ],
+      "steps": [
+        "Mezcla la harina de maíz con el agua tibia y sal hasta obtener una masa manejable. Reposa 5 minutos.",
+        "Forma bolas medianas y aplánalas hasta obtener discos de 1,5 cm de grosor.",
+        "Cocina en una sartén con mantequilla a fuego medio 5-6 minutos por lado hasta que estén doradas.",
+        "Abre cada arepa por la mitad con cuidado.",
+        "Rellena con queso blanco rallado y rodajas de aguacate.",
+        "Sirve de inmediato mientras el queso aún está derretido."
+      ]
+    },
+    "crema-de-calabaza-con-jengibre": {
+      "title": "Crema de Calabaza con Jengibre",
+      "description": "Sopa cremosa y aromática con un toque de jengibre fresco.",
+      "category": "Sopa",
+      "difficulty": "Fácil",
+      "tags": [
+        "Vegetariano",
+        "Reconfortante",
+        "Otoño"
+      ],
+      "ingredients": [
+        "1 calabaza mediana",
+        "1 cebolla",
+        "1 trozo de jengibre (2 cm)",
+        "Caldo de verduras",
+        "Crema de leche (opcional)",
+        "Aceite de oliva",
+        "Sal y pimienta"
+      ],
+      "steps": [
+        "Pela la calabaza, retira las semillas y córtala en cubos.",
+        "Sofríe la cebolla y el jengibre rallado en aceite de oliva hasta que estén tiernos.",
+        "Agrega la calabaza y el caldo de verduras hasta cubrir.",
+        "Cocina a fuego medio 20 minutos hasta que la calabaza esté muy blanda.",
+        "Licúa hasta obtener una crema suave. Ajusta la consistencia con más caldo si es necesario.",
+        "Incorpora la crema de leche si se desea. Ajusta sal y pimienta y sirve caliente."
+      ]
+    },
+    "milhojas-de-berenjena-y-queso-de-cabra": {
+      "title": "Milhojas de Berenjena y Queso de Cabra",
+      "description": "Capas de berenjena asada y queso de cabra con reducción balsámica.",
+      "category": "Cena",
+      "difficulty": "Intermedio",
+      "tags": [
+        "Vegetariano",
+        "Gourmet",
+        "Aperitivo"
+      ],
+      "ingredients": [
+        "2 berenjenas grandes",
+        "200 g de queso de cabra",
+        "Miel",
+        "Vinagre balsámico",
+        "Tomillo",
+        "Aceite de oliva",
+        "Sal y pimienta"
+      ],
+      "steps": [
+        "Corta las berenjenas en rodajas de 1 cm. Sala y deja reposar 15 minutos para que suelten el amargor.",
+        "Seca las rodajas y ásalas en una plancha con aceite de oliva hasta que estén doradas por ambos lados.",
+        "Reduce el vinagre balsámico en un cazo a fuego lento hasta obtener una textura de jarabe.",
+        "Monta los milhojas alternando rodajas de berenjena y láminas de queso de cabra.",
+        "Riega con la reducción balsámica y un hilo de miel.",
+        "Espolvorea tomillo fresco y sirve templado."
+      ]
+    },
+    "chai-latte-especiado": {
+      "title": "Chai Latte Especiado",
+      "description": "Bebida caliente con té negro y mezcla de especias — ideal para las mañanas frías.",
+      "category": "Bebida",
+      "difficulty": "Fácil",
+      "tags": [
+        "Bebida",
+        "Café alternativo",
+        "Especias"
+      ],
+      "ingredients": [
+        "2 tazas de leche",
+        "1 taza de agua",
+        "2 bolsitas de té negro",
+        "1 rama de canela",
+        "3 vainas de cardamomo",
+        "2 clavos de olor",
+        "Azúcar o miel al gusto"
+      ],
+      "steps": [
+        "Hierve el agua con la canela, el cardamomo aplastado y los clavos durante 3 minutos.",
+        "Añade las bolsitas de té y deja reposar 2 minutos. Retira las bolsitas.",
+        "Incorpora la leche y calienta sin dejar hervir.",
+        "Endulza con azúcar o miel al gusto.",
+        "Cuela la bebida y sirve en tazas calientes."
+      ]
+    },
+    "falafel-crujiente-con-salsa-de-yogurt": {
+      "title": "Falafel Crujiente con Salsa de Yogurt",
+      "description": "Bolas de garbanzo especiadas, crujientes por fuera y tiernas por dentro, servidas con yogurt.",
+      "category": "Snack",
+      "difficulty": "Intermedio",
+      "tags": [
+        "Vegano",
+        "Medio Oriente",
+        "Frito"
+      ],
+      "ingredients": [
+        "400 g de garbanzos remojados",
+        "1 cebolla",
+        "2 dientes de ajo",
+        "Cilantro",
+        "Comino",
+        "Cúrcuma",
+        "Harina (para ligar)",
+        "Aceite para freír",
+        "Yogurt natural para la salsa"
+      ],
+      "steps": [
+        "Escurre los garbanzos remojados (no cocidos) y procésalos en una picadora con la cebolla, el ajo, el cilantro, comino y cúrcuma.",
+        "La mezcla debe quedar granulosa pero cohesiva. Añade harina si es necesario para ligar.",
+        "Refrigera la masa 30 minutos. Forma bolitas del tamaño de una nuez.",
+        "Fríe en aceite caliente a 175 °C durante 3-4 minutos hasta que estén dorados.",
+        "Escurre sobre papel absorbente.",
+        "Sirve con yogurt natural sazonado con ajo, limón y hierbas."
+      ]
+    },
+    "paella-de-mariscos-clasica": {
+      "title": "Paella de Mariscos Clásica",
+      "description": "Paella tradicional con arroz suelto, mariscos frescos y azafrán.",
+      "category": "Almuerzo",
+      "difficulty": "Difícil",
+      "tags": [
+        "Mariscos",
+        "Española",
+        "Gourmet"
+      ],
+      "ingredients": [
+        "400 g de arroz bomba",
+        "1 litro de caldo de pescado",
+        "200 g de camarones",
+        "200 g de calamares",
+        "Mejillones",
+        "1 cebolla",
+        "Azafrán",
+        "Pimiento rojo",
+        "Aceite de oliva",
+        "Sal"
+      ],
+      "steps": [
+        "Calienta el caldo y disuelve el azafrán dentro. Mantén caliente.",
+        "Sofríe la cebolla y el pimiento en aceite en la paellera a fuego medio.",
+        "Añade los calamares y saltea 2 minutos. Incorpora el arroz y mezcla bien.",
+        "Vierte el caldo caliente, distribuye los camarones y mejillones sobre el arroz.",
+        "Cocina a fuego medio-alto 10 minutos, luego reduce a fuego bajo 8 minutos más sin remover.",
+        "Retira del fuego y cubre con un paño limpio 5 minutos antes de servir."
+      ]
+    },
+    "muffins-de-arandanos-integrales": {
+      "title": "Muffins de Arándanos Integrales",
+      "description": "Muffins suaves con harina integral y arándanos frescos — opción más sana para el desayuno.",
+      "category": "Panadería",
+      "difficulty": "Fácil",
+      "tags": [
+        "Desayuno",
+        "Integrales",
+        "Horno"
+      ],
+      "ingredients": [
+        "2 tazas de harina integral",
+        "3/4 taza de azúcar",
+        "2 cucharaditas de polvo de hornear",
+        "2 huevos",
+        "1 taza de leche",
+        "1/2 taza de aceite",
+        "1 taza de arándanos",
+        "1 pizca de sal"
+      ],
+      "steps": [
+        "Precalienta el horno a 190 °C y coloca cápsulas en un molde para muffins.",
+        "Mezcla en un bowl la harina, el azúcar, el polvo de hornear y la sal.",
+        "En otro recipiente, bate los huevos con la leche y el aceite.",
+        "Une los ingredientes húmedos con los secos, mezclando solo hasta integrar (no sobre-batir).",
+        "Incorpora los arándanos con movimientos envolventes.",
+        "Llena los moldes 3/4 partes y hornea 20-22 minutos hasta que un palillo salga limpio."
+      ]
+    },
+    "ceviche-de-camaron-con-limon-y-aji": {
+      "title": "Ceviche de Camarón con Limón y Ají",
+      "description": "Ceviche fresco y ácido, con camarones marinados y toque picante de ají.",
+      "category": "Entrante",
+      "difficulty": "Fácil",
+      "tags": [
+        "Mariscos",
+        "Peruano",
+        "Fresco"
+      ],
+      "ingredients": [
+        "500 g de camarones cocidos",
+        "Jugo de 8 limones",
+        "1 cebolla morada",
+        "Ají picado al gusto",
+        "Cilantro",
+        "Sal",
+        "Maíz cancha (opc.)"
+      ],
+      "steps": [
+        "Corta los camarones en trozos medianos si son grandes.",
+        "Mezcla los camarones con el jugo de limón recién exprimido y deja marinar 10 minutos.",
+        "Corta la cebolla morada en juliana fina y enjuágala en agua fría para suavizar el sabor.",
+        "Mezcla la cebolla, el ají picado y el cilantro con los camarones marinados.",
+        "Ajusta sal al gusto.",
+        "Sirve de inmediato con maíz cancha si se desea."
+      ]
+    },
+    "risotto-de-setas-silvestres": {
+      "title": "Risotto de Setas Silvestres",
+      "description": "Risotto cremoso con mezcla de setas, parmesano y vino blanco.",
+      "category": "Almuerzo",
+      "difficulty": "Intermedio",
+      "tags": [
+        "Italiana",
+        "Arroz",
+        "Setas"
+      ],
+      "ingredients": [
+        "300 g de arroz arborio",
+        "400 g de setas mixtas",
+        "1/2 taza de vino blanco",
+        "1 litro de caldo de verduras caliente",
+        "1 cebolla",
+        "50 g de mantequilla",
+        "50 g de queso parmesano rallado",
+        "Aceite de oliva",
+        "Sal y pimienta"
+      ],
+      "steps": [
+        "Sofríe la cebolla picada en aceite y la mitad de la mantequilla a fuego medio hasta transparente.",
+        "Añade el arroz arborio y tuesta 2 minutos removiendo constantemente.",
+        "Vierte el vino blanco y mezcla hasta que se evapore.",
+        "Agrega el caldo caliente cucharón a cucharón, esperando que se absorba antes de añadir más.",
+        "Mientras, saltea las setas en una sartén aparte con aceite, sal y pimienta.",
+        "Cuando el arroz esté cremoso y al dente, apaga el fuego. Incorpora la mantequilla restante, el parmesano y las setas. Ajusta sal."
+      ]
+    },
+    "bao-de-pulled-pork-con-salsa-hoisin": {
+      "title": "Bao de Pulled Pork con Salsa Hoisin",
+      "description": "Panecillos al vapor rellenos de cerdo desmenuzado y salsa hoisin, street food asiático.",
+      "category": "Cena",
+      "difficulty": "Difícil",
+      "tags": [
+        "Asiática",
+        "Street Food",
+        "Cerdo"
+      ],
+      "ingredients": [
+        "800 g de lomo de cerdo",
+        "Pan bao listo",
+        "Salsa hoisin",
+        "Pepino en tiras",
+        "Cebolleta",
+        "Ajo",
+        "Jengibre",
+        "Salsa de soja"
+      ],
+      "steps": [
+        "Marina el lomo de cerdo con salsa de soja, ajo y jengibre rallado durante 1 hora.",
+        "Cocina la carne en una olla a presión 45 minutos o al horno a 160 °C durante 2 horas.",
+        "Desmenuza la carne con dos tenedores cuando esté tierna.",
+        "Mezcla la carne desmenuzada con salsa hoisin al gusto.",
+        "Calienta los panes bao al vapor durante 5 minutos.",
+        "Rellena cada bao con el pulled pork, tiras de pepino y cebolleta. Sirve caliente."
+      ]
+    },
+    "brownie-vegan-sin-gluten": {
+      "title": "Brownie Vegano Sin Gluten",
+      "description": "Brownies intensos en chocolate, 100% veganos y sin gluten, densos y húmedos.",
+      "category": "Postre",
+      "difficulty": "Fácil",
+      "tags": [
+        "Vegano",
+        "Sin Gluten",
+        "Chocolate"
+      ],
+      "ingredients": [
+        "1 taza de harina de almendra",
+        "1/2 taza de cacao en polvo",
+        "1 taza de azúcar de coco",
+        "1/2 taza de aceite de coco",
+        "1/2 taza de puré de manzana",
+        "1 cucharadita de polvo de hornear",
+        "1 pizca de sal",
+        "Chips de chocolate vegano"
+      ],
+      "steps": [
+        "Precalienta el horno a 175 °C y forra un molde cuadrado con papel de hornear.",
+        "Mezcla el aceite de coco derretido con el azúcar de coco y el puré de manzana.",
+        "Agrega la harina de almendra, el cacao, el polvo de hornear y la sal. Mezcla hasta integrar.",
+        "Incorpora los chips de chocolate y vierte la mezcla en el molde.",
+        "Hornea 22-25 minutos. El centro debe quedar ligeramente húmedo.",
+        "Deja enfriar completamente antes de cortar en 9 porciones."
+      ]
+    },
+    "ensalada-de-quinoa-con-vegetales-asados": {
+      "title": "Ensalada de Quinoa con Vegetales Asados",
+      "description": "Ensalada nutritiva de quinoa con berenjena, calabacín y pimiento asado.",
+      "category": "Ensalada",
+      "difficulty": "Fácil",
+      "tags": [
+        "Saludable",
+        "Vegano",
+        "Sin Gluten"
+      ],
+      "ingredients": [
+        "1 taza de quinoa",
+        "Berenjena",
+        "Calabacín",
+        "Pimiento rojo",
+        "Aceite de oliva",
+        "Limón",
+        "Perejil",
+        "Sal y pimienta"
+      ],
+      "steps": [
+        "Cocina la quinoa según las instrucciones del paquete. Deja enfriar.",
+        "Corta la berenjena, el calabacín y el pimiento en cubos. Aliña con aceite, sal y pimienta.",
+        "Asa los vegetales en el horno a 200 °C durante 20 minutos hasta que estén dorados.",
+        "Mezcla la quinoa con los vegetales asados.",
+        "Aliña con aceite de oliva, jugo de limón y perejil picado.",
+        "Sirve a temperatura ambiente o fría."
+      ]
+    },
+    "polenta-cremosa-con-champinones": {
+      "title": "Polenta Cremosa con Champiñones",
+      "description": "Polenta suave y cremosa servida con champiñones salteados y ajo.",
+      "category": "Cena",
+      "difficulty": "Intermedio",
+      "tags": [
+        "Confort",
+        "Italiana",
+        "Vegetariano"
+      ],
+      "ingredients": [
+        "1 taza de polenta",
+        "4 tazas de caldo",
+        "200 g de champiñones",
+        "2 dientes de ajo",
+        "Mantequilla",
+        "Queso parmesano (opcional)",
+        "Perejil"
+      ],
+      "steps": [
+        "Lleva el caldo a ebullición en una olla.",
+        "Añade la polenta en forma de lluvia removiendo constantemente para evitar grumos.",
+        "Cocina a fuego bajo 20 minutos, removiendo frecuentemente hasta que la polenta se despegue de las paredes.",
+        "Incorpora la mantequilla y el parmesano. Ajusta sal.",
+        "Saltea los champiñones laminados con ajo picado en una sartén con aceite hasta que estén dorados.",
+        "Sirve la polenta en platos hondos coronada con los champiñones y perejil picado."
+      ]
+    }
   }
 }
