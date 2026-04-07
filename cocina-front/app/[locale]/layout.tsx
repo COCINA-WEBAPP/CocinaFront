@@ -6,8 +6,6 @@ import { routing } from "@/i18n/routing";
 import { Toaster } from "@/components/ui/sonner";
 import { ChefBot } from "@/components/ChefBot";
 import { Analytics } from "@vercel/analytics/next";
-import { AnalyticsTracker } from "@/lib/services/analytics";
-import { ActiveRecipeProvider } from "@/lib/contexts/ActiveRecipeContext";
 import "@/styles/globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -65,14 +63,11 @@ export default async function LocaleLayout({ children, params }: Props) {
           {t("skipToContent")}
         </a>
         <NextIntlClientProvider>
-          <ActiveRecipeProvider>
-            {children}
-            <ChefBot />
-            <Toaster />
-          </ActiveRecipeProvider>
+          {children}
+          <ChefBot />
+          <Toaster />
         </NextIntlClientProvider>
         <Analytics />
-        <AnalyticsTracker />
       </body>
     </html>
   );

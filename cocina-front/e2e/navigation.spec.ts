@@ -80,12 +80,12 @@ test.describe("Internationalization (i18n)", () => {
 
   test("can access English locale", async ({ page }) => {
     await page.goto("/en");
-    await expect(page.locator("header").getByText("Cocina")).toBeVisible({ timeout: 10000 });
+    await expect(page.locator("header").getByText("RecipeShare")).toBeVisible({ timeout: 10000 });
   });
 
   test("can access French locale", async ({ page }) => {
     await page.goto("/fr");
-    await expect(page.locator("header").getByText("Cocina")).toBeVisible({ timeout: 10000 });
+    await expect(page.locator("header").getByText("RecipeShare")).toBeVisible({ timeout: 10000 });
   });
 
   test("html lang attribute matches locale", async ({ page }) => {

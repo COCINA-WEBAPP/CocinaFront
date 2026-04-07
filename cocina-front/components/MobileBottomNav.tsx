@@ -26,7 +26,6 @@ import { useEffect, useState } from "react";
 import { getCurrentUser } from "@/lib/services/user";
 import type { User as AppUser } from "@/lib/types/users";
 import { routing } from "@/i18n/routing";
-import { useShoppingListCount } from "@/hooks/useShoppingListCount";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,6 +37,10 @@ const LOCALE_LABELS: Record<string, string> = {
   es: "Español",
   en: "English",
   fr: "Français",
+  it: "Italiano",
+  hu: "Magyar",
+  cs: "Čeština",
+  ja: "日本語",
 };
 
 /**
@@ -61,7 +64,6 @@ export function MobileBottomNav() {
   const locale = useLocale();
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<AppUser | null>(null);
-  const shoppingCount = useShoppingListCount();
 
   const handleLocaleChange = (newLocale: string) => {
     router.replace(pathname, { locale: newLocale });
@@ -113,14 +115,7 @@ export function MobileBottomNav() {
                   className={`h-6 w-6 rounded-full object-cover ${isActive ? "ring-2 ring-primary" : ""}`}
                 />
               ) : (
-                <span className="relative">
-                  <Icon className="h-6 w-6" />
-                  {href === "/lista-compras" && shoppingCount > 0 && (
-                    <span className="absolute -top-1.5 -right-2.5 h-4 w-4 flex items-center justify-center rounded-full bg-destructive text-destructive-foreground text-[9px] font-bold">
-                      {shoppingCount}
-                    </span>
-                  )}
-                </span>
+                <Icon className="h-6 w-6" />
               )}
               <span className="text-[10px] font-medium leading-none">
                 {t(item.labelKey)}

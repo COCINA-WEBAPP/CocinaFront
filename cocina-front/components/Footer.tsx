@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Facebook, Twitter, Instagram, Youtube, Mail, CookingPot } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube, Mail, ChefHat } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Separator } from "./ui/separator";
@@ -25,9 +25,9 @@ export function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-                <CookingPot className="h-5 w-5 text-primary-foreground" />
+                <ChefHat className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span className="font-bold text-lg">Cocina</span>
+              <span className="font-bold text-lg">RecipeShare</span>
             </div>
             <p className="text-sm text-muted-foreground">
               {t("description")}

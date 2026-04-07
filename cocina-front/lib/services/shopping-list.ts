@@ -36,7 +36,6 @@ function persistShoppingList(state: ShoppingListState): void {
   shoppingListState = state;
   if (typeof window !== "undefined") {
     localStorage.setItem(currentStorageKey, JSON.stringify(state));
-    window.dispatchEvent(new Event("shopping-list-updated"));
   }
 }
 

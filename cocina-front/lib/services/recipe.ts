@@ -1,6 +1,6 @@
 // lib/services/recipe.ts
 import { MOCK_RECIPES } from "@/lib/data/recipes";
-import { Recipe, CreateRecipeData, UpdateRecipeData } from "@/lib/types/recipes";
+import { Recipe, CreateRecipeData, UpdateRecipeData } from "lib/types/recipes";
 import { getCurrentUser } from "@/lib/services/user";
 import { MOCK_USERS } from "@/lib/data/users";
 

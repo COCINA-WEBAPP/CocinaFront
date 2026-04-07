@@ -16,6 +16,10 @@ const LOCALE_LABELS: Record<string, string> = {
   es: "Español",
   en: "English",
   fr: "Français",
+  it: "Italiano",
+  hu: "Magyar",
+  cs: "Čeština",
+  ja: "日本語",
 };
 
 export function LanguageSwitcher() {

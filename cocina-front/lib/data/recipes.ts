@@ -1,5 +1,5 @@
 // lib/data/recipes.ts
-import { Recipe } from "@/lib/types/recipes";
+import { Recipe } from "lib/types/recipes";
 
 export const MOCK_RECIPES: Recipe[] = [
   {

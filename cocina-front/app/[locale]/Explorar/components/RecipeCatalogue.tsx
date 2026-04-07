@@ -7,14 +7,11 @@ import { RecipeFilterPanel, RecipeFilters } from "./RecipeFilterPanel";
 import { RecipeSortDropdown, SortOption } from "./RecipeSortDropdown";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { ChevronLeft, ChevronRight, Filter, Search, Store, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Filter, Search, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { getAllRecipes } from "@/lib/services/recipe";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { localizeRecipe } from "@/lib/services/recipe-i18n";
-import { BrandSearch } from "@/components/BrandSearch";
-import type { Brand } from "@/lib/data/brands";
 
 const DEFAULT_FILTERS: RecipeFilters = {
   tag: null,
@@ -30,8 +27,6 @@ const DEFAULT_FILTERS: RecipeFilters = {
 export function RecipeCatalogue() {
   const t = useTranslations("Explore");
   const tHeader = useTranslations("Header");
-  const tRecipes = useTranslations("Recipes");
-  const tBrand = useTranslations("BrandSearch");
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
@@ -41,15 +36,9 @@ export function RecipeCatalogue() {
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchMode, setSearchMode] = useState<"recipe" | "brand">("recipe");
-  const [selectedBrand, setSelectedBrand] = useState<Brand | null>(null);
   const pageSize = 9;
 
-  const rawRecipes = getAllRecipes();
-  const allRecipes = useMemo(
-    () => rawRecipes.map((r) => localizeRecipe(r, tRecipes as any)),
-    [rawRecipes, tRecipes]
-  );
+  const allRecipes = getAllRecipes();
 
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
@@ -61,16 +50,6 @@ export function RecipeCatalogue() {
 
   const filteredRecipes = useMemo(() => {
     return allRecipes.filter((recipe) => {
-      // Brand filter
-      if (searchMode === "brand" && selectedBrand) {
-        const kws = selectedBrand.ingredientKeywords.map((k) => k.toLowerCase());
-        const hasMatch = recipe.ingredients.some((ing) => {
-          const ingLower = ing.toLowerCase();
-          return kws.some((kw) => ingLower.includes(kw));
-        });
-        if (!hasMatch) return false;
-      }
-
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
         const matchesSearch =
@@ -106,7 +85,7 @@ export function RecipeCatalogue() {
 
       return true;
     });
-  }, [allRecipes, filters, searchQuery, searchMode, selectedBrand]);
+  }, [allRecipes, filters, searchQuery]);
 
   const sortedRecipes = useMemo(() => {
     const recipes = [...filteredRecipes];
@@ -169,44 +148,6 @@ export function RecipeCatalogue() {
         <h1 className="mb-4 text-4xl font-bold md:text-5xl">{t("title")}</h1>
         <p className="text-lg text-muted-foreground">{t("subtitle")}</p>
       </motion.div>
-
-      {/* Search mode toggle + brand search */}
-      <div className="mb-6 flex flex-col gap-3">
-        <div className="flex items-center justify-center gap-2">
-          <button
-            onClick={() => { setSearchMode("recipe"); setSelectedBrand(null); }}
-            className={`flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-              searchMode === "recipe"
-                ? "bg-[#2d6a4f] text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-            }`}
-          >
-            <Search size={14} />
-            {tBrand("byRecipe")}
-          </button>
-          <button
-            onClick={() => setSearchMode("brand")}
-            className={`flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-              searchMode === "brand"
-                ? "bg-[#2d6a4f] text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-            }`}
-          >
-            <Store size={14} />
-            {tBrand("byBrand")}
-          </button>
-        </div>
-
-        {searchMode === "brand" && (
-          <div className="max-w-md mx-auto w-full">
-            <BrandSearch
-              onSelect={(brand) => { setSelectedBrand(brand); setCurrentPage(1); }}
-              onClear={() => setSelectedBrand(null)}
-              selectedBrand={selectedBrand}
-            />
-          </div>
-        )}
-      </div>
 
       <form
         onSubmit={(e) => { e.preventDefault(); router.push(`/Explorar?search=${encodeURIComponent(mobileSearch)}`); }}

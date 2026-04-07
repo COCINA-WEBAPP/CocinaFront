@@ -4,14 +4,14 @@ test.describe("Home page", () => {
   test("loads the home page with header and footer", async ({ page }) => {
     await page.goto("/es");
     // Header should show the brand name (use first() since mobile nav also exists)
-    await expect(page.getByText("Cocina").first()).toBeVisible();
+    await expect(page.getByText("RecipeShare").first()).toBeVisible();
     // Footer should be present
     await expect(page.locator("footer")).toBeVisible();
   });
 
   test("has correct page title", async ({ page }) => {
     await page.goto("/es");
-    await expect(page).toHaveTitle(/Cocina/);
+    await expect(page).toHaveTitle(/RecipeShare/);
   });
 
   test("header navigation links are present", async ({ page }) => {
