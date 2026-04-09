@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCurrentUser } from "@/lib/services/user";
 import { getAllRecipes } from "@/lib/services/recipe";
+import type { Recipe } from "@/lib/types/recipes";
 import type { User as AppUser } from "@/lib/types/users";
 import { RecipeCard } from "../../Explorar/components/RecipeCard";
 import { useTranslations } from "next-intl";
@@ -15,20 +16,16 @@ interface RecetasCreadasProps {
 export function RecetasCreadas({ user: passedUser }: RecetasCreadasProps) {
   const t = useTranslations("CreatedRecipes");
   const [currentUser, setCurrentUser] = useState<AppUser | null>(passedUser || null);
+  const [createdRecipes, setCreatedRecipes] = useState<Recipe[]>([]);
 
   useEffect(() => {
-    if (!passedUser) {
-      setCurrentUser(getCurrentUser());
-    }
+    const user = passedUser ?? getCurrentUser();
+    setCurrentUser(user);
+    if (!user) return;
+    getAllRecipes()
+      .then((all) => setCreatedRecipes(all.filter((r) => r.author.username === user.username)))
+      .catch(() => setCreatedRecipes([]));
   }, [passedUser]);
-
-  const createdRecipes = useMemo(() => {
-    if (!currentUser) return [];
- 
-    return getAllRecipes().filter(
-      (r) => r.author.username === currentUser.username
-    );
-  }, [currentUser]);
 
   if (!currentUser) return null;
 

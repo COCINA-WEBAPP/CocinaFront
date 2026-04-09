@@ -235,49 +235,60 @@ export default function EditRecipePage() {
   const [newTagInput, setNewTagInput] = useState("");
 
   useEffect(() => {
-    const user = getCurrentUser();
-    const found = getRecipeById(recipeId);
+    let cancelled = false;
+    const load = async () => {
+      const user = getCurrentUser();
+      if (!user) { setIsAuthorized(false); return; }
 
-    if (!user) { setIsAuthorized(false); return; }
-    if (!found) { setRecipe(null); setIsAuthorized(true); return; }
-    if (found.author.username !== user.username) { setIsAuthorized(false); return; }
+      const [found, tags] = await Promise.all([
+        getRecipeById(recipeId),
+        getUserTags(),
+      ]);
 
-    setRecipe(found);
-    setIsAuthorized(true);
-    setUserTags(getUserTags());
+      if (cancelled) return;
 
-    setTitle(found.title);
-    setDescription(found.description);
-    setCategory(found.category);
-    setCookTime(found.cookTime);
-    setCalories(found.calories);
-    setProtein(found.protein ?? 0);
-    setServings(found.servings);
-    setDifficulty(found.difficulty);
-    setSelectedTags(found.tags ?? []);
+      if (!found) { setRecipe(null); setIsAuthorized(true); return; }
+      if (found.author.username !== user.username) { setIsAuthorized(false); return; }
 
-    if (found.ingredients.length > 0) {
-      setIngredients(found.ingredients.map(parseIngredientString));
-    }
+      setRecipe(found);
+      setIsAuthorized(true);
+      setUserTags(tags);
 
-    if (found.images.length > 0) {
-      setMainPhoto({ type: "url", value: found.images[0] });
-      setGallery(found.images.slice(1).map((url) => ({ type: "url", value: url })));
-    }
+      setTitle(found.title);
+      setDescription(found.description);
+      setCategory(found.category);
+      setCookTime(found.cookTime);
+      setCalories(found.calories);
+      setProtein(found.protein ?? 0);
+      setServings(found.servings);
+      setDifficulty(found.difficulty);
+      setSelectedTags(found.tags ?? []);
 
-    if (found.steps?.length) {
-      setSteps(found.steps.map((s) => {
-        const ns = normalizeStep(s);
-        return { id: crypto.randomUUID(), text: ns.text, images: ns.images.map((url) => ({ type: "url" as const, value: url })) };
-      }));
-    }
+      if (found.ingredients.length > 0) {
+        setIngredients(found.ingredients.map(parseIngredientString));
+      }
 
-    const knownTags = new Set([...PRESET_TAGS, ...getUserTags()]);
-    const recipeCustomTags = (found.tags ?? []).filter((tg) => !knownTags.has(tg));
-    if (recipeCustomTags.length > 0) {
-      setCustomTags(recipeCustomTags);
-    }
+      if (found.images.length > 0) {
+        setMainPhoto({ type: "url", value: found.images[0] });
+        setGallery(found.images.slice(1).map((url) => ({ type: "url", value: url })));
+      }
 
+      if (found.steps?.length) {
+        setSteps(found.steps.map((s) => {
+          const ns = normalizeStep(s);
+          return { id: crypto.randomUUID(), text: ns.text, images: ns.images.map((url) => ({ type: "url" as const, value: url })) };
+        }));
+      }
+
+      const knownTags = new Set([...PRESET_TAGS, ...tags]);
+      const recipeCustomTags = (found.tags ?? []).filter((tg) => !knownTags.has(tg));
+      if (recipeCustomTags.length > 0) {
+        setCustomTags(recipeCustomTags);
+      }
+    };
+
+    load();
+    return () => { cancelled = true; };
   }, [recipeId]);
 
   if (isAuthorized === null) return null;

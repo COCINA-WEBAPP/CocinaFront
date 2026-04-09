@@ -10,7 +10,6 @@ import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
 import { Link } from "@/i18n/navigation";
 import { Recipe } from "@/lib/types/recipes";
 import { getCurrentUser, saveRecipe, unsaveRecipe, isRecipeSaved } from "@/lib/services/user";
-import { getRecipeReviews } from "@/lib/services/recipe";
 import { useTranslations } from "next-intl";
 
 interface RecipeCardProps {
@@ -23,11 +22,7 @@ export function RecipeCard({ recipe, onFavoriteChange }: RecipeCardProps) {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const reviews = getRecipeReviews(recipe.id);
-  const reviewCount = reviews.length;
-  const avgRating = reviewCount > 0
-    ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount
-    : recipe.rating;
+  const avgRating = recipe.rating;
 
   useEffect(() => {
     getCurrentUser();

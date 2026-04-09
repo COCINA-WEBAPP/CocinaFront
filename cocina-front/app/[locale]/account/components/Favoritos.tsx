@@ -1,69 +1,66 @@
-
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCurrentUser } from "@/lib/services/user";
-import { MOCK_USERS } from "@/lib/data/users";
-import { MOCK_RECIPES } from "@/lib/data/recipes";
+import { getAllRecipes } from "@/lib/services/recipe";
+import type { Recipe } from "@/lib/types/recipes";
 import type { User as AppUser } from "@/lib/types/users";
 import { RecipeCard } from "../../Explorar/components/RecipeCard";
 import { useTranslations } from "next-intl";
 
-function refreshUser(setter: (u: AppUser | null) => void) {
-	const user = getCurrentUser();
-	setter(user ? { ...user } : null);
-}
-
 interface FavoritosProps {
-	user?: AppUser;
+  user?: AppUser;
 }
 
 export function Favoritos({ user: passedUser }: FavoritosProps) {
-	const t = useTranslations("Favorites");
-	const [currentUser, setCurrentUser] = useState<AppUser | null>(passedUser || null);
+  const t = useTranslations("Favorites");
+  const [currentUser, setCurrentUser] = useState<AppUser | null>(passedUser || null);
+  const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
 
-	useEffect(() => {
-		if (!passedUser) {
-			const user = getCurrentUser() ?? MOCK_USERS[0];
-			setCurrentUser(user);
-		}
-	}, [passedUser]);
+  useEffect(() => {
+    const user = passedUser ?? getCurrentUser();
+    setCurrentUser(user);
+    if (!user) return;
 
-	const favoriteRecipes = useMemo(() => {
-		if (!currentUser) return [];
-		return MOCK_RECIPES.filter((r) => currentUser.savedRecipes.includes(r.id));
-	}, [currentUser]);
+    getAllRecipes()
+      .then((all) => setFavoriteRecipes(all.filter((r) => user.savedRecipes.includes(r.id))))
+      .catch(() => setFavoriteRecipes([]));
+  }, [passedUser]);
 
-	if (!currentUser) {
-		return null;
-	}
+  const refreshFavorites = () => {
+    const user = getCurrentUser();
+    if (!user) return;
+    setCurrentUser({ ...user });
+    getAllRecipes()
+      .then((all) => setFavoriteRecipes(all.filter((r) => user.savedRecipes.includes(r.id))))
+      .catch(() => {});
+  };
 
-	return (
-		<div className="space-y-6">
-			<Card>
-				<CardHeader>
-					<CardTitle>{t("title")} ({favoriteRecipes.length})</CardTitle>
-				</CardHeader>
-				<CardContent>
-					{favoriteRecipes.length === 0 ? (
-						<p className="text-sm text-muted-foreground">
-							{t("noFavorites")}
-						</p>
-					) : (
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-							{favoriteRecipes.map((recipe) => (
-								<RecipeCard
-									key={recipe.id}
-									recipe={recipe}
-									onFavoriteChange={() => refreshUser(setCurrentUser)}
-								/>
-							))}
-						</div>
-					)}
-				</CardContent>
-			</Card>
-		</div>
-	);
+  if (!currentUser) return null;
+
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>{t("title")} ({favoriteRecipes.length})</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {favoriteRecipes.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{t("noFavorites")}</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {favoriteRecipes.map((recipe) => (
+                <RecipeCard
+                  key={recipe.id}
+                  recipe={recipe}
+                  onFavoriteChange={refreshFavorites}
+                />
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
-

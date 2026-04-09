@@ -1,11 +1,13 @@
+"use client";
 
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Star, Trophy } from "lucide-react";
-import { getAllRecipes, getRecipeReviews } from "@/lib/services/recipe";
+import { getAllRecipes } from "@/lib/services/recipe";
 import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
+import type { Recipe } from "@/lib/types/recipes";
 import type { User as AppUser } from "@/lib/types/users";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -18,19 +20,19 @@ interface InformacionProps {
 
 export function Informacion({ user, onFollowersClick, onFollowingClick }: InformacionProps) {
   const t = useTranslations("UserInfo");
+  const [topRecipes, setTopRecipes] = useState<(Recipe & { avgRating: number })[]>([]);
 
-  const topRecipes = useMemo(() => {
-    return getAllRecipes()
-      .filter((r) => r.author.username === user.username)
-      .map((r) => {
-        const reviews = getRecipeReviews(r.id);
-        const avgRating = reviews.length > 0
-          ? reviews.reduce((sum, rv) => sum + rv.rating, 0) / reviews.length
-          : r.rating; 
-        return { ...r, avgRating, reviewCount: reviews.length };
+  useEffect(() => {
+    getAllRecipes()
+      .then((all) => {
+        const userRecipes = all
+          .filter((r) => r.author.username === user.username && r.rating > 0)
+          .sort((a, b) => b.rating - a.rating)
+          .slice(0, 3)
+          .map((r) => ({ ...r, avgRating: r.rating }));
+        setTopRecipes(userRecipes);
       })
-      .sort((a, b) => b.avgRating - a.avgRating)
-      .slice(0, 3);
+      .catch(() => setTopRecipes([]));
   }, [user.username]);
 
   return (
@@ -56,7 +58,6 @@ export function Informacion({ user, onFollowersClick, onFollowingClick }: Inform
       </div>
 
       <Separator />
-
 
       <Card>
         <CardContent className="p-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
@@ -115,7 +116,6 @@ export function Informacion({ user, onFollowersClick, onFollowingClick }: Inform
         </Card>
       </div>
 
-  
       {topRecipes.length > 0 && (
         <>
           <Separator />

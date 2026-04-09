@@ -38,7 +38,11 @@ export function RecipeCatalogue() {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 9;
 
-  const allRecipes = getAllRecipes();
+  const [allRecipes, setAllRecipes] = useState<import("@/lib/types/recipes").Recipe[]>([]);
+
+  useEffect(() => {
+    getAllRecipes().then(setAllRecipes).catch(() => setAllRecipes([]));
+  }, []);
 
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();

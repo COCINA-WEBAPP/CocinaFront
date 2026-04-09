@@ -1,154 +1,68 @@
 /**
  * SERVICIOS DE USUARIO
  *
- * Incluye autenticación, gestión de perfil, seguimiento, recetas guardadas
- * e historial de cocina.
+ * Reemplaza la lógica mock con llamadas a la API REST.
+ * getCurrentUser / isAuthenticated permanecen síncronos mediante caché en localStorage.
  */
 
-import { MOCK_USERS } from "@/lib/data/users";
-import { User, LoginCredentials, RegisterData, UpdateUserProfile, CookingHistoryEntry } from "@/lib/types/users";
-import { resetShoppingListCache } from "@/lib/services/shopping-list";
+import { api } from "@/lib/services/api";
+import {
+  User,
+  LoginCredentials,
+  RegisterData,
+  UpdateUserProfile,
+  CookingHistoryEntry,
+} from "@/lib/types/users";
 
 // ========================================
-// VARIABLE GLOBAL: Usuario Actual
+// CACHÉ LOCAL
 // ========================================
+
 let currentUser: User | null = null;
+const USER_CACHE_KEY = "auth_user";
 
-const SESSION_KEY   = "recipeshare_session";
-const SAVED_KEY     = "recipeshare_saved_recipes";
-const HISTORY_KEY   = "recipeshare_cooking_history";
-const CREDENTIALS_KEY = "recipeshare_credentials";   // email → password
-const USERS_KEY       = "recipeshare_registered_users"; // usuarios nuevos persistidos
+/** Caché de todos los usuarios cargados (para recipe-user y seguidores) */
+export let allUsersCache: User[] = [];
 
-// ─── Session helpers ──────────────────────────────────────────────────────────
-
-function persistSession(user: User | null): void {
+function cacheUser(user: User | null): void {
+  currentUser = user;
   if (typeof window === "undefined") return;
   if (user) {
-    localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+    localStorage.setItem(USER_CACHE_KEY, JSON.stringify(user));
   } else {
-    localStorage.removeItem(SESSION_KEY);
+    localStorage.removeItem(USER_CACHE_KEY);
+    api.setToken(null);
   }
 }
 
-function restoreSession(): User | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const stored = localStorage.getItem(SESSION_KEY);
-    if (!stored) return null;
-    const parsed = JSON.parse(stored) as User;
-    loadRegisteredUsers(); // asegura que usuarios nuevos estén en MOCK_USERS
-    const live = MOCK_USERS.find((u) => u.id === parsed.id);
-    return live ?? parsed;
-  } catch {
-    localStorage.removeItem(SESSION_KEY);
-    return null;
-  }
-}
-
-// ─── Credential helpers ───────────────────────────────────────────────────────
-
-function saveCredentials(email: string, password: string): void {
-  if (typeof window === "undefined") return;
-  try {
-    const raw = localStorage.getItem(CREDENTIALS_KEY);
-    const all: Record<string, string> = raw ? JSON.parse(raw) : {};
-    all[email] = password;
-    localStorage.setItem(CREDENTIALS_KEY, JSON.stringify(all));
-  } catch { /* noop */ }
-}
-
-function checkCredentials(email: string, password: string): boolean {
-  if (typeof window === "undefined") return false;
-  try {
-    const raw = localStorage.getItem(CREDENTIALS_KEY);
-    if (!raw) return false;
-    const all: Record<string, string> = JSON.parse(raw);
-    return all[email] === password;
-  } catch {
-    return false;
-  }
-}
-
-function hasStoredCredentials(email: string): boolean {
-  if (typeof window === "undefined") return false;
-  try {
-    const raw = localStorage.getItem(CREDENTIALS_KEY);
-    if (!raw) return false;
-    const all: Record<string, string> = JSON.parse(raw);
-    return email in all;
-  } catch {
-    return false;
-  }
-}
-
-// ─── Registered users persistence ────────────────────────────────────────────
-
-/**
- * Guarda un usuario nuevo en localStorage para que sobreviva recargas.
- */
-function persistNewUser(user: User): void {
-  if (typeof window === "undefined") return;
-  try {
-    const raw = localStorage.getItem(USERS_KEY);
-    const all: User[] = raw ? JSON.parse(raw) : [];
-    if (!all.find((u) => u.id === user.id)) {
-      all.push(user);
-      localStorage.setItem(USERS_KEY, JSON.stringify(all));
-    }
-  } catch { /* noop */ }
-}
-
-/**
- * Carga usuarios registrados desde localStorage y los fusiona con MOCK_USERS.
- * Así login() los encuentra aunque se haya recargado la página.
- */
-function loadRegisteredUsers(): void {
-  if (typeof window === "undefined") return;
-  try {
-    const raw = localStorage.getItem(USERS_KEY);
-    if (!raw) return;
-    const all: User[] = JSON.parse(raw);
-    for (const u of all) {
-      if (!MOCK_USERS.find((m) => m.id === u.id)) {
-        MOCK_USERS.push(u);
-      }
-    }
-  } catch { /* noop */ }
-}
-
-// ─── Saved recipes localStorage helpers ──────────────────────────────────────
-
-function getSavedFromStorage(userId: string): string[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = localStorage.getItem(`${SAVED_KEY}_${userId}`);
-    return raw ? (JSON.parse(raw) as string[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveSavedToStorage(userId: string, ids: string[]): void {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(`${SAVED_KEY}_${userId}`, JSON.stringify(ids));
-}
-
-// ─── Cooking history localStorage helpers ────────────────────────────────────
-
-function getHistoryFromStorage(userId: string): CookingHistoryEntry[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = localStorage.getItem(`${HISTORY_KEY}_${userId}`);
-    return raw ? (JSON.parse(raw) as CookingHistoryEntry[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveHistoryToStorage(userId: string, history: CookingHistoryEntry[]): void {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(`${HISTORY_KEY}_${userId}`, JSON.stringify(history));
+/** Mapea la respuesta de la API al tipo User del frontend */
+function mapApiUser(raw: Record<string, unknown>): User {
+  const id = (raw.id as string) || (raw._id as string) || "";
+  return {
+    id,
+    username: raw.username as string,
+    email: (raw.email as string) || "",
+    fullName: raw.fullName as string,
+    avatar: raw.avatar as string | undefined,
+    bio: raw.bio as string | undefined,
+    createdAt: (raw.createdAt as string) || new Date().toISOString(),
+    role: (raw.role as "user" | "admin") || "user",
+    stats: (raw.stats as User["stats"]) || {
+      recipesCount: 0,
+      followersCount: 0,
+      followingCount: 0,
+      savedRecipesCount: 0,
+    },
+    savedRecipes: ((raw.savedRecipes as string[]) || []).map(String),
+    recipes: ((raw.recipes as string[]) || []).map(String),
+    cookingHistory: (raw.cookingHistory as CookingHistoryEntry[]) || [],
+    tagInventory: (raw.tagInventory as string[]) || [],
+    following: ((raw.following as string[]) || []).map(String),
+    followers: ((raw.followers as string[]) || []).map(String),
+    location: raw.location as string | undefined,
+    website: raw.website as string | undefined,
+    socialMedia: raw.socialMedia as User["socialMedia"],
+  };
 }
 
 // ========================================
@@ -156,100 +70,71 @@ function saveHistoryToStorage(userId: string, history: CookingHistoryEntry[]): v
 // ========================================
 
 export async function login(credentials: LoginCredentials): Promise<User> {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  // Carga usuarios registrados para que estén disponibles tras recarga
-  loadRegisteredUsers();
-
-  const user = MOCK_USERS.find((u) => u.email === credentials.email);
-  if (!user) throw new Error("Usuario no encontrado");
-
-  // Usuarios del mock inicial no tienen contraseña guardada → acceso libre
-  // Usuarios registrados → valida contraseña contra localStorage
-  if (hasStoredCredentials(credentials.email)) {
-    if (!checkCredentials(credentials.email, credentials.password)) {
-      throw new Error("Contraseña incorrecta");
-    }
-  }
-
-  currentUser = user;
-  persistSession(user);
-  resetShoppingListCache();
+  const res = await api.post<{ accessToken: string; user: Record<string, unknown> }>(
+    "/auth/login",
+    credentials
+  );
+  api.setToken(res.accessToken);
+  const user = mapApiUser(res.user);
+  cacheUser(user);
   return user;
 }
 
 export async function register(data: RegisterData): Promise<User> {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  // Carga usuarios registrados antes de verificar duplicados
-  loadRegisteredUsers();
-
-  const existingUser = MOCK_USERS.find((u) => u.email === data.email);
-  if (existingUser) throw new Error("El email ya está registrado");
-
-  const newUser: User = {
-    id: String(Date.now()),
-    username: data.username,
-    email: data.email,
-    fullName: data.fullName,
-    createdAt: new Date().toISOString(),
-    role: "user",
-    stats: {
-      recipesCount: 0,
-      followersCount: 0,
-      followingCount: 0,
-      savedRecipesCount: 0,
-    },
-    savedRecipes: [],
-    following: [],
-    followers: [],
-    recipes: [],
-    tagInventory: [],
-    cookingHistory: [],
-  };
-
-  MOCK_USERS.push(newUser);
-
-  // Persiste credenciales y usuario para que sobrevivan recargas
-  saveCredentials(data.email, data.password);
-  persistNewUser(newUser);
-
-  currentUser = newUser;
-  persistSession(newUser);
-  resetShoppingListCache();
-  return newUser;
+  const res = await api.post<{ accessToken: string; user: Record<string, unknown> }>(
+    "/auth/register",
+    data
+  );
+  api.setToken(res.accessToken);
+  const user = mapApiUser(res.user);
+  cacheUser(user);
+  return user;
 }
 
 export async function logout(): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  currentUser = null;
-  persistSession(null);
-  resetShoppingListCache();
+  try {
+    await api.post("/auth/logout", {});
+  } catch {
+    // Continuar aunque falle el endpoint
+  }
+  cacheUser(null);
 }
 
+/**
+ * Síncrono: lee de caché en memoria o localStorage.
+ * Para obtener datos frescos del servidor usar refreshCurrentUser().
+ */
 export function getCurrentUser(): User | null {
-  if (!currentUser) {
-    currentUser = restoreSession();
-  }
-  if (currentUser) {
-    loadRegisteredUsers(); // asegura que usuarios nuevos estén en MOCK_USERS
-    const live = MOCK_USERS.find((u) => u.id === currentUser!.id);
-    const base = live ?? currentUser;
-    const savedRecipes = getSavedFromStorage(base.id);
-    currentUser = {
-      ...base,
-      savedRecipes,
-      stats: {
-        ...base.stats,
-        savedRecipesCount: savedRecipes.length,
-      },
-    };
+  if (currentUser) return currentUser;
+  if (typeof window === "undefined") return null;
+  try {
+    const stored = localStorage.getItem(USER_CACHE_KEY);
+    if (stored) {
+      currentUser = JSON.parse(stored) as User;
+    }
+  } catch {
+    localStorage.removeItem(USER_CACHE_KEY);
   }
   return currentUser;
 }
 
+/** Actualiza el usuario desde la API y refresca el caché */
+export async function refreshCurrentUser(): Promise<User | null> {
+  const token = api.getToken();
+  if (!token) return null;
+  try {
+    const raw = await api.get<Record<string, unknown>>("/auth/me");
+    const user = mapApiUser(raw);
+    cacheUser(user);
+    return user;
+  } catch {
+    cacheUser(null);
+    return null;
+  }
+}
+
 export function isAuthenticated(): boolean {
-  return Boolean(getCurrentUser());
+  return Boolean(getCurrentUser()) && Boolean(api.getToken());
 }
 
 // ========================================
@@ -257,37 +142,41 @@ export function isAuthenticated(): boolean {
 // ========================================
 
 export async function getAllUsers(): Promise<User[]> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return MOCK_USERS;
+  const res = await api.get<{ data: Record<string, unknown>[] } | Record<string, unknown>[]>(
+    "/users?limit=200"
+  );
+  const raw = Array.isArray(res) ? res : (res as { data: Record<string, unknown>[] }).data;
+  const users = raw.map(mapApiUser);
+  allUsersCache = users;
+  return users;
 }
 
 export async function getUserById(id: string): Promise<User | undefined> {
-  await new Promise((resolve) => setTimeout(resolve, 300));
-  return MOCK_USERS.find((u) => u.id === id);
+  try {
+    const raw = await api.get<Record<string, unknown>>(`/users/${id}`);
+    return mapApiUser(raw);
+  } catch {
+    return undefined;
+  }
 }
 
 export async function getUserByUsername(username: string): Promise<User | undefined> {
-  await new Promise((resolve) => setTimeout(resolve, 300));
-  return MOCK_USERS.find((u) => u.username === username);
+  try {
+    const raw = await api.get<Record<string, unknown>>(`/users/username/${username}`);
+    return mapApiUser(raw);
+  } catch {
+    return undefined;
+  }
 }
 
-export async function updateUserProfile(userId: string, data: UpdateUserProfile): Promise<User> {
-  await new Promise((resolve) => setTimeout(resolve, 800));
-
-  const userIndex = MOCK_USERS.findIndex((u) => u.id === userId);
-  if (userIndex === -1) throw new Error("Usuario no encontrado");
-
-  MOCK_USERS[userIndex] = { ...MOCK_USERS[userIndex], ...data };
-
-  // Actualiza también en localStorage si es un usuario registrado
-  persistNewUser(MOCK_USERS[userIndex]);
-
-  if (currentUser?.id === userId) {
-    currentUser = { ...MOCK_USERS[userIndex] };
-    persistSession(currentUser);
-  }
-
-  return MOCK_USERS[userIndex];
+export async function updateUserProfile(
+  userId: string,
+  data: UpdateUserProfile
+): Promise<User> {
+  const raw = await api.patch<Record<string, unknown>>(`/users/${userId}`, data);
+  const user = mapApiUser(raw);
+  if (currentUser?.id === userId) cacheUser(user);
+  return user;
 }
 
 // ========================================
@@ -295,71 +184,47 @@ export async function updateUserProfile(userId: string, data: UpdateUserProfile)
 // ========================================
 
 export async function followUser(userIdToFollow: string): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  if (!currentUser) throw new Error("Debes iniciar sesión");
-
-  const currentUserIndex = MOCK_USERS.findIndex((u) => u.id === currentUser!.id);
-  if (currentUserIndex !== -1 && !MOCK_USERS[currentUserIndex].following.includes(userIdToFollow)) {
-    MOCK_USERS[currentUserIndex].following.push(userIdToFollow);
-    MOCK_USERS[currentUserIndex].stats.followingCount++;
-  }
-
-  const userToFollowIndex = MOCK_USERS.findIndex((u) => u.id === userIdToFollow);
-  if (userToFollowIndex !== -1 && !MOCK_USERS[userToFollowIndex].followers.includes(currentUser.id)) {
-    MOCK_USERS[userToFollowIndex].followers.push(currentUser.id);
-    MOCK_USERS[userToFollowIndex].stats.followersCount++;
-  }
-
-  if (currentUserIndex !== -1) {
-    currentUser = MOCK_USERS[currentUserIndex];
-    persistSession(currentUser);
-  }
+  const user = getCurrentUser();
+  if (!user) throw new Error("Debes iniciar sesión");
+  await api.post(`/users/${userIdToFollow}/follow`, {});
+  // Actualiza el caché local
+  const updated: User = {
+    ...user,
+    following: [...user.following, userIdToFollow],
+    stats: { ...user.stats, followingCount: user.stats.followingCount + 1 },
+  };
+  cacheUser(updated);
 }
 
 export async function unfollowUser(userIdToUnfollow: string): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  if (!currentUser) throw new Error("Debes iniciar sesión");
-
-  const currentUserIndex = MOCK_USERS.findIndex((u) => u.id === currentUser!.id);
-  if (currentUserIndex !== -1) {
-    MOCK_USERS[currentUserIndex].following = MOCK_USERS[currentUserIndex].following.filter(
-      (id) => id !== userIdToUnfollow
-    );
-    MOCK_USERS[currentUserIndex].stats.followingCount = Math.max(
-      0, MOCK_USERS[currentUserIndex].stats.followingCount - 1
-    );
-    currentUser = MOCK_USERS[currentUserIndex];
-    persistSession(currentUser);
-  }
-
-  const userToUnfollowIndex = MOCK_USERS.findIndex((u) => u.id === userIdToUnfollow);
-  if (userToUnfollowIndex !== -1) {
-    MOCK_USERS[userToUnfollowIndex].followers = MOCK_USERS[userToUnfollowIndex].followers.filter(
-      (id) => id !== currentUser!.id
-    );
-    MOCK_USERS[userToUnfollowIndex].stats.followersCount = Math.max(
-      0, MOCK_USERS[userToUnfollowIndex].stats.followersCount - 1
-    );
-  }
+  const user = getCurrentUser();
+  if (!user) throw new Error("Debes iniciar sesión");
+  await api.delete(`/users/${userIdToUnfollow}/follow`);
+  const updated: User = {
+    ...user,
+    following: user.following.filter((id) => id !== userIdToUnfollow),
+    stats: {
+      ...user.stats,
+      followingCount: Math.max(0, user.stats.followingCount - 1),
+    },
+  };
+  cacheUser(updated);
 }
 
 export async function getUserFollowers(userId: string): Promise<User[]> {
-  await new Promise((resolve) => setTimeout(resolve, 400));
-  const user = MOCK_USERS.find((u) => u.id === userId);
-  if (!user) return [];
-  return MOCK_USERS.filter((u) => user.followers.includes(u.id));
+  const raw = await api.get<Record<string, unknown>[]>(`/users/${userId}/followers`);
+  return raw.map(mapApiUser);
 }
 
 export async function getUserFollowing(userId: string): Promise<User[]> {
-  await new Promise((resolve) => setTimeout(resolve, 400));
-  const user = MOCK_USERS.find((u) => u.id === userId);
-  if (!user) return [];
-  return MOCK_USERS.filter((u) => user.following.includes(u.id));
+  const raw = await api.get<Record<string, unknown>[]>(`/users/${userId}/following`);
+  return raw.map(mapApiUser);
 }
 
 export function isFollowingUser(userId: string): boolean {
-  if (!currentUser) return false;
-  return currentUser.following.includes(userId);
+  const user = getCurrentUser();
+  if (!user) return false;
+  return user.following.includes(userId);
 }
 
 // ========================================
@@ -367,53 +232,38 @@ export function isFollowingUser(userId: string): boolean {
 // ========================================
 
 export async function saveRecipe(recipeId: string): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 400));
   const user = getCurrentUser();
   if (!user) throw new Error("Debes iniciar sesión");
-
-  const saved = getSavedFromStorage(user.id);
-  if (!saved.includes(recipeId)) {
-    saved.push(recipeId);
-    saveSavedToStorage(user.id, saved);
-
-    const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
-    if (userIndex !== -1) {
-      MOCK_USERS[userIndex].savedRecipes = saved;
-      MOCK_USERS[userIndex].stats.savedRecipesCount = saved.length;
-    }
-    currentUser = { ...user, savedRecipes: saved, stats: { ...user.stats, savedRecipesCount: saved.length } };
-    persistSession(currentUser);
-  }
+  await api.post(`/users/${user.id}/saved-recipes/${recipeId}`, {});
+  const saved = [...user.savedRecipes, recipeId];
+  cacheUser({
+    ...user,
+    savedRecipes: saved,
+    stats: { ...user.stats, savedRecipesCount: saved.length },
+  });
 }
 
 export async function unsaveRecipe(recipeId: string): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 400));
   const user = getCurrentUser();
   if (!user) throw new Error("Debes iniciar sesión");
-
-  const saved = getSavedFromStorage(user.id).filter((id) => id !== recipeId);
-  saveSavedToStorage(user.id, saved);
-
-  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
-  if (userIndex !== -1) {
-    MOCK_USERS[userIndex].savedRecipes = saved;
-    MOCK_USERS[userIndex].stats.savedRecipesCount = saved.length;
-  }
-  currentUser = { ...user, savedRecipes: saved, stats: { ...user.stats, savedRecipesCount: saved.length } };
-  persistSession(currentUser);
+  await api.delete(`/users/${user.id}/saved-recipes/${recipeId}`);
+  const saved = user.savedRecipes.filter((id) => id !== recipeId);
+  cacheUser({
+    ...user,
+    savedRecipes: saved,
+    stats: { ...user.stats, savedRecipesCount: saved.length },
+  });
 }
 
 export async function getUserSavedRecipes(userId: string): Promise<string[]> {
-  await new Promise((resolve) => setTimeout(resolve, 300));
-  const user = getCurrentUser();
-  if (user?.id === userId) return getSavedFromStorage(userId);
-  return MOCK_USERS.find((u) => u.id === userId)?.savedRecipes ?? [];
+  const raw = await api.get<string[]>(`/users/${userId}/saved-recipes`);
+  return raw;
 }
 
 export function isRecipeSaved(recipeId: string): boolean {
   const user = getCurrentUser();
   if (!user) return false;
-  return getSavedFromStorage(user.id).includes(recipeId);
+  return user.savedRecipes.includes(recipeId);
 }
 
 // ========================================
@@ -425,64 +275,43 @@ export async function addToCookingHistory(
   recipeTitle: string,
   recipeImage?: string
 ): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 300));
   const user = getCurrentUser();
   if (!user) throw new Error("Debes iniciar sesión");
-
-  const entry: CookingHistoryEntry = {
-    recipeId,
-    recipeTitle,
-    recipeImage,
-    cookedAt: new Date().toISOString(),
-  };
-
-  const history = getHistoryFromStorage(user.id);
-  history.unshift(entry);
-  saveHistoryToStorage(user.id, history);
-
-  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
-  if (userIndex !== -1) {
-    if (!MOCK_USERS[userIndex].cookingHistory) MOCK_USERS[userIndex].cookingHistory = [];
-    MOCK_USERS[userIndex].cookingHistory = history;
-    currentUser = MOCK_USERS[userIndex];
-    persistSession(currentUser);
-  }
+  const entry = await api.post<CookingHistoryEntry>(
+    `/users/${user.id}/cooking-history`,
+    { recipeId, recipeTitle, recipeImage }
+  );
+  const history = [entry, ...(user.cookingHistory || [])];
+  cacheUser({ ...user, cookingHistory: history });
 }
 
 export function getCookingHistory(): CookingHistoryEntry[] {
   const user = getCurrentUser();
   if (!user) return [];
-  return getHistoryFromStorage(user.id);
+  return user.cookingHistory || [];
 }
 
 export async function removeFromCookingHistory(index: number): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 200));
   const user = getCurrentUser();
   if (!user) throw new Error("Debes iniciar sesión");
-
-  const history = getHistoryFromStorage(user.id);
+  await api.delete(`/users/${user.id}/cooking-history/${index}`);
+  const history = [...(user.cookingHistory || [])];
   history.splice(index, 1);
-  saveHistoryToStorage(user.id, history);
-
-  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
-  if (userIndex !== -1) {
-    MOCK_USERS[userIndex].cookingHistory = history;
-    currentUser = MOCK_USERS[userIndex];
-    persistSession(currentUser);
-  }
+  cacheUser({ ...user, cookingHistory: history });
 }
 
 export async function clearCookingHistory(): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 200));
   const user = getCurrentUser();
   if (!user) throw new Error("Debes iniciar sesión");
+  await api.delete(`/users/${user.id}/cooking-history`);
+  cacheUser({ ...user, cookingHistory: [] });
+}
 
-  saveHistoryToStorage(user.id, []);
+// ========================================
+// COMPATIBILIDAD (shopping-list lo usa)
+// ========================================
 
-  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
-  if (userIndex !== -1) {
-    MOCK_USERS[userIndex].cookingHistory = [];
-    currentUser = MOCK_USERS[userIndex];
-    persistSession(currentUser);
-  }
+/** No-op mantenido para compatibilidad con código existente */
+export function resetShoppingListCache(): void {
+  // Con API no se necesita resetear caché de shopping list manualmente
 }

@@ -1,89 +1,108 @@
-// lib/services/recipe.ts
-import { MOCK_RECIPES } from "@/lib/data/recipes";
-import { Recipe, CreateRecipeData, UpdateRecipeData } from "lib/types/recipes";
-import { getCurrentUser } from "@/lib/services/user";
-import { MOCK_USERS } from "@/lib/data/users";
+/**
+ * SERVICIOS DE RECETAS
+ *
+ * Reemplaza la lógica mock con llamadas a la API REST.
+ * Todas las funciones son async.
+ */
+
+import { api } from "@/lib/services/api";
+import { Recipe, CreateRecipeData, UpdateRecipeData } from "@/lib/types/recipes";
+import type { RecipeReview } from "@/lib/types/recipe-interactions";
+
+// ─── Mapeo de respuesta API → tipo Recipe del frontend ───────────────────────
+
+function mapApiRecipe(raw: Record<string, unknown>): Recipe {
+  const id = (raw.id as string) || (raw._id as string) || "";
+
+  // author puede venir como objeto populado o como string
+  let author: Recipe["author"] = { username: "", fullName: "" };
+  if (raw.author && typeof raw.author === "object") {
+    const a = raw.author as Record<string, unknown>;
+    author = {
+      username: (a.username as string) || "",
+      fullName: (a.fullName as string) || "",
+    };
+  }
+
+  return {
+    id,
+    slug: (raw.slug as string) || id,
+    title: (raw.title as string) || "",
+    description: (raw.description as string) || "",
+    images: (raw.images as string[]) || [],
+    author,
+    category: (raw.category as string) || "",
+    cookTime: (raw.cookTime as number) || 0,
+    protein: (raw.protein as number) || 0,
+    calories: (raw.calories as number) || 0,
+    servings: (raw.servings as number) || 1,
+    difficulty: (raw.difficulty as Recipe["difficulty"]) || "Fácil",
+    rating: (raw.rating as number) || 0,
+    tags: (raw.tags as string[]) || [],
+    ingredients: (raw.ingredients as string[]) || [],
+    steps: (raw.steps as Recipe["steps"]) || [],
+    reviews: (raw.reviews as RecipeReview[]) || [],
+    comments: (raw.comments as Recipe["comments"]) || [],
+    isNew: (raw.isNew as boolean) || false,
+    isFeatured: (raw.isFeatured as boolean) || false,
+  };
+}
+
+// Respuesta paginada del backend
+interface PaginatedResponse<T> {
+  data: T[];
+  meta: { total: number; page: number; limit: number; totalPages: number };
+}
 
 // ========================================
 // SECCIÓN 1: LECTURA (READ)
 // ========================================
 
-export function getAllRecipes(): Recipe[] {
-  return MOCK_RECIPES;
+export async function getAllRecipes(): Promise<Recipe[]> {
+  const res = await api.get<PaginatedResponse<Record<string, unknown>> | Record<string, unknown>[]>(
+    "/recipes?limit=200"
+  );
+  const raw = Array.isArray(res)
+    ? res
+    : (res as PaginatedResponse<Record<string, unknown>>).data;
+  return raw.map(mapApiRecipe);
 }
 
-export function getRecipeBySlug(slug: string): Recipe | undefined {
-  return MOCK_RECIPES.find((r) => r.slug === slug);
+export async function getRecipeBySlug(slug: string): Promise<Recipe | undefined> {
+  try {
+    const raw = await api.get<Record<string, unknown>>(`/recipes/${slug}`);
+    return mapApiRecipe(raw);
+  } catch {
+    return undefined;
+  }
 }
 
-export function getRecipeById(id: string): Recipe | undefined {
-  return MOCK_RECIPES.find((r) => r.id === id);
+export async function getRecipeById(id: string): Promise<Recipe | undefined> {
+  try {
+    const raw = await api.get<Record<string, unknown>>(`/recipes/id/${id}`);
+    return mapApiRecipe(raw);
+  } catch {
+    return undefined;
+  }
 }
 
-export function getRecipesByCategory(category: string): Recipe[] {
-  return MOCK_RECIPES.filter((r) => r.category.toLowerCase() === category.toLowerCase());
+export async function getRecipesByCategory(category: string): Promise<Recipe[]> {
+  const res = await api.get<PaginatedResponse<Record<string, unknown>> | Record<string, unknown>[]>(
+    `/recipes?category=${encodeURIComponent(category)}&limit=200`
+  );
+  const raw = Array.isArray(res)
+    ? res
+    : (res as PaginatedResponse<Record<string, unknown>>).data;
+  return raw.map(mapApiRecipe);
 }
 
 // ========================================
 // SECCIÓN 2: CREACIÓN (CREATE)
 // ========================================
 
-function generateSlug(title: string): string {
-  return title
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
-}
-
 export async function createRecipe(data: CreateRecipeData): Promise<Recipe> {
-  await new Promise((resolve) => setTimeout(resolve, 800));
-
-  const user = getCurrentUser();
-  if (!user) throw new Error("Debes iniciar sesión para crear una receta");
-
-  const newId = String(Date.now());
-  const slug = generateSlug(data.title);
-
-  const newRecipe: Recipe = {
-    id: newId,
-    slug,
-    title: data.title,
-    description: data.description,
-    images: data.images.length > 0 ? data.images : [],
-    author: { username: user.username, fullName: user.fullName },
-    category: data.category,
-    cookTime: data.cookTime,
-    calories: data.calories,
-    protein: data.protein ?? 0,   // ← nuevo
-    servings: data.servings,
-    difficulty: data.difficulty,
-    rating: 0,
-    tags: data.tags,
-    ingredients: data.ingredients,
-    steps: data.steps ?? [],
-    reviews: [],
-    comments: [],
-    isNew: true,
-    isFeatured: false,
-  };
-
-  MOCK_RECIPES.unshift(newRecipe);
-
-  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
-  if (userIndex !== -1) {
-    MOCK_USERS[userIndex].recipes.push(newId);
-    MOCK_USERS[userIndex].stats.recipesCount++;
-    for (const tag of data.tags) {
-      if (!MOCK_USERS[userIndex].tagInventory.includes(tag)) {
-        MOCK_USERS[userIndex].tagInventory.push(tag);
-      }
-    }
-  }
-
-  return newRecipe;
+  const raw = await api.post<Record<string, unknown>>("/recipes", data);
+  return mapApiRecipe(raw);
 }
 
 // ========================================
@@ -91,49 +110,8 @@ export async function createRecipe(data: CreateRecipeData): Promise<Recipe> {
 // ========================================
 
 export async function updateRecipe(id: string, data: UpdateRecipeData): Promise<Recipe> {
-  await new Promise((resolve) => setTimeout(resolve, 800));
-
-  const user = getCurrentUser();
-  if (!user) throw new Error("Debes iniciar sesión para editar una receta");
-
-  const recipeIndex = MOCK_RECIPES.findIndex((r) => r.id === id);
-  if (recipeIndex === -1) throw new Error("Receta no encontrada");
-
-  const recipe = MOCK_RECIPES[recipeIndex];
-  if (recipe.author.username !== user.username)
-    throw new Error("No tienes permiso para editar esta receta");
-
-  const updatedRecipe: Recipe = {
-    ...recipe,
-    ...data,
-    slug: data.title ? generateSlug(data.title) : recipe.slug,
-    steps: data.steps ?? recipe.steps ?? [],
-    protein: data.protein ?? recipe.protein ?? 0,  // ← nuevo
-  };
-
-  MOCK_RECIPES[recipeIndex] = updatedRecipe;
-
-  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
-  if (userIndex !== -1 && data.tags) {
-    for (const tag of data.tags) {
-      if (!MOCK_USERS[userIndex].tagInventory.includes(tag)) {
-        MOCK_USERS[userIndex].tagInventory.push(tag);
-      }
-    }
-    const oldTags = recipe.tags.filter((t) => !data.tags!.includes(t));
-    for (const tag of oldTags) {
-      const stillUsed = MOCK_RECIPES.some(
-        (r) => r.author.username === user.username && r.tags.includes(tag)
-      );
-      if (!stillUsed) {
-        MOCK_USERS[userIndex].tagInventory = MOCK_USERS[userIndex].tagInventory.filter(
-          (t) => t !== tag
-        );
-      }
-    }
-  }
-
-  return updatedRecipe;
+  const raw = await api.patch<Record<string, unknown>>(`/recipes/${id}`, data);
+  return mapApiRecipe(raw);
 }
 
 // ========================================
@@ -141,185 +119,70 @@ export async function updateRecipe(id: string, data: UpdateRecipeData): Promise<
 // ========================================
 
 export async function deleteRecipe(id: string): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
-  const user = getCurrentUser();
-  if (!user) throw new Error("Debes iniciar sesión para eliminar una receta");
-
-  const recipeIndex = MOCK_RECIPES.findIndex((r) => r.id === id);
-  if (recipeIndex === -1) throw new Error("Receta no encontrada");
-
-  const recipe = MOCK_RECIPES[recipeIndex];
-  if (recipe.author.username !== user.username)
-    throw new Error("No tienes permiso para eliminar esta receta");
-
-  const deletedTags = [...recipe.tags];
-  MOCK_RECIPES.splice(recipeIndex, 1);
-
-  const userIndex2 = MOCK_USERS.findIndex((u) => u.id === user.id);
-  if (userIndex2 !== -1) {
-    for (const tag of deletedTags) {
-      const stillUsed = MOCK_RECIPES.some(
-        (r) => r.author.username === user.username && r.tags.includes(tag)
-      );
-      if (!stillUsed) {
-        MOCK_USERS[userIndex2].tagInventory = MOCK_USERS[userIndex2].tagInventory.filter(
-          (t) => t !== tag
-        );
-      }
-    }
-  }
-
-  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
-  if (userIndex !== -1) {
-    MOCK_USERS[userIndex].recipes = MOCK_USERS[userIndex].recipes.filter((rId) => rId !== id);
-    MOCK_USERS[userIndex].stats.recipesCount = Math.max(
-      0,
-      MOCK_USERS[userIndex].stats.recipesCount - 1
-    );
-  }
-
-  for (const u of MOCK_USERS) {
-    if (u.savedRecipes.includes(id)) {
-      u.savedRecipes = u.savedRecipes.filter((rId) => rId !== id);
-      u.stats.savedRecipesCount = Math.max(0, u.stats.savedRecipesCount - 1);
-    }
-  }
+  await api.delete(`/recipes/${id}`);
 }
 
 // ========================================
 // SECCIÓN 5: ETIQUETAS (TAGS)
 // ========================================
 
-export function getAllTags(): string[] {
-  const tagSet = new Set<string>();
-  for (const recipe of MOCK_RECIPES) {
-    for (const tag of recipe.tags) tagSet.add(tag);
-  }
-  return Array.from(tagSet).sort();
-}
-
-export function getUserTags(): string[] {
-  const user = getCurrentUser();
-  if (!user) return [];
-  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
-  if (userIndex === -1) return [];
-  return [...MOCK_USERS[userIndex].tagInventory].sort();
-}
-
-export async function addTagToRecipe(recipeId: string, tag: string): Promise<Recipe> {
-  const user = getCurrentUser();
-  if (!user) throw new Error("Debes iniciar sesión para modificar una receta");
-
-  const recipeIndex = MOCK_RECIPES.findIndex((r) => r.id === recipeId);
-  if (recipeIndex === -1) throw new Error("Receta no encontrada");
-
-  const recipe = MOCK_RECIPES[recipeIndex];
-  if (recipe.author.username !== user.username)
-    throw new Error("No tienes permiso para modificar esta receta");
-  if (recipe.tags.includes(tag)) throw new Error("La receta ya tiene esta etiqueta");
-
-  recipe.tags.push(tag);
-
-  const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
-  if (userIndex !== -1 && !MOCK_USERS[userIndex].tagInventory.includes(tag)) {
-    MOCK_USERS[userIndex].tagInventory.push(tag);
-  }
-
-  return recipe;
-}
-
-export async function removeTagFromRecipe(recipeId: string, tag: string): Promise<Recipe> {
-  const user = getCurrentUser();
-  if (!user) throw new Error("Debes iniciar sesión para modificar una receta");
-
-  const recipeIndex = MOCK_RECIPES.findIndex((r) => r.id === recipeId);
-  if (recipeIndex === -1) throw new Error("Receta no encontrada");
-
-  const recipe = MOCK_RECIPES[recipeIndex];
-  if (recipe.author.username !== user.username)
-    throw new Error("No tienes permiso para modificar esta receta");
-
-  const tagIndex = recipe.tags.indexOf(tag);
-  if (tagIndex === -1) throw new Error("La receta no tiene esta etiqueta");
-
-  recipe.tags.splice(tagIndex, 1);
-
-  const userStillUsesTag = MOCK_RECIPES.some(
-    (r) => r.author.username === user.username && r.tags.includes(tag)
-  );
-  if (!userStillUsesTag) {
-    const userIndex = MOCK_USERS.findIndex((u) => u.id === user.id);
-    if (userIndex !== -1) {
-      MOCK_USERS[userIndex].tagInventory = MOCK_USERS[userIndex].tagInventory.filter(
-        (t) => t !== tag
-      );
-    }
-  }
-
-  return recipe;
-}
-
-// ========================================
-// SECCIÓN 6: RESEÑAS PERSISTENTES
-// ========================================
-
-const REVIEWS_KEY = "recipeshare_reviews";
-
-function getReviewsFromStorage(recipeId: string): Recipe["reviews"] {
-  if (typeof window === "undefined") return [];
+export async function getAllTags(): Promise<string[]> {
   try {
-    const raw = localStorage.getItem(`${REVIEWS_KEY}_${recipeId}`);
-    return raw ? JSON.parse(raw) : [];
+    const res = await api.get<string[]>("/recipes/tags");
+    return res;
   } catch {
     return [];
   }
 }
 
-function saveReviewsToStorage(recipeId: string, reviews: Recipe["reviews"]): void {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(`${REVIEWS_KEY}_${recipeId}`, JSON.stringify(reviews));
-}
-
-function reviewKey(r: Recipe["reviews"][number]): string {
-  return `${JSON.stringify(r.user)}::${r.comment}`;
-}
-
-export function getRecipeReviews(recipeId: string): Recipe["reviews"] {
-  const recipe = MOCK_RECIPES.find((r) => r.id === recipeId || r.slug === recipeId);
-  const stored = getReviewsFromStorage(recipeId);
-  const initial = recipe?.reviews ?? [];
-
-  if (stored.length === 0) return initial;
-
-  const storedKeys = new Set(stored.map(reviewKey));
-  return [
-    ...stored,
-    ...initial.filter((r) => !storedKeys.has(reviewKey(r))),
-  ];
-}
-
-export function saveRecipeReview(
-  recipeId: string,
-  review: Recipe["reviews"][number]
-): Recipe["reviews"] {
-  const stored = getReviewsFromStorage(recipeId);
-  const recipe = MOCK_RECIPES.find((r) => r.id === recipeId || r.slug === recipeId);
-  const initial = recipe?.reviews ?? [];
-
-  const storedKeys = new Set(stored.map(reviewKey));
-  const base = [
-    ...stored,
-    ...initial.filter((r) => !storedKeys.has(reviewKey(r))),
-  ];
-
-  const updated = [review, ...base];
-  saveReviewsToStorage(recipeId, updated);
-
-  const recipeIndex = MOCK_RECIPES.findIndex((r) => r.id === recipeId || r.slug === recipeId);
-  if (recipeIndex !== -1) {
-    MOCK_RECIPES[recipeIndex].reviews = updated;
+export async function getUserTags(): Promise<string[]> {
+  try {
+    const res = await api.get<string[]>("/recipes/user-tags");
+    return res;
+  } catch {
+    return [];
   }
+}
 
-  return updated;
+export async function addTagToRecipe(recipeId: string, tag: string): Promise<Recipe> {
+  const raw = await api.post<Record<string, unknown>>(`/recipes/${recipeId}/tags`, { tag });
+  return mapApiRecipe(raw);
+}
+
+export async function removeTagFromRecipe(recipeId: string, tag: string): Promise<Recipe> {
+  const raw = await api.delete<Record<string, unknown>>(
+    `/recipes/${recipeId}/tags/${encodeURIComponent(tag)}`
+  );
+  return mapApiRecipe(raw);
+}
+
+// ========================================
+// SECCIÓN 6: RESEÑAS
+// ========================================
+
+export async function getRecipeReviews(recipeId: string): Promise<RecipeReview[]> {
+  try {
+    const raw = await api.get<Record<string, unknown>[]>(
+      `/recipes/${recipeId}/reviews`
+    );
+    return raw.map((r) => ({
+      user: (r.user as RecipeReview["user"]) || { username: "", fullName: "" },
+      comment: (r.comment as string) || "",
+      rating: (r.rating as number) || 0,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export async function saveRecipeReview(
+  recipeId: string,
+  review: RecipeReview
+): Promise<RecipeReview[]> {
+  await api.post(`/recipes/${recipeId}/reviews`, {
+    comment: review.comment,
+    rating: review.rating,
+  });
+  // Retorna la lista actualizada
+  return getRecipeReviews(recipeId);
 }

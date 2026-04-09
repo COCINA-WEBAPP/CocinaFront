@@ -34,15 +34,9 @@ export function Reseñas({ recipeId, initialReviews, onChange }: ReseñasProps) 
     return total / reviewCount;
   }, [initialReviews, reviewCount]);
 
-  const handleSubmit = () => {
-    if (rating < 1) {
-      toast.error(t("selectRating"));
-      return;
-    }
-    if (!comment.trim()) {
-      toast.error(t("writeCommentError"));
-      return;
-    }
+  const handleSubmit = async () => {
+    if (rating < 1) { toast.error(t("selectRating")); return; }
+    if (!comment.trim()) { toast.error(t("writeCommentError")); return; }
 
     const sessionUser = getCurrentUser();
     const newReview: Review = {
@@ -53,13 +47,15 @@ export function Reseñas({ recipeId, initialReviews, onChange }: ReseñasProps) 
       rating,
     };
 
-    const updated = saveRecipeReview(recipeId, newReview);
-
-
-    onChange(updated);
-    setComment("");
-    setRating(0);
-    toast.success(t("reviewSent"));
+    try {
+      const updated = await saveRecipeReview(recipeId, newReview);
+      onChange(updated);
+      setComment("");
+      setRating(0);
+      toast.success(t("reviewSent"));
+    } catch {
+      toast.error(t("reviewSent"));
+    }
   };
 
   return (

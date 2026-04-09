@@ -4,7 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { useParams } from "next/navigation";
-import { getAllRecipes, getRecipeReviews, deleteRecipe, getUserTags, addTagToRecipe, removeTagFromRecipe } from "@/lib/services/recipe";
+import { getRecipeById, getRecipeReviews, deleteRecipe, getUserTags, addTagToRecipe, removeTagFromRecipe } from "@/lib/services/recipe";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -27,7 +27,7 @@ import {
   getCurrentUser, saveRecipe, unsaveRecipe, isRecipeSaved,
   addToCookingHistory,
 } from "@/lib/services/user";
-import { addRecipeToShoppingList, isRecipeInShoppingList } from "@/lib/services/shopping-list";
+import { addRecipeToShoppingList, getShoppingList } from "@/lib/services/shopping-list";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { resolveRecipeUser, getInitials, getAvatarSrc } from "@/lib/services/recipe-user";
 import {
@@ -44,6 +44,8 @@ export default function RecipePage() {
   const router = useRouter();
   const recipeId = (params as any).id as string;
 
+  const [recipe, setRecipe] = useState<Recipe | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -52,25 +54,32 @@ export default function RecipePage() {
   const [inShoppingList, setInShoppingList] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>("ingredientes");
   const [isCooking, setIsCooking] = useState(false);
-  
+  const [reviews, setReviews] = useState<Recipe["reviews"]>([]);
+
   useEffect(() => {
-    getCurrentUser();
-    setIsSaved(isRecipeSaved(recipeId));
-    setInShoppingList(isRecipeInShoppingList(recipeId));
+    let cancelled = false;
+    const load = async () => {
+      setIsLoading(true);
+      const [found, fetchedReviews, shoppingList, tags] = await Promise.all([
+        getRecipeById(recipeId),
+        getRecipeReviews(recipeId),
+        getShoppingList(),
+        getUserTags(),
+      ]);
+      if (cancelled) return;
+      setRecipe(found);
+      setReviews(fetchedReviews);
+      setInShoppingList(shoppingList.entries.some((e) => e.recipeId === recipeId));
+      setIsSaved(isRecipeSaved(recipeId));
+      if (found) {
+        setRecipeTags([...found.tags]);
+        setAvailableTags(tags.filter((tag) => !found.tags.includes(tag)));
+      }
+      setIsLoading(false);
+    };
+    load();
+    return () => { cancelled = true; };
   }, [recipeId]);
-
-  const recipe: Recipe | undefined = getAllRecipes().find(
-    (r) => r.id === recipeId || r.slug === recipeId
-  );
-
-  useEffect(() => {
-    if (recipe) {
-      setRecipeTags([...recipe.tags]);
-      setAvailableTags(getUserTags().filter((tag) => !recipe.tags.includes(tag)));
-    }
-  }, [recipe?.id]); 
-
-  const [reviews, setReviews] = useState(() => getRecipeReviews(recipeId));
 
   const handleAddTag = async (tag: string) => {
     try {
@@ -92,18 +101,23 @@ export default function RecipePage() {
       await removeTagFromRecipe(recipeId, tag);
       const updated = recipeTags.filter((t) => t !== tag);
       setRecipeTags(updated);
-      setAvailableTags(getUserTags().filter((t) => !updated.includes(t)));
+      const freshTags = await getUserTags();
+      setAvailableTags(freshTags.filter((t) => !updated.includes(t)));
       toast.success(t("tagRemoved"));
     } catch {
       toast.error(t("tagRemoveError"));
     }
   };
 
-  const handleAddToShoppingList = () => {
+  const handleAddToShoppingList = async () => {
     if (!recipe) return;
-    addRecipeToShoppingList(recipeId, recipe.title, recipe.ingredients);
-    setInShoppingList(true);
-    toast.success(t("addedToShoppingList"));
+    try {
+      await addRecipeToShoppingList(recipeId, recipe.title, recipe.ingredients);
+      setInShoppingList(true);
+      toast.success(t("addedToShoppingList"));
+    } catch {
+      toast.error(t("addedToShoppingList"));
+    }
   };
 
   const handleCook = async () => {
@@ -123,6 +137,19 @@ export default function RecipePage() {
       setIsCooking(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <Header />
+        <main id="main-content" className="flex flex-1 items-center justify-center pb-20 md:pb-0">
+          <p className="text-muted-foreground">{t("loading") ?? "Cargando..."}</p>
+        </main>
+        <Footer />
+        <MobileBottomNav />
+      </div>
+    );
+  }
 
   if (!recipe) {
     return (
