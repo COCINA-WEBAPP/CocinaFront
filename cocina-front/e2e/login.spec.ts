@@ -1,4 +1,9 @@
 import { test, expect } from "@playwright/test";
+import { setupMocks } from "./helpers";
+
+test.beforeEach(async ({ page }) => {
+  await setupMocks(page);
+});
 
 test.describe("Login page", () => {
   test.beforeEach(async ({ page }) => {

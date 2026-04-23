@@ -1,5 +1,9 @@
 import { test, expect } from "@playwright/test";
-import { injectSession } from "./helpers";
+import { injectSession, setupMocks } from "./helpers";
+
+test.beforeEach(async ({ page }) => {
+  await setupMocks(page);
+});
 
 test.describe("Account page - unauthenticated", () => {
   test("shows login prompt when not authenticated", async ({ page }) => {

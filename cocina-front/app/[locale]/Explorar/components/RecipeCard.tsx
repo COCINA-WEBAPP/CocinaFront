@@ -23,6 +23,7 @@ export function RecipeCard({ recipe, onFavoriteChange }: RecipeCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   const avgRating = recipe.rating;
+  const reviewCount = recipe.reviews?.length ?? 0;
 
   useEffect(() => {
     getCurrentUser();

@@ -30,18 +30,30 @@ const TAB_KEYS: { id: Tab; labelKey: string; icon: React.ReactNode }[] = [
 
 function TopRecipes({ user }: { user: AppUser }) {
   const t = useTranslations("Account");
-  const topRecipes = useMemo(() => {
-    return getAllRecipes()
-      .filter((r) => r.author.username === user.username)
-      .map((r) => {
-        const reviews = getRecipeReviews(r.id);
-        const avg = reviews.length > 0
-          ? reviews.reduce((s, rv) => s + rv.rating, 0) / reviews.length
-          : r.rating;
-        return { ...r, avg };
-      })
-      .sort((a, b) => b.avg - a.avg)
-      .slice(0, 3);
+  const [topRecipes, setTopRecipes] = useState<Array<{ id: string; title: string; images: string[]; avg: number }>>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const all = await getAllRecipes();
+        const mine = all.filter((r) => r.author.username === user.username);
+        const withAvg = await Promise.all(
+          mine.map(async (r) => {
+            const reviews = await getRecipeReviews(r.id);
+            const avg = reviews.length > 0
+              ? reviews.reduce((s, rv) => s + rv.rating, 0) / reviews.length
+              : r.rating;
+            return { id: r.id, title: r.title, images: r.images, avg };
+          })
+        );
+        withAvg.sort((a, b) => b.avg - a.avg);
+        if (!cancelled) setTopRecipes(withAvg.slice(0, 3));
+      } catch {
+        if (!cancelled) setTopRecipes([]);
+      }
+    })();
+    return () => { cancelled = true; };
   }, [user.username]);
 
   if (topRecipes.length === 0) return null;

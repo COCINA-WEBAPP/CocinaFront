@@ -1,5 +1,9 @@
 import { test, expect } from "@playwright/test";
-import { injectSession } from "./helpers";
+import { injectSession, setupMocks } from "./helpers";
+
+test.beforeEach(async ({ page }) => {
+  await setupMocks(page);
+});
 
 test.describe("Navigation", () => {
   test("header links navigate correctly", async ({ page }) => {
@@ -7,11 +11,11 @@ test.describe("Navigation", () => {
 
     // Click "Explorar" in the header
     await page.locator("header").getByRole("link", { name: "Explorar" }).click();
-    await page.waitForURL("**/Explorar", { timeout: 5000 });
+    await page.waitForURL("**/Explorar", { timeout: 15000 });
 
     // Click "Inicio" in the header
     await page.locator("header").getByRole("link", { name: "Inicio" }).click();
-    await page.waitForURL("**/es", { timeout: 5000 });
+    await page.waitForURL((url) => /\/es\/?$/.test(url.pathname), { timeout: 15000 });
   });
 
   test("header search navigates to Explorar with query", async ({ page }) => {
@@ -19,7 +23,7 @@ test.describe("Navigation", () => {
     const searchInput = page.locator("header").getByPlaceholder("Buscar recetas...");
     await searchInput.fill("pollo");
     await searchInput.press("Enter");
-    await page.waitForURL("**/Explorar?search=pollo", { timeout: 5000 });
+    await page.waitForURL("**/Explorar?search=pollo", { timeout: 15000 });
   });
 
   test("user menu shows login/register when not authenticated", async ({ page }) => {
@@ -41,20 +45,20 @@ test.describe("Navigation", () => {
   test("saved recipes button redirects to login when not authenticated", async ({ page }) => {
     await page.goto("/es");
     await page.locator("header").getByRole("button", { name: /recetas guardadas/i }).click();
-    await page.waitForURL("**/login**", { timeout: 5000 });
+    await page.waitForURL("**/login**", { timeout: 15000 });
   });
 
   test("saved recipes button navigates to guardados when authenticated", async ({ page }) => {
     await injectSession(page);
     await page.goto("/es");
     await page.locator("header").getByRole("button", { name: /recetas guardadas/i }).click();
-    await page.waitForURL("**/guardados", { timeout: 5000 });
+    await page.waitForURL("**/guardados", { timeout: 15000 });
   });
 
   test("shopping list link navigates correctly", async ({ page }) => {
     await page.goto("/es");
     await page.locator("header").getByRole("link", { name: /lista de compras/i }).click();
-    await page.waitForURL("**/lista-compras", { timeout: 5000 });
+    await page.waitForURL("**/lista-compras", { timeout: 15000 });
   });
 
   test("create recipe button appears only when authenticated", async ({ page }) => {

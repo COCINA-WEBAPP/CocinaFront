@@ -1,5 +1,9 @@
 import { test, expect } from "@playwright/test";
-import { injectSession } from "./helpers";
+import { injectSession, setupMocks, seedShoppingList } from "./helpers";
+
+test.beforeEach(async ({ page }) => {
+  await setupMocks(page);
+});
 
 test.describe("Shopping list page - empty state", () => {
   test("shows empty state when no recipes added", async ({ page }) => {
@@ -33,22 +37,18 @@ test.describe("Shopping list page - with items", () => {
   });
 
   test("shopping list displays recipe sections with ingredients", async ({ page }) => {
-    await page.goto("/es/lista-compras");
-    await page.evaluate(() => {
-      const shoppingList = {
-        entries: [
-          {
-            recipeId: "1",
-            recipeTitle: "Receta Test",
-            ingredients: ["200g Tomate", "1 Cebolla", "100ml Aceite de oliva"],
-            addedAt: new Date().toISOString(),
-          },
-        ],
-        ownedItems: [],
-      };
-      localStorage.setItem("recipeshare_shopping_list", JSON.stringify(shoppingList));
+    seedShoppingList(page, {
+      entries: [
+        {
+          recipeId: "1",
+          recipeTitle: "Receta Test",
+          ingredients: ["200g Tomate", "1 Cebolla", "100ml Aceite de oliva"],
+          addedAt: new Date().toISOString(),
+        },
+      ],
+      ownedItems: [],
     });
-    await page.reload();
+    await page.goto("/es/lista-compras");
 
     // Should show the recipe title
     await expect(page.getByText("Receta Test").first()).toBeVisible({ timeout: 10000 });
@@ -58,22 +58,18 @@ test.describe("Shopping list page - with items", () => {
   });
 
   test("can check off ingredients as owned", async ({ page }) => {
-    await page.goto("/es/lista-compras");
-    await page.evaluate(() => {
-      const shoppingList = {
-        entries: [
-          {
-            recipeId: "1",
-            recipeTitle: "Receta Test",
-            ingredients: ["200g Tomate", "1 Cebolla"],
-            addedAt: new Date().toISOString(),
-          },
-        ],
-        ownedItems: [],
-      };
-      localStorage.setItem("recipeshare_shopping_list", JSON.stringify(shoppingList));
+    seedShoppingList(page, {
+      entries: [
+        {
+          recipeId: "1",
+          recipeTitle: "Receta Test",
+          ingredients: ["200g Tomate", "1 Cebolla"],
+          addedAt: new Date().toISOString(),
+        },
+      ],
+      ownedItems: [],
     });
-    await page.reload();
+    await page.goto("/es/lista-compras");
 
     // Click on first checkbox
     const checkbox = page.locator("[role='checkbox']").first();
@@ -85,22 +81,18 @@ test.describe("Shopping list page - with items", () => {
   });
 
   test("can remove a recipe from shopping list", async ({ page }) => {
-    await page.goto("/es/lista-compras");
-    await page.evaluate(() => {
-      const shoppingList = {
-        entries: [
-          {
-            recipeId: "1",
-            recipeTitle: "Receta Para Borrar",
-            ingredients: ["Ingrediente 1"],
-            addedAt: new Date().toISOString(),
-          },
-        ],
-        ownedItems: [],
-      };
-      localStorage.setItem("recipeshare_shopping_list", JSON.stringify(shoppingList));
+    seedShoppingList(page, {
+      entries: [
+        {
+          recipeId: "1",
+          recipeTitle: "Receta Para Borrar",
+          ingredients: ["Ingrediente 1"],
+          addedAt: new Date().toISOString(),
+        },
+      ],
+      ownedItems: [],
     });
-    await page.reload();
+    await page.goto("/es/lista-compras");
 
     await expect(page.getByText("Receta Para Borrar").first()).toBeVisible({ timeout: 10000 });
 
@@ -111,22 +103,18 @@ test.describe("Shopping list page - with items", () => {
   });
 
   test("can clear entire shopping list", async ({ page }) => {
-    await page.goto("/es/lista-compras");
-    await page.evaluate(() => {
-      const shoppingList = {
-        entries: [
-          {
-            recipeId: "1",
-            recipeTitle: "Receta 1",
-            ingredients: ["Ingrediente A"],
-            addedAt: new Date().toISOString(),
-          },
-        ],
-        ownedItems: [],
-      };
-      localStorage.setItem("recipeshare_shopping_list", JSON.stringify(shoppingList));
+    seedShoppingList(page, {
+      entries: [
+        {
+          recipeId: "1",
+          recipeTitle: "Receta 1",
+          ingredients: ["Ingrediente A"],
+          addedAt: new Date().toISOString(),
+        },
+      ],
+      ownedItems: [],
     });
-    await page.reload();
+    await page.goto("/es/lista-compras");
 
     // Click "Vaciar lista" button
     const clearButton = page.locator("button").filter({ hasText: /vaciar lista/i }).first();
@@ -148,22 +136,18 @@ test.describe("Shopping list page - with items", () => {
 
 test.describe("HU 3 — Ingredient grouping by category", () => {
   test("ingredients are displayed grouped in the shopping list", async ({ page }) => {
-    await page.goto("/es/lista-compras");
-    await page.evaluate(() => {
-      const shoppingList = {
-        entries: [
-          {
-            recipeId: "1",
-            recipeTitle: "Receta Mixta",
-            ingredients: ["Leche entera", "Pechuga de pollo", "2 tomates", "Sal"],
-            addedAt: new Date().toISOString(),
-          },
-        ],
-        ownedItems: [],
-      };
-      localStorage.setItem("recipeshare_shopping_list", JSON.stringify(shoppingList));
+    seedShoppingList(page, {
+      entries: [
+        {
+          recipeId: "1",
+          recipeTitle: "Receta Mixta",
+          ingredients: ["Leche entera", "Pechuga de pollo", "2 tomates", "Sal"],
+          addedAt: new Date().toISOString(),
+        },
+      ],
+      ownedItems: [],
     });
-    await page.reload();
+    await page.goto("/es/lista-compras");
 
     await expect(page.getByText("Leche entera").first()).toBeVisible({ timeout: 10000 });
     await expect(page.getByText("Pechuga de pollo").first()).toBeVisible();
